@@ -8,19 +8,30 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  name        String
-  description String?
-  price       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  quantity    Int      @default(0)
-  minQuantity Int      @default(0) @map("min_quantity")
-  nameUser    String   @map("name_user")
-  region      String
-  userId      String
+  id             String        @id @default(uuid())
+  name           String
+  imageUrl       String?       @map("image_url")
+  description    String?
+  price          Float
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  quantity       Int
+  minQuantity    Int           @default(0) @map("min_quantity")
+  ProductExist   ProductExist? @relation(fields: [productExistId], references: [id])
+  productExistId String?
 
   @@map("products")
+}
+
+model ProductExist {
+  id          String    @id @default(uuid())
+  description String?
+  products    Product[]
+  nameUser    String    @map("name_user")
+  region      String
+  quantity    Int
+
+  @@map("products_exist")
 }
 
 model Notification {
@@ -28,6 +39,7 @@ model Notification {
   name        String
   description String?
   createdAt   DateTime @default(now())
+  read        Boolean  @default(false)
 
   @@map("notifications")
 }

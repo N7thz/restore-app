@@ -4,6 +4,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
+import { Header } from "@/components/header"
 
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -11,7 +12,7 @@ const jetBrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Restore App",
+  title: "stock App",
   description: "A Next.js application for restoring lost data",
 }
 
@@ -26,14 +27,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      <body className={cn(jetBrains.variable, "h-dvh overflow-hidden flex")}>
+      <body
+        className={cn(
+          jetBrains.variable,
+          "min-h-dvh overflow-hidden flex flex-col antialiased"
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
         >
+          <Header />
           {children}
-          <Toaster />
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )

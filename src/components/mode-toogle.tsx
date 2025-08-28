@@ -11,19 +11,23 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 export const ModeToggle = () => {
+	
 	const { setTheme, theme: currentTheme } = useTheme()
 
 	const icons = [
 		{
 			Icon: Sun,
+			text: "Claro",
 			theme: "light",
 		},
 		{
 			Icon: Moon,
+			text: "Escuro",
 			theme: "dark",
 		},
 		{
 			Icon: Monitor,
+			text: "Sistema",
 			theme: "system",
 		},
 	]
@@ -38,7 +42,7 @@ export const ModeToggle = () => {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent className="min-w-32">
-				{icons.map(({ Icon, theme }) => (
+				{icons.map(({ Icon, theme, text }) => (
 					<DropdownMenuItem
 						key={theme}
 						onClick={() => setTheme(theme)}
@@ -48,8 +52,8 @@ export const ModeToggle = () => {
 								: "opacity-60"
 						}
 					>
-						<Icon className="size-4 opacity-60" aria-hidden="true" />
-						<span className="capitalize">{theme}</span>
+						<Icon className="size-4" aria-hidden="true" />
+						<span className="capitalize">{text}</span>
 					</DropdownMenuItem>
 				))}
 			</DropdownMenuContent>

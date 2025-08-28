@@ -1,41 +1,41 @@
-import { ModeToggle } from "@/components/mode-toogle"
+import { ProductsCard } from "@/components/products-card"
+import { Button } from "@/components/ui/button"
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Ellipsis } from "lucide-react"
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import Link from "next/link"
 
-export default function Home() {
+export default async function Home() {
   return (
-    <div className="size-full">
-      <header className="bg-card flex items-center justify-between px-4 py-2.5 border-b">
-        <Sheet>
-          <SheetTrigger>
-            <Avatar className="size-8">
-              <AvatarImage src="/" />
-              <AvatarFallback>
-                <Ellipsis />
-              </AvatarFallback>
-            </Avatar>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <SheetHeader>
-              <SheetTitle>Are you absolutely sure?</SheetTitle>
-              <SheetDescription>
-                This action cannot be undone. This will permanently delete your account
-                and remove your data from our servers.
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
-        <ModeToggle />
-      </header>
-      Hello world
-    </div>
+    <main className="flex-1 flex items-center justify-center p-12">
+      <Card className="w-full -mt-4">
+        <CardHeader>
+          <CardTitle className="text-2xl">
+            Stock App
+          </CardTitle>
+          <CardDescription>
+            Registre os produtos que saíram do estoque
+          </CardDescription>
+        </CardHeader>
+        <Separator />
+        <ProductsCard />
+        <Separator />
+        <CardFooter className="justify-end">
+          <Button
+            asChild
+            className="w-1/3"
+          >
+            <Link href="/create-products">
+              Adicionar Produto
+            </Link>
+          </Button>
+        </CardFooter>
+      </Card>
+    </main>
   )
 }
