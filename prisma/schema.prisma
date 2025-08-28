@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../src/database/db.db"
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  quantity    Int      @default(0)
+  minQuantity Int      @default(0) @map("min_quantity")
+  nameUser    String   @map("name_user")
+  region      String
+  userId      String
+
+  @@map("products")
+}
+
+model Notification {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  @@map("notifications")
+}
