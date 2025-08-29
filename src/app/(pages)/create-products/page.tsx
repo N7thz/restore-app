@@ -27,10 +27,11 @@ export default function CreateProduct() {
                     </CardDescription>
                 </CardHeader>
                 <FormCreateProduct />
-                <CardFooter>
+                <CardFooter className="justify-end">
                     <Button
                         type="submit"
                         form="form-create-products"
+                        className="w-1/2"
                     >
                         Confirmar
                     </Button>

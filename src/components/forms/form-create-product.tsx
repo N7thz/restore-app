@@ -15,13 +15,9 @@ export const FormCreateProduct = () => {
 
     const form = useForm<InputCreateProductProps>({
         resolver: zodResolver(inputCreateProductSchema),
-        defaultValues: {
-            imageUrl: null
-        },
     })
 
     const {
-        setError,
         register,
         handleSubmit,
         formState: { errors, isValid }
@@ -72,12 +68,17 @@ export const FormCreateProduct = () => {
                             />
                         </Label>
                     </div>
-                    <Input
-                        id="imageUrl"
-                        className="peer ps-16"
-                        placeholder="google.com"
-                        {...register("imageUrl")}
-                    />
+                    <Label
+                        htmlFor="imageUrl"
+                        className="w-full flex-col items-start"
+                    >
+                        Imagem:
+                        <Input
+                            id="imageUrl"
+                            placeholder="https://github.com/shadcn.png"
+                            {...register("imageUrl")}
+                        />
+                    </Label>
                 </CardContent>
             </form>
         </FormProvider>
