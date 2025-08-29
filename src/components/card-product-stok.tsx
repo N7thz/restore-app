@@ -14,17 +14,14 @@ import { Ellipsis } from "lucide-react"
 
 export const CardProductStok = ({
     product: {
-        id, createdAt, name, description, quantity
+        createdAt, name, description, quantity
     }
 }: { product: Product }) => {
 
     const data = formatDate(createdAt, "PPP", { locale: ptBR })
 
     return (
-        <Card
-            key={id}
-            className="rounded-md"
-        >
+        <Card className="rounded-md">
             <CardHeader>
                 <CardTitle>
                     {name}

@@ -13,7 +13,7 @@ import { Notifications } from "./notifications"
 
 export const Header = () => {
     return (
-        <header className="bg-card flex items-center justify-between px-4 py-2.5 border-b">
+        <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
             <Sheet>
                 <SheetTrigger>
                     <Avatar className="size-8">

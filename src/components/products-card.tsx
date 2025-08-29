@@ -1,26 +1,18 @@
 "use client"
 
 import { findProducts } from "@/actions/find-products"
+import { CardProductStok } from "@/components/card-product-stok"
 import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { useQuery } from "@tanstack/react-query"
-import { formatDate } from "date-fns"
-import { ptBR } from "date-fns/locale"
 import { Ellipsis } from "lucide-react"
-import { CardProductStok } from "./card-product-stok"
+import Link from "next/link"
 
 export const ProductsCard = () => {
 
     const {
-        data: products,
+        data,
         isLoading,
         status
     } = useQuery({
@@ -28,22 +20,42 @@ export const ProductsCard = () => {
         queryFn: () => findProducts()
     })
 
-    if (isLoading)
-        return <div>Loading...</div>
+    if (isLoading) return <div>Loading...</div>
 
-    if (status === "error" || !products)
+    if (status === "error" || !data)
         return <div>Error loading products</div>
+
+    const { products, count } = data
 
     return (
         <ScrollArea className="h-[500px] overflow-hidden">
             <ScrollBar />
             <CardContent className="grid grid-cols-3 gap-2 size-full space-y-2">
                 {
-                    products.map(product =>
-                        <CardProductStok product={product} />
+                    products.map(({ id, ...product }) =>
+                        <CardProductStok
+                            key={id}
+                            product={{ id, ...product }}
+                        />
                     )
                 }
             </CardContent>
+            {
+                count > 12 && (
+                    <div className="w-full flex justify-center ">
+                        <Button
+                            asChild
+                            variant={"link"}
+                            className="text-base"
+                        >
+                            <Link href={"/products-exit"}>
+                                <Ellipsis className="size-5"/>
+                                Ver todas as saidas
+                            </Link>
+                        </Button>
+                    </div>
+                )
+            }
         </ScrollArea>
     )
 }
