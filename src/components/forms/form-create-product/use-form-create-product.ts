@@ -36,8 +36,9 @@ export function useFormCreateProduct() {
     function appendProduct() {
         append({
             name: "",
-            price: "0",
-            quantity: "0",
+            price: "1",
+            quantity: "1",
+            minQuantity: "1",
             imageUrl: null
         })
     }
@@ -50,24 +51,29 @@ export function useFormCreateProduct() {
 
     function validateErrors(error: ZodError<{
         products: {
-            name: string;
-            price: number;
-            quantity: number;
-            imageUrl: string | null;
-        }[];
+            name: string
+            price: number
+            quantity: number
+            imageUrl: string | null
+        }[]
     }>) {
 
         error._zod.def.map((error) => {
 
             const path = error.path.join(".") as
+                "products" |
+                "root" |
+                `root.${string}` |
                 `products.${number}.name` |
                 `products.${number}.price` |
                 `products.${number}.quantity` |
-                `products.${number}.imageUrl`
+                `products.${number}.imageUrl` |
+                `products.${number}` |
+                `products.${number}.minQuantity`
 
             const message = error.message
 
-            console.log({ path, message })
+            console.log(errors)
 
             setError(path, { message })
         })

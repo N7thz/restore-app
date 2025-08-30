@@ -1,51 +1,27 @@
 import { z } from "zod"
+import { inputProductSchema, outputProductSchema } from "./product-schema"
 
 export const inputCreateProductSchema = z.object({
-    products: z.array(
-        z.object({
-            name: z
-                .string()
-                .min(1, "O nome é obrigatório"),
-            price: z
-                .string(),
-            quantity: z
-                .string(),
-            imageUrl: z
-                .string()
-                .nullable()
-        })
-    )
+    products: z.array(inputProductSchema)
 })
 
 export const outputCreateProductSchema = z.object({
-    products: z.array(z.object({
-        name: z
-            .string()
-            .min(1, "O nome é obrigatório"),
-        price: z
-            .number()
-            .positive("O preço deve ser positivo"),
-        quantity: z
-            .number()
-            .positive("A quantidade deve ser positiva"),
-        imageUrl: z
-            .url("Url inválida")
-            .nullable()
-    }))
+    products: z.array(outputProductSchema)
 })
 
 export function productInputToOutput({ products }: InputCreateProductProps) {
-
     const transformedData = {
         products: products.map(({
             name,
             price,
             quantity,
+            minQuantity,
             imageUrl
         }) => ({
             name,
             price: Number(price),
             quantity: Number(quantity),
+            minQuantity: Number(minQuantity),
             imageUrl: imageUrl !== "" ? imageUrl : null
         }))
     }

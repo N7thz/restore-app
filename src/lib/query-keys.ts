@@ -1,6 +1,8 @@
 export const queryKeys = {
-    findAllProducts: () => ["find-all-products"],
-    createManyProducts: () => ["create-many-products"],
     findAllNotifications: () => ["find-all-notifications"],
-    deleteProduct: () => ["delete-product"]
+    findAllProducts: () => ["find-all-products"],
+    findProductById: (id: string) => ["find-product-by-id", id],
+    createManyProducts: () => ["create-many-products"],
+    deleteProduct: () => ["delete-product"],
+    updateProduct: (id: string) => ["update-product", id]
 }

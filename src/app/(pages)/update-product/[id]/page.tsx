@@ -1,4 +1,4 @@
-import { FormCreateProduct } from "@/components/forms/form-create-product"
+import { FormUpdateProduct } from "@/components/forms/form-update-product"
 import {
     Card,
     CardDescription,
@@ -14,24 +14,23 @@ export const metadata: Metadata = {
 export default async function UpdateProduct({
     params
 }: {
-    params: Promise<{ id: string }>;
+    params: Promise<{ id: string }>
 }) {
 
     const { id } = await params
 
     return (
-        <main className="flex-1 flex items-center justify-center p-12">
+        <main className="flex-1 flex items-center justify-center">
             <Card className="w-1/2 border-primary text-2xl">
                 <CardHeader>
                     <CardTitle>
-                        {id}
-                        Registre um produto
+                        Atualizar produto
                     </CardTitle>
                     <CardDescription>
-                        Registre um produto ao estoque
+                        Atualize um produta já existente
                     </CardDescription>
                 </CardHeader>
-                <FormCreateProduct />
+                <FormUpdateProduct id={id} />
             </Card>
         </main>
     )

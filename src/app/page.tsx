@@ -1,4 +1,3 @@
-import { createNotification } from "@/actions/notifications/create-notification"
 import { ProductsCard } from "@/components/products-card"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,7 +14,7 @@ import Link from "next/link"
 export default async function Home() {
   return (
     <main className="flex-1 flex items-center justify-center p-12">
-      <Card className="w-full -mt-4 border-primary">
+      <Card className="w-full h-5/6 border-primary">
         <CardHeader>
           <CardTitle className="text-2xl">
             Stock App

@@ -18,7 +18,8 @@ export async function createManyProducts(
         const { name, createdAt } = product
 
         const notification = await createNotification({
-            name: `O produto ${name} foi criado com sucesso.`,
+            name: name,
+            description: `O produto ${name} foi criado com sucesso.`,
             action: "CREATE",
             createdAt
         })

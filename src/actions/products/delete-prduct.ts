@@ -16,7 +16,8 @@ export async function deleteProduct(id: string) {
     })
 
     const notification = await createNotification({
-        name: `O produto ${product.name} foi excluido com sucesso.`,
+        name: product.name,
+        description: `O produto ${product.name} foi excluido com sucesso.`,
         action: "DELETE",
     })
 

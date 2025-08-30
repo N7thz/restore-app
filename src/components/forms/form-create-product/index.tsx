@@ -47,6 +47,7 @@ export const FormCreateProduct = () => {
                             type="button"
                             variant={"destructive"}
                             className="w-1/2"
+                            disabled={fields.length === 1}
                             onClick={removeAllProducts}
                         >
                             Remover todos

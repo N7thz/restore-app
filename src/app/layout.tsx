@@ -28,16 +28,18 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      <body className={cn(jetBrains.variable, "antialiased")}
+      <body className={cn(jetBrains.variable, "antialiased max-h-dvh")}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
         >
-          <ScrollArea className="h-dvh flex flex-col">
+          <Header />
+          <ScrollArea className="h-[calc(100dvh_-_72px)] w-full flex">
             <ScrollBar />
-            <Header />
-            {children}
+            <div className="h-[calc(100dvh_-_72px)] flex">
+              {children}
+            </div>
           </ScrollArea>
         </ThemeProvider>
         <Toaster />

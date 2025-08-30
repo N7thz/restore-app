@@ -1,48 +1,21 @@
 import { SpanErrorMessage } from "@/components/span-error"
-import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardAction,
-    CardContent,
-    CardHeader
-} from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { InputCreateProductProps } from "@/schemas/create-product"
-import { X } from "lucide-react"
+import { OutputProductProps } from "@/schemas/product-schema"
 import { useFormContext } from "react-hook-form"
 
-type CardFormCreateProductProps = {
-    fields: unknown[]
-    index: number
-    remove: (index: number) => void
-}
-
-export const CardFormCreateProduct = ({
-    fields, index, remove
-}: CardFormCreateProductProps) => {
+export const CardFormUpdateProduct = () => {
 
     const {
         register,
         formState: { errors }
-    } = useFormContext<InputCreateProductProps>()
+    } = useFormContext<OutputProductProps>()
 
     return (
         <Card>
-            <CardHeader>
-                <CardAction>
-                    <Button
-                        type="button"
-                        variant={"outline"}
-                        disabled={fields.length === 1}
-                        onClick={() => remove(index)}
-                    >
-                        <X />
-                    </Button>
-                </CardAction>
-            </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-4">
                 <Label
                     htmlFor="name"
                     className="flex-col items-start">
@@ -50,19 +23,18 @@ export const CardFormCreateProduct = ({
                     <Input
                         id="name"
                         className={cn(
-                            errors.products?.[index]?.name &&
-                            [
+                            errors.name && [
                                 "focus-visible:ring-destructive",
                                 "not-focus-visible:border-destructive",
                             ]
                         )}
-                        {...register(`products.${index}.name`)}
+                        {...register("name")}
                     />
                 </Label>
                 {
-                    errors.products?.[index]?.name &&
+                    errors.name &&
                     <SpanErrorMessage
-                        message={errors.products[index].name.message}
+                        message={errors.name.message}
                     />
                 }
                 <Label
@@ -76,19 +48,18 @@ export const CardFormCreateProduct = ({
                         step={0.1}
                         defaultValue={1}
                         className={cn(
-                            errors.products?.[index]?.price &&
-                            [
+                            errors.price && [
                                 "focus-visible:ring-destructive",
                                 "not-focus-visible:border-destructive",
                             ]
                         )}
-                        {...register(`products.${index}.price`)}
+                        {...register("price")}
                     />
                 </Label>
                 {
-                    errors.products?.[index]?.price &&
+                    errors.price &&
                     <SpanErrorMessage
-                        message={errors.products[index].price.message}
+                        message={errors.price.message}
                     />
                 }
                 <Label
@@ -102,19 +73,18 @@ export const CardFormCreateProduct = ({
                         step={0.1}
                         defaultValue={1}
                         className={cn(
-                            errors.products?.[index]?.quantity &&
-                            [
+                            errors.quantity && [
                                 "focus-visible:ring-destructive",
                                 "not-focus-visible:border-destructive",
                             ]
                         )}
-                        {...register(`products.${index}.quantity`)}
+                        {...register("quantity")}
                     />
                 </Label>
                 {
-                    errors.products?.[index]?.quantity &&
+                    errors.quantity &&
                     <SpanErrorMessage
-                        message={errors.products[index].quantity.message}
+                        message={errors.quantity.message}
                     />
                 }
                 <Label
@@ -128,19 +98,18 @@ export const CardFormCreateProduct = ({
                         step={0.1}
                         defaultValue={1}
                         className={cn(
-                            errors.products?.[index]?.minQuantity &&
-                            [
+                            errors.minQuantity && [
                                 "focus-visible:ring-destructive",
                                 "not-focus-visible:border-destructive",
                             ]
                         )}
-                        {...register(`products.${index}.minQuantity`)}
+                        {...register("minQuantity")}
                     />
                 </Label>
                 {
-                    errors.products?.[index]?.minQuantity &&
+                    errors.minQuantity &&
                     <SpanErrorMessage
-                        message={errors.products[index].minQuantity.message}
+                        message={errors.minQuantity.message}
                     />
                 }
                 <Label
@@ -152,22 +121,20 @@ export const CardFormCreateProduct = ({
                         id="imageUrl"
                         placeholder="https://github.com/shadcn.png"
                         className={cn(
-                            errors.products?.[index]?.imageUrl &&
-                            [
+                            errors.imageUrl && [
                                 "focus-visible:ring-destructive",
                                 "not-focus-visible:border-destructive",
                             ]
                         )}
-                        {...register(`products.${index}.imageUrl`)}
+                        {...register("imageUrl")}
                     />
                 </Label>
                 {
-                    errors.products?.[index]?.imageUrl &&
+                    errors.imageUrl &&
                     <SpanErrorMessage
-                        message={errors.products[index].imageUrl.message}
+                        message={errors.imageUrl.message}
                     />
                 }
-
             </CardContent>
         </Card>
     )
