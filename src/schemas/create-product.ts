@@ -26,7 +26,7 @@ export const outputCreateProductSchema = z.object({
             .number()
             .positive("O preço deve ser positivo"),
         quantity: z
-            .int()
+            .number()
             .positive("A quantidade deve ser positiva"),
         imageUrl: z
             .url("Url inválida")
@@ -45,7 +45,7 @@ export function productInputToOutput({ products }: InputCreateProductProps) {
         }) => ({
             name,
             price: Number(price),
-            quantity: parseInt(quantity),
+            quantity: Number(quantity),
             imageUrl: imageUrl !== "" ? imageUrl : null
         }))
     }

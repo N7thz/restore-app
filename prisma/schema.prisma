@@ -8,42 +8,30 @@ datasource db {
 }
 
 model Product {
-  id               String             @id @default(uuid())
-  name             String
-  imageUrl         String?            @map("image_url")
-  description      String?
-  price            Float
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  quantity         Int
-  minQuantity      Int                @default(0) @map("min_quantity")
-  ProductInventory ProductInventory[]
+  id             String        @id @default(uuid())
+  name           String
+  imageUrl       String?       @map("image_url")
+  description    String?
+  price          Float
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  quantity       Float
+  minQuantity    Float         @default(0) @map("min_quantity")
+  ProductExist   ProductExist? @relation(fields: [productExistId], references: [id])
+  productExistId String?
 
   @@map("products")
 }
 
 model ProductExist {
-  id               String             @id @default(uuid())
-  description      String?
-  nameUser         String             @map("name_user")
-  region           String
-  quantity         Int
-  ProductInventory ProductInventory[]
+  id          String    @id @default(uuid())
+  description String?
+  nameUser    String    @map("name_user")
+  region      String
+  quantity    Float
+  products    Product[]
 
   @@map("products_exist")
-}
-
-// Tabela intermediária para relacionamento many-to-many
-model ProductInventory {
-  id             String   @id @default(uuid())
-  productId      String   @map("product_id")
-  productExistId String   @map("product_exist_id")
-  createdAt      DateTime @default(now())
-  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productExist ProductExist @relation(fields: [productExistId], references: [id], onDelete: Cascade)
-
-  @@unique([productId, productExistId])
-  @@map("product_inventories")
 }
 
 model Notification {

@@ -21,7 +21,7 @@ export const CardProductStok = ({
     const data = formatDate(createdAt, "PPP", { locale: ptBR })
 
     return (
-        <Card className="rounded-md">
+        <Card className="rounded-md h-36">
             <CardHeader>
                 <CardTitle>
                     {name}

@@ -7,8 +7,8 @@ CREATE TABLE "products" (
     "price" REAL NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL,
-    "quantity" INTEGER NOT NULL,
-    "min_quantity" INTEGER NOT NULL DEFAULT 0,
+    "quantity" REAL NOT NULL,
+    "min_quantity" REAL NOT NULL DEFAULT 0,
     "productExistId" TEXT,
     CONSTRAINT "products_productExistId_fkey" FOREIGN KEY ("productExistId") REFERENCES "products_exist" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -19,7 +19,7 @@ CREATE TABLE "products_exist" (
     "description" TEXT,
     "name_user" TEXT NOT NULL,
     "region" TEXT NOT NULL,
-    "quantity" INTEGER NOT NULL
+    "quantity" REAL NOT NULL
 );
 
 -- CreateTable

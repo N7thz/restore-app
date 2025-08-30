@@ -22,7 +22,9 @@ export const SpanErrorMessage = ({
 			{...props}
 		>
 			<Info className={cn(size ? `size-${size}` : "size-4")} />
-			<span>{message}</span>
+			<span>
+				{message}
+			</span>
 		</div>
 	)
 }

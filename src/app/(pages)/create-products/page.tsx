@@ -2,11 +2,10 @@ import { FormCreateProduct } from "@/components/forms/form-create-product"
 import { Button } from "@/components/ui/button"
 import {
     Card,
-    CardHeader,
-    CardTitle,
     CardDescription,
-    CardContent,
-    CardFooter
+    CardFooter,
+    CardHeader,
+    CardTitle
 } from "@/components/ui/card"
 import { Metadata } from "next"
 
@@ -27,15 +26,6 @@ export default function CreateProduct() {
                     </CardDescription>
                 </CardHeader>
                 <FormCreateProduct />
-                <CardFooter className="justify-end">
-                    <Button
-                        type="submit"
-                        form="form-create-products"
-                        className="w-1/2"
-                    >
-                        Confirmar
-                    </Button>
-                </CardFooter>
             </Card>
         </main>
     )
