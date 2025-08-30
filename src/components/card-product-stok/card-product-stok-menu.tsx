@@ -29,7 +29,7 @@ export const CardProductStokMenu = ({ id }: { id: string }) => {
             <DropdownMenuTrigger asChild>
                 <Button
                     size={"icon"}
-                    variant={"outline"}
+                    variant={"ghost"}
                 >
                     <Ellipsis />
                 </Button>

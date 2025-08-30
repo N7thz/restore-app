@@ -1,4 +1,4 @@
-import { ModeToggle } from "@/components/mode-toogle"
+import { Notifications } from "@/components/notifications"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     Sheet,
@@ -9,7 +9,6 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Ellipsis } from "lucide-react"
-import { Notifications } from "./notifications"
 
 export const Header = () => {
     return (
@@ -35,7 +34,6 @@ export const Header = () => {
             </Sheet>
             <div className="flex gap-2">
                 <Notifications />
-                <ModeToggle />
             </div>
         </header>
     )

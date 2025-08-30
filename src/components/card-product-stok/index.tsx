@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import {
     Card,
     CardAction,
@@ -10,7 +9,6 @@ import {
 import { Product } from "@prisma/client"
 import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { Ellipsis } from "lucide-react"
 import { CardProductStokMenu } from "./card-product-stok-menu"
 
 export const CardProductStok = ({

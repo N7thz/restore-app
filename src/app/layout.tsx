@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 import "./globals.css"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -27,18 +28,17 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      <body
-        className={cn(
-          jetBrains.variable,
-          "min-h-dvh overflow-hidden flex flex-col antialiased"
-        )}
+      <body className={cn(jetBrains.variable, "antialiased")}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
         >
-          <Header />
-          {children}
+          <ScrollArea className="h-dvh flex flex-col">
+            <ScrollBar />
+            <Header />
+            {children}
+          </ScrollArea>
         </ThemeProvider>
         <Toaster />
       </body>

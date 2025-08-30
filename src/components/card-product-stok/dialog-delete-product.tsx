@@ -23,7 +23,7 @@ import {
 import { cn } from "@/lib/utils"
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
-import { deleteProduct } from "@/actions/delete-prduct"
+import { deleteProduct } from "@/actions/products/delete-prduct"
 import { toast } from "@/components/toast"
 import { queryClient } from "@/components/theme-provider"
 
@@ -31,7 +31,7 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
 
     const [open, setOpen] = useState(false)
 
-    const { mutate, isPending, isSuccess } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationKey: ["delete-product"],
         mutationFn: () => deleteProduct(id),
         onSuccess: () => queryClient.invalidateQueries({
@@ -45,10 +45,6 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
             })
         }
     })
-
-    async function onClick() {
-
-    }
 
     return (
         <AlertDialog

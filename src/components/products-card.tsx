@@ -1,10 +1,11 @@
 "use client"
 
-import { findProducts } from "@/actions/find-products"
+import { findProducts } from "@/actions/products/find-products"
 import { CardProductStok } from "@/components/card-product-stok"
 import { Button } from "@/components/ui/button"
-import { CardContent } from "@/components/ui/card"
+import { CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { cn } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query"
 import { Ellipsis } from "lucide-react"
 import Link from "next/link"
@@ -30,12 +31,24 @@ export const ProductsCard = () => {
     return (
         <ScrollArea className="h-[500px] overflow-hidden">
             <ScrollBar />
-            <CardContent className="grid grid-cols-3 gap-2 size-full space-y-2">
+            <CardContent className={cn(
+                "grid grid-cols-3 gap-2 size-full space-y-2",
+                products.length === 0 && "grid-cols-1"
+            )}>
                 {
-                    products.map(({ id, ...product }) =>
+                    products.length === 0 && (
+                        <CardFooter className="w-full">
+                            <CardDescription className="text-2xl mx-auto italic">
+                                Sem produtos cadastrados
+                            </CardDescription>
+                        </CardFooter>
+                    )
+                }
+                {
+                    products.map(product =>
                         <CardProductStok
-                            key={id}
-                            product={{ id, ...product }}
+                            key={product.id}
+                            product={product}
                         />
                     )
                 }
@@ -49,7 +62,7 @@ export const ProductsCard = () => {
                             className="text-base"
                         >
                             <Link href={"/products-exist"}>
-                                <Ellipsis className="size-5"/>
+                                <Ellipsis className="size-5" />
                                 Ver todas as saidas
                             </Link>
                         </Button>

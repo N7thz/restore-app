@@ -1,4 +1,4 @@
-import { createManyProducts } from "@/actions/create-many-products"
+import { createManyProducts } from "@/actions/products/create-many-products"
 import { toast } from "@/components/toast"
 import {
     InputCreateProductProps,

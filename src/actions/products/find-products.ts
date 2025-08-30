@@ -2,12 +2,15 @@
 
 import { prisma } from "@/lib/prisma"
 import { ResponseProducts } from "@/types"
-import { Product } from "@prisma/client"
+import { Prisma, Product } from "@prisma/client"
 
-export async function findProducts(): ResponseProducts<Product> {
+export async function findProducts({ 
+    take = 12, ...rest 
+}: Prisma.ProductFindManyArgs = {}): ResponseProducts<Product> {
 
     const products = await prisma.product.findMany({
-        take: 12
+        take,
+        ...rest
     })
 
     const count = await prisma.product.count()
