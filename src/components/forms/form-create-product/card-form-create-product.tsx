@@ -37,6 +37,7 @@ export const CardFormCreateProduct = ({
                         variant={"outline"}
                         disabled={fields.length === 1}
                         onClick={() => remove(index)}
+                        className="hover:bg-red-500 hover:text-foreground"
                     >
                         <X />
                     </Button>

@@ -9,6 +9,34 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Ellipsis } from "lucide-react"
+import { Route } from "next"
+import Link from "next/link"
+import { Button } from "./ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
+import { Command } from "./ui/command"
+
+const routes: { href: Route, text: string }[] = [
+    {
+        href: "/",
+        text: "Home",
+    },
+    {
+        href: "/create-products",
+        text: "Registrar produto",
+    },
+    {
+        href: "/create-products-exist",
+        text: "Registrar saida de produto",
+    },
+    {
+        href: "/products-exist",
+        text: "Saida de produtos",
+    },
+    {
+        href: "/help",
+        text: "Ajuda",
+    },
+]
 
 export const Header = () => {
     return (
@@ -22,17 +50,50 @@ export const Header = () => {
                         </AvatarFallback>
                     </Avatar>
                 </SheetTrigger>
-                <SheetContent side="left">
+                <SheetContent className="px-6" side="left">
                     <SheetHeader>
-                        <SheetTitle>Are you absolutely sure?</SheetTitle>
+                        <SheetTitle>
+                            Opções
+                        </SheetTitle>
                         <SheetDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            and remove your data from our servers.
+                            Opções do app e preferências
                         </SheetDescription>
                     </SheetHeader>
+                    <div className="mx-auto">
+                        <Avatar className="size-48">
+                            <AvatarImage src="/sonic.gif" />
+                            <AvatarFallback>
+                                <Ellipsis />
+                            </AvatarFallback>
+                        </Avatar>
+                    </div>
+                    <Card className="bg-background">
+                        <CardHeader>
+                            <CardTitle>
+                                Rotas:
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex flex-col space-y-2.5">
+                            {
+                                routes.map(({ href, text }) => (
+                                    <Button
+                                        key={href}
+                                        asChild
+                                        variant={"ghost"}
+                                        className="justify-start"
+                                    >
+                                        <Link href={href}>
+                                            {text}
+                                        </Link>
+                                    </Button>
+                                ))
+                            }
+                        </CardContent>
+                    </Card>
                 </SheetContent>
             </Sheet>
             <div className="flex gap-2">
+                <Command />
                 <Notifications />
             </div>
         </header>

@@ -6,6 +6,7 @@ import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Command } from "@/components/ui/command"
 
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
@@ -28,18 +29,19 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head />
-      <body className={cn(jetBrains.variable, "antialiased max-h-dvh")}
+      <body className={cn(
+        jetBrains.variable,
+        "antialiased"
+      )}
       >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
         >
           <Header />
-          <ScrollArea className="h-[calc(100dvh_-_72px)] w-full flex">
+          <ScrollArea className="h-container flex overflow-hidden">
             <ScrollBar />
-            <div className="h-[calc(100dvh_-_72px)] flex">
-              {children}
-            </div>
+            {children}
           </ScrollArea>
         </ThemeProvider>
         <Toaster />

@@ -8,12 +8,13 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
 import { Minus, Plus } from "lucide-react"
 import Link from "next/link"
 
 export default async function Home() {
   return (
-    <main className="flex-1 flex items-center justify-center p-12">
+    <main className="h-container flex items-center justify-center p-8">
       <Card className="w-full h-5/6 border-primary">
         <CardHeader>
           <CardTitle className="text-2xl">
@@ -47,6 +48,6 @@ export default async function Home() {
           </Button>
         </CardFooter>
       </Card>
-    </main>
+    </main >
   )
 }

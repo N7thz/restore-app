@@ -3,7 +3,11 @@
 import { findProducts } from "@/actions/products/find-products"
 import { CardProductStok } from "@/components/card-product-stok"
 import { Button } from "@/components/ui/button"
-import { CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
+import {
+    CardContent,
+    CardDescription,
+    CardFooter
+} from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { queryKeys } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"

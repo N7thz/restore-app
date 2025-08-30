@@ -31,7 +31,7 @@ export const CardProductStokMenu = ({ id }: { id: string }) => {
                     size={"icon"}
                     variant={"ghost"}
                 >
-                    <Ellipsis />
+                    <Ellipsis className="group-hover:-translate-y-0.5 duration-200"/>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-48">
