@@ -48,7 +48,7 @@ export const ProductsCard = () => {
                             variant={"link"}
                             className="text-base"
                         >
-                            <Link href={"/products-exit"}>
+                            <Link href={"/products-exist"}>
                                 <Ellipsis className="size-5"/>
                                 Ver todas as saidas
                             </Link>

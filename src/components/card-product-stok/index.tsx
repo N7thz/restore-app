@@ -11,10 +11,11 @@ import { Product } from "@prisma/client"
 import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Ellipsis } from "lucide-react"
+import { CardProductStokMenu } from "./card-product-stok-menu"
 
 export const CardProductStok = ({
     product: {
-        createdAt, name, description, quantity
+        id, createdAt, name, description, quantity
     }
 }: { product: Product }) => {
 
@@ -30,12 +31,7 @@ export const CardProductStok = ({
                     {data}
                 </CardDescription>
                 <CardAction>
-                    <Button
-                        size={"icon"}
-                        variant={"outline"}
-                    >
-                        <Ellipsis />
-                    </Button>
+                    <CardProductStokMenu id={id} />
                 </CardAction>
             </CardHeader>
             <CardContent>
