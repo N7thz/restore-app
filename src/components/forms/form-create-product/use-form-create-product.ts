@@ -1,39 +1,16 @@
-import { createManyProducts } from "@/actions/products/create-many-products"
-import { toast } from "@/components/toast"
+import { useCreateManyProducts } from "@/hooks/use-create-many-products"
 import {
     InputCreateProductProps,
     inputCreateProductSchema,
-    OutputCreateProductProps,
     productInputToOutput
 } from "@/schemas/create-product"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
 import { useFieldArray, useForm } from "react-hook-form"
 import { ZodError } from "zod"
 
 export function useFormCreateProduct() {
 
-    const { push } = useRouter()
-
-    const { mutate, isPending, isSuccess } = useMutation({
-        mutationKey: ["create-many-products"],
-        mutationFn: ({ products }: OutputCreateProductProps) => createManyProducts(products),
-        onSuccess: () => toast({
-            title: "Produtos cadastrados",
-            description: "O cadastro foi feito com sucesso.",
-            onAutoClose: () => push("/")
-        }),
-        onError: (error) => {
-            console.error(error)
-            toast({
-                title: error.message,
-                variant: "error",
-                description: "Não foi possivel cadastrar o produto.",
-                duration: 5000
-            })
-        }
-    })
+    const { isPending, isSuccess, mutate } = useCreateManyProducts()
 
     const form = useForm<InputCreateProductProps>({
         resolver: zodResolver(inputCreateProductSchema),

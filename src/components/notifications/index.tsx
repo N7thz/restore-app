@@ -14,6 +14,7 @@ import { Bell } from "lucide-react"
 import { Separator } from "../ui/separator"
 import { NotificationCard } from "./notification-card"
 import { NotificationCardError } from "./notification-card-error"
+import { queryKeys } from "@/lib/query-keys"
 
 export const Notifications = () => {
 
@@ -23,7 +24,7 @@ export const Notifications = () => {
         status,
         refetch
     } = useQuery({
-        queryKey: ["find-all-notifications"],
+        queryKey: queryKeys.findAllNotifications(),
         queryFn: () => findNotification()
     })
 

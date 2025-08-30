@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { Prisma } from '@prisma/client'
+import { Notification, Prisma } from '@prisma/client'
 import { createNotification } from "../notifications/create-notification"
 
 export async function createManyProducts(
@@ -11,10 +11,20 @@ export async function createManyProducts(
         data
     })
 
-    products.map(async ({ name, createdAt }) => (
-        await createNotification({
+    const notifications: Notification[] = []
+
+    for (const product of products) {
+
+        const { name, createdAt } = product
+
+        const notification = await createNotification({
             name: `O produto ${name} foi criado com sucesso.`,
+            action: "CREATE",
             createdAt
         })
-    ))
+
+        notifications.push(notification)
+    }
+
+    return { notifications }
 }

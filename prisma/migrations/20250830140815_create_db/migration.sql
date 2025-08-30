@@ -28,5 +28,6 @@ CREATE TABLE "notifications" (
     "name" TEXT NOT NULL,
     "description" TEXT,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "read" BOOLEAN NOT NULL DEFAULT false
+    "read" BOOLEAN NOT NULL DEFAULT false,
+    "action" TEXT NOT NULL
 );

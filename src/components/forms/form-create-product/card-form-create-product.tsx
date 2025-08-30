@@ -67,12 +67,14 @@ export const CardFormCreateProduct = ({
                 }
                 <div className="grid grid-cols-2 gap-2 w-full">
                     <Label
-                        htmlFor="quantity"
+                        htmlFor="price"
                         className="w-full flex-col items-start"
                     >
-                        Quantidade:
+                        Preço:
                         <Input
+                            id="price"
                             type="number"
+                            step={0.1}
                             defaultValue={1}
                             className={cn(
                                 errors.products?.[index]?.price &&

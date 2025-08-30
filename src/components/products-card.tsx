@@ -5,6 +5,7 @@ import { CardProductStok } from "@/components/card-product-stok"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardDescription, CardFooter, CardHeader } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { queryKeys } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query"
 import { Ellipsis } from "lucide-react"
@@ -17,7 +18,7 @@ export const ProductsCard = () => {
         isLoading,
         status
     } = useQuery({
-        queryKey: ["find-all-products"],
+        queryKey: queryKeys.findAllProducts(),
         queryFn: () => findProducts()
     })
 

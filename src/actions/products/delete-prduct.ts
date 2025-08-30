@@ -1,6 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
+import { createNotification } from "../notifications/create-notification"
 
 export async function deleteProduct(id: string) {
 
@@ -13,4 +14,11 @@ export async function deleteProduct(id: string) {
     await prisma.product.delete({
         where: { id }
     })
+
+    const notification = await createNotification({
+        name: `O produto ${product.name} foi excluido com sucesso.`,
+        action: "DELETE",
+    })
+
+    return { notification }
 }

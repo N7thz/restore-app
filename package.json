@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "reset": "npx prisma migrate reset",
+    "migrate": "npx prisma migrate dev",
+    "studio": "npx prima studio",
     "build": "next build --turbopack",
     "start": "next start"
   },
