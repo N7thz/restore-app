@@ -27,7 +27,7 @@ export function InputNumber({
             slot="decrement"
             className="border-input text-muted-foreground/80 hover:bg-accent hover:text-foreground -ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <MinusIcon size={16} aria-hidden="true" />
+            <MinusIcon className="size-4" />
           </Button>
           <Input
             className={cn(
@@ -40,7 +40,7 @@ export function InputNumber({
             slot="increment"
             className="border-input text-muted-foreground/80 hover:bg-accent hover:text-foreground -me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border text-sm transition-[color,box-shadow] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <PlusIcon size={16} aria-hidden="true" />
+            <PlusIcon className="size-4" />
           </Button>
         </Group>
       </div>
