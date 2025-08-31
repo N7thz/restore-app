@@ -20,7 +20,7 @@ export default async function UpdateProduct({
     const { id } = await params
 
     return (
-        <main className="flex-1 flex items-center justify-center">
+        <main className="h-container flex items-center justify-center p-8">
             <Card className="w-1/2 border-primary text-2xl">
                 <CardHeader>
                     <CardTitle>

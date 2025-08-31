@@ -24,7 +24,6 @@ export function DataTablePagination<TData>({
     return (
         <div className="flex items-center justify-between px-2 my-4">
             <div className="w-3/4 flex items-center space-x-6 lg:space-x-8">
-
                 <div className="flex items-center space-x-2">
                     <Button
                         variant="outline"

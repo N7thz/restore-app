@@ -4,7 +4,6 @@ import {
     ColumnDef,
     ColumnFiltersState,
     SortingState,
-    VisibilityState,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
@@ -38,11 +37,19 @@ import {
     CardTitle
 } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+}
+
+type VisibilityState = {
+    name?: boolean
+    description?: boolean
+    price?: boolean
+    quantity?: boolean
+    minQuantity?: boolean
+    createdAt?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -52,10 +59,12 @@ export function DataTable<TData, TValue>({
 
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+    const [rowSelection, setRowSelection] = useState({})
     const [
         columnVisibility, setColumnVisibility
-    ] = useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = useState({})
+    ] = useState<VisibilityState>({
+        description: false,
+    })
 
     const table = useReactTable({
         data,
@@ -89,7 +98,7 @@ export function DataTable<TData, TValue>({
             <CardContent>
                 <div className="flex items-center py-4">
                     <Input
-                        placeholder="Filter emails..."
+                        placeholder="Pesquise um produto..."
                         value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
                         onChange={(event) =>
                             table.getColumn("name")?.setFilterValue(event.target.value)

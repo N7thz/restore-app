@@ -1,23 +1,17 @@
 "use client"
 
 import {
-    Calculator,
-    Calendar,
-    CreditCard,
-    Settings,
-    Smile,
-    User,
-} from "lucide-react"
-import {
     CommandDialog,
     CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
     CommandList,
-    CommandSeparator,
     CommandShortcut,
 } from "@/components/ui/command"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { routes } from "@/utils/route"
+import { redirect, RedirectType } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export const Command = () => {
@@ -40,44 +34,39 @@ export const Command = () => {
 
     return (
         <>
-            <CommandDialog open={open} onOpenChange={setOpen}>
-                <CommandInput placeholder="Type a command or search..." />
+            <CommandDialog
+                open={open}
+                onOpenChange={setOpen}
+                className="border-primary"
+            >
+                <CommandInput placeholder="Pesquise uma opção..." />
                 <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Suggestions">
-                        <CommandItem>
-                            <Calendar />
-                            <span>Calendar</span>
-                        </CommandItem>
-                        <CommandItem>
-                            <Smile />
-                            <span>Search Emoji</span>
-                        </CommandItem>
-                        <CommandItem>
-                            <Calculator />
-                            <span>Calculator</span>
-                        </CommandItem>
-                    </CommandGroup>
-                    <CommandSeparator />
-                    <CommandGroup heading="Settings">
-                        <CommandItem>
-                            <User />
-                            <span>Profile</span>
-                            <CommandShortcut>⌘P</CommandShortcut>
-                        </CommandItem>
-                        <CommandItem>
-                            <CreditCard />
-                            <span>Billing</span>
-                            <CommandShortcut>⌘B</CommandShortcut>
-                        </CommandItem>
-                        <CommandItem>
-                            <Settings />
-                            <span>Settings</span>
-                            <CommandShortcut>⌘S</CommandShortcut>
-                        </CommandItem>
-                    </CommandGroup>
+                    <CommandEmpty className="text-base text-muted-foreground">
+                        Não foi encontrado o resultado.
+                    </CommandEmpty>
+                    <ScrollArea className="h-[320px] p-1.5">
+                        <ScrollBar />
+                        <CommandGroup heading="Opções">
+                            {
+                                routes.map(({ href, text, Icon }) => (
+                                    <CommandItem
+                                        key={href}
+                                        onSelect={() => {
+                                            setTimeout(() => setOpen(false), 800)
+                                            redirect(href, RedirectType.push)
+                                        }}
+                                    >
+                                        {text}
+                                        <CommandShortcut>
+                                            <Icon />
+                                        </CommandShortcut>
+                                    </CommandItem>
+                                ))
+                            }
+                        </CommandGroup>
+                    </ScrollArea>
                 </CommandList>
-            </CommandDialog>
+            </CommandDialog >
         </>
     )
 }

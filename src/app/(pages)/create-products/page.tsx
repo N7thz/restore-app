@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function CreateProduct() {
     return (
-        <main className="flex-1 flex items-center justify-center p-12">
+        <main className="h-container flex items-center justify-center p-8">
             <Card className="w-1/2 border-primary text-2xl">
                 <CardHeader>
                     <CardTitle>
