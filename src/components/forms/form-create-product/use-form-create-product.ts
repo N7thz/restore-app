@@ -1,9 +1,11 @@
 import { useCreateManyProducts } from "@/hooks/use-create-many-products"
+import { validateErrors } from "@/lib/zod"
 import {
     InputCreateProductProps,
     inputCreateProductSchema,
-    productInputToOutput
-} from "@/schemas/create-product"
+    OutputCreateProductProps,
+    outputCreateProductSchema,
+} from "@/schemas/create-product-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useFieldArray, useForm } from "react-hook-form"
 import { ZodError } from "zod"
@@ -49,41 +51,32 @@ export function useFormCreateProduct() {
         }
     }
 
-    function validateErrors(error: ZodError<{
-        products: {
-            name: string
-            price: number
-            quantity: number
-            imageUrl: string | null
-        }[]
-    }>) {
+    function validateFormData({ products }: InputCreateProductProps) {
+        const transformedData = {
+            products: products.map(({
+                name,
+                price,
+                quantity,
+                minQuantity,
+                imageUrl
+            }) => ({
+                name,
+                price: Number(price),
+                quantity: Number(quantity),
+                minQuantity: Number(minQuantity),
+                imageUrl: imageUrl !== "" ? imageUrl : null
+            }))
+        }
 
-        error._zod.def.map((error) => {
-
-            const path = error.path.join(".") as
-                "products" |
-                "root" |
-                `root.${string}` |
-                `products.${number}.name` |
-                `products.${number}.price` |
-                `products.${number}.quantity` |
-                `products.${number}.imageUrl` |
-                `products.${number}` |
-                `products.${number}.minQuantity`
-
-            const message = error.message
-
-            console.log(errors)
-
-            setError(path, { message })
-        })
+        return outputCreateProductSchema.safeParse(transformedData)
     }
 
     async function onSubmit(data: InputCreateProductProps) {
 
-        const { data: products, error } = productInputToOutput(data)
+        const { data: products, error } = validateFormData(data)
 
-        if (error) return validateErrors(error)
+        if (error)
+            return validateErrors<OutputCreateProductProps>(error, setError)
 
         mutate(products)
     }

@@ -1,0 +1,17 @@
+import { DataTableColumnHeader } from "@/components/data-table-column-header"
+import { ProductExit } from "@prisma/client"
+import { ColumnDef } from "@tanstack/react-table"
+
+export const region: ColumnDef<ProductExit> = {
+    accessorKey: "region",
+    header: ({ column }) => (
+        <DataTableColumnHeader
+            title="Região"
+            column={column}
+        />
+    ), cell: ({ row }) => (
+        <div className="text-center">
+            {row.getValue("region")}
+        </div>
+    ),
+}

@@ -3,6 +3,7 @@ import {
     CardAction,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
@@ -20,7 +21,7 @@ export const CardProductStok = ({
     const data = formatDate(createdAt, "PPP", { locale: ptBR })
 
     return (
-        <Card className="rounded-md h-36">
+        <Card className="rounded-md">
             <CardHeader>
                 <CardTitle className="text-lg">
                     {name}
@@ -33,13 +34,15 @@ export const CardProductStok = ({
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <p>
+                <p className="text-sm text-muted-foreground truncate">
                     {description}
                 </p>
-                <p>
+            </CardContent>
+            <CardFooter className="justify-end">
+                <p className="text-sm text-muted-foreground truncate">
                     {quantity} unidades
                 </p>
-            </CardContent>
+            </CardFooter>
         </Card>
     )
 }

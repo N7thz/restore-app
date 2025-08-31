@@ -10,8 +10,8 @@ import { Separator } from "@/components/ui/separator"
 import { queryKeys } from "@/lib/query-keys"
 import {
     InputProductProps,
-    inputProductSchema
-} from "@/schemas/product-schema"
+    inputProductObject
+} from "@/schemas/product-object"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { FormProvider } from "react-hook-form"
@@ -43,7 +43,7 @@ export const FormUpdateProduct = ({ id }: { id: string }) => {
 
     const { name, price, quantity, minQuantity, imageUrl } = data
 
-    const { data: product, error } = inputProductSchema.safeParse({
+    const { data: product, error } = inputProductObject.safeParse({
         name,
         price: price.toString(),
         quantity: quantity.toString(),

@@ -1,3 +1,11 @@
+import { FormCreateProduct } from "@/components/forms/form-create-product"
+import { FormCreateProductExit } from "@/components/forms/form-create-product-exit"
+import {
+    Card,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -6,8 +14,18 @@ export const metadata: Metadata = {
 
 export default function CreateProductExit() {
     return (
-        <div>
-            <h1>Create Product Exit</h1>
-        </div>
+        <main className="h-container flex items-center justify-center p-8">
+            <Card className="w-1/2 border-primary text-2xl">
+                <CardHeader>
+                    <CardTitle>
+                        Registre um produto
+                    </CardTitle>
+                    <CardDescription>
+                        Registre um produto ao estoque
+                    </CardDescription>
+                </CardHeader>
+                <FormCreateProductExit />
+            </Card>
+        </main>
     )
 }

@@ -1,5 +1,30 @@
 "use client"
 
+import { DataTablePagination } from "@/components/data-table-column-pagination"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -11,50 +36,26 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { Input } from "@/components/ui/input"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DataTablePagination } from "@/components/data-table-column-pagination"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "@/components/ui/card"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    isLoading?: boolean
 }
 
 type VisibilityState = {
-    name?: boolean
     description?: boolean
-    price?: boolean
     quantity?: boolean
-    minQuantity?: boolean
     createdAt?: boolean
+    region?: boolean
+    username?: boolean
 }
 
-export function DataTable<TData, TValue>({
+export function DataTableExit<TData, TValue>({
     columns,
     data,
+    isLoading = false
 }: DataTableProps<TData, TValue>) {
 
     const [sorting, setSorting] = useState<SortingState>([])
@@ -99,9 +100,9 @@ export function DataTable<TData, TValue>({
                 <div className="flex items-center py-4">
                     <Input
                         placeholder="Pesquise um produto..."
-                        value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                        value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
                         onChange={(event) =>
-                            table.getColumn("name")?.setFilterValue(event.target.value)
+                            table.getColumn("username")?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
                     />
@@ -185,7 +186,11 @@ export function DataTable<TData, TValue>({
                                                 colSpan={columns.length}
                                                 className="h-24 text-center text-base"
                                             >
-                                                Sem resultados.
+                                                {
+                                                    isLoading
+                                                        ? "Carregando dados..."
+                                                        : "Sem resultados."
+                                                }
                                             </TableCell>
                                         </TableRow>
                                     )}

@@ -1,9 +1,25 @@
 import z from "zod"
 
-export const outputProductSchema = z.object({
+export const inputProductObject = z.object({
     name: z
         .string()
         .min(1, "O nome é obrigatório"),
+    price: z
+        .string(),
+    quantity: z
+        .string(),
+    minQuantity: z
+        .string(),
+    imageUrl: z
+        .string()
+        .nullable()
+})
+
+export const outputProductObject = z.object({
+    name: z
+        .string()
+        .min(1, "O nome é obrigatório")
+        .toLowerCase(),
     price: z
         .number()
         .positive("O preço deve ser positivo"),
@@ -21,21 +37,6 @@ export const outputProductSchema = z.object({
     path: ["minQuantity"]
 })
 
-export const inputProductSchema = z.object({
-    name: z
-        .string()
-        .min(1, "O nome é obrigatório"),
-    price: z
-        .string(),
-    quantity: z
-        .string(),
-    minQuantity: z
-        .string(),
-    imageUrl: z
-        .string()
-        .nullable()
-})
+export type InputProductProps = z.infer<typeof inputProductObject>
 
-export type InputProductProps = z.infer<typeof inputProductSchema>
-
-export type OutputProductProps = z.infer<typeof outputProductSchema>
+export type OutputProductProps = z.infer<typeof outputProductObject>

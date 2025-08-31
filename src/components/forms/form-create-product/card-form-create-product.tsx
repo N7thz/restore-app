@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { InputCreateProductProps } from "@/schemas/create-product"
+import { InputCreateProductProps } from "@/schemas/create-product-schema"
 import { X } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 
@@ -37,7 +37,6 @@ export const CardFormCreateProduct = ({
                         variant={"outline"}
                         disabled={fields.length === 1}
                         onClick={() => remove(index)}
-                        className="hover:bg-red-500 hover:text-foreground"
                     >
                         <X />
                     </Button>
@@ -168,7 +167,6 @@ export const CardFormCreateProduct = ({
                         message={errors.products[index].imageUrl.message}
                     />
                 }
-
             </CardContent>
         </Card>
     )

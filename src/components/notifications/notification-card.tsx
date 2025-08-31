@@ -51,7 +51,7 @@ export const NotificationCard = ({
   const Icon = useAction(action as "CREATE" | "UPDATE" | "DELETE" | "MIN_QUANTITY")
 
   return (
-    <Card className="py-2.5 gap-0 border-none">
+    <Card className="py-2.5 gap-0 ">
       <CardHeader className="py-4">
         <CardTitle className="truncate text-base flex items-center gap-2 capitalize">
           <Icon className={cn(

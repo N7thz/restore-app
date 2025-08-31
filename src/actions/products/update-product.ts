@@ -1,10 +1,22 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { OutputProductProps } from "@/schemas/product-schema"
+import { Prisma } from "@prisma/client"
 import { createNotification } from "../notifications/create-notification"
 
-export async function updateProduct(id: string, formData: OutputProductProps) {
+type UpdateProductProps = {
+    id: string,
+    formData: Prisma.ProductUpdateInput,
+    includeNotifications?: boolean
+}
+
+export async function updateProduct(
+    id: string,
+    formData: Prisma.ProductUpdateInput,
+    options: {
+        includeNotifications?: boolean
+    } = {}
+) {
 
     const product = await prisma.product.findUnique({
         where: {
@@ -23,11 +35,17 @@ export async function updateProduct(id: string, formData: OutputProductProps) {
         }
     })
 
-    const notification = await createNotification({
-        name: product.name,
-        description: `O produto ${product.name} foi atualizado com sucesso.`,
-        action: "UPDATE"
-    })
+    if (options.includeNotifications) {
 
-    return { notification }
+        const notification = await createNotification({
+            name: product.name,
+            description: `O produto ${product.name} foi atualizado com sucesso.`,
+            action: "UPDATE",
+            createdAt: new Date()
+        })
+
+        return { notification }
+    }
+
+    return {}
 }   
