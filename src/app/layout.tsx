@@ -1,16 +1,16 @@
 import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
 import { JetBrains_Mono } from "next/font/google"
 import "./globals.css"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { Command } from "@/components/ui/command"
 
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  weight: ["300", "400", "600", "700"]
 })
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <head />
       <body className={cn(
-        jetBrains.variable,
+        jetBrains.className,
         "antialiased"
       )}
       >

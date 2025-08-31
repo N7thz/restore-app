@@ -53,7 +53,7 @@ export const NotificationCard = ({
   return (
     <Card className="py-2.5 gap-0 border-none">
       <CardHeader className="py-4">
-        <CardTitle className="truncate flex items-center gap-2 capitalize">
+        <CardTitle className="truncate text-base flex items-center gap-2 capitalize">
           <Icon className={cn(
             "size-4",
             action === "CREATE"

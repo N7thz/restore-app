@@ -1,4 +1,4 @@
-export default function CreateProduct() {
+export default function ProductsExit() {
     return (
         <div>
             <h1>Create Product Exit</h1>

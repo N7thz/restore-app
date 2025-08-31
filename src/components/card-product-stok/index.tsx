@@ -22,7 +22,7 @@ export const CardProductStok = ({
     return (
         <Card className="rounded-md h-36">
             <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-lg">
                     {name}
                 </CardTitle>
                 <CardDescription>

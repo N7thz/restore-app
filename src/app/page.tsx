@@ -8,9 +8,13 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { Minus, Plus } from "lucide-react"
+import { Metadata } from "next"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "Stoke App | Home"
+}
 
 export default async function Home() {
   return (
@@ -18,10 +22,10 @@ export default async function Home() {
       <Card className="w-full h-5/6 border-primary">
         <CardHeader>
           <CardTitle className="text-2xl">
-            Stock App
+            Stoke App
           </CardTitle>
           <CardDescription>
-            Registre os produtos que saíram do estoque
+            Ultimas saidas do estoque
           </CardDescription>
         </CardHeader>
         <Separator />
