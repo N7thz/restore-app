@@ -37,6 +37,16 @@ import {
     CardTitle
 } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Columns3, Download } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -88,7 +98,7 @@ export function DataTable<TData, TValue>({
     })
 
     return (
-        <Card className="w-full border-primary pb-4 pt-6">
+        <Card className="w-full border-primary gap-0">
             <CardHeader>
                 <CardTitle>
                     Produtos cadastrados
@@ -107,35 +117,57 @@ export function DataTable<TData, TValue>({
                         }
                         className="max-w-sm"
                     />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="outline"
-                                className="ml-auto"
-                            >
-                                Colunas
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {
-                                table
-                                    .getAllColumns()
-                                    .filter((column) => column.getCanHide())
-                                    .map((column) => (
-                                        <DropdownMenuCheckboxItem
-                                            key={column.id}
-                                            className="capitalize"
-                                            checked={column.getIsVisible()}
-                                            onCheckedChange={(value) =>
-                                                column.toggleVisibility(!!value)
-                                            }
-                                        >
-                                            {column.id}
-                                        </DropdownMenuCheckboxItem>
-                                    ))
-                            }
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="ml-auto flex gap-2">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn("dark:hover:bg-emerald-600")}>
+                                    <Download className="group-hover:-translate-y-0.5 duration-200" />
+                                    Exportar dados
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
+                                    <DialogDescription>
+                                        This action cannot be undone. This will permanently delete your account
+                                        and remove your data from our servers.
+                                    </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className="ml-auto"
+                                >
+                                    <Columns3  className="group-hover:-translate-y-0.5 duration-200" />
+                                    Colunas
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                {
+                                    table
+                                        .getAllColumns()
+                                        .filter((column) => column.getCanHide())
+                                        .map((column) => (
+                                            <DropdownMenuCheckboxItem
+                                                key={column.id}
+                                                className="capitalize"
+                                                checked={column.getIsVisible()}
+                                                onCheckedChange={(value) =>
+                                                    column.toggleVisibility(!!value)
+                                                }
+                                            >
+                                                {column.id}
+                                            </DropdownMenuCheckboxItem>
+                                        ))
+                                }
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 </div>
                 <DataTablePagination table={table} />
                 <ScrollArea className="h-[460px]">

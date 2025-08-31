@@ -23,7 +23,7 @@ export const ProductsCard = () => {
         status
     } = useQuery({
         queryKey: queryKeys.findAllProducts(),
-        queryFn: () => findProducts()
+        queryFn: () => findProducts({ take: 12 })
     })
 
     if (isLoading) return <div>Loading...</div>
@@ -66,7 +66,7 @@ export const ProductsCard = () => {
                             variant={"link"}
                             className="text-base"
                         >
-                            <Link href={"/products-exist"}>
+                            <Link href={"/products"}>
                                 <Ellipsis className="size-5" />
                                 Ver todas as saidas
                             </Link>

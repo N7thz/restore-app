@@ -87,7 +87,7 @@ export function DataTableExit<TData, TValue>({
     })
 
     return (
-        <Card className="w-full border-primary pb-4 pt-6">
+        <Card className="w-full border-primary gap-0">
             <CardHeader>
                 <CardTitle>
                     Produtos cadastrados

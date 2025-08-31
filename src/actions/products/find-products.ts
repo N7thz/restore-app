@@ -1,10 +1,9 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { ResponseProducts } from "@/types"
-import { Prisma, Product } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
-export async function findProducts(props: Prisma.ProductFindManyArgs = {}): ResponseProducts<Product> {
+export async function findProducts(props: Prisma.ProductFindManyArgs = {}) {
 
     const products = await prisma.product.findMany({
         ...props
