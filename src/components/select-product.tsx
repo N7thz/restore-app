@@ -62,7 +62,6 @@ export const SelectProduct = ({ index }: { index: number }) => {
     const { products } = data
 
     function onSelect(value: string) {
-        console.log(value)
         setValue(`products.${index}.productId`, value)
         setOpen(false)
     }

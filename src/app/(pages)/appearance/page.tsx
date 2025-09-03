@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Download } from 'lucide-react';
+import { allColumns } from '@/types';
 export interface ColumnDefinition {
     key: string
     header: string
@@ -32,35 +33,8 @@ export default function UsersPage() {
 
     const { products } = data
 
-    const columns: ColumnDefinition[] = [
-        {
-            header: "Nome",
-            key: "name"
-        },
-        {
-            header: "Descrição",
-            key: "description"
-        },
-        {
-            header: "Preço",
-            key: "price"
-        },
-        {
-            header: "Data",
-            key: "createdAt"
-        },
-        {
-            header: "Quantidade",
-            key: "quantity"
-        },
-        {
-            header: "Quantidade minima",
-            key: "minQuantity"
-        },
-    ]
-
     const handleAdvancedExport = () => {
-        exportFormattedExcel(products, columns, {
+        exportFormattedExcel(products, allColumns, {
             fileName: 'produtos_exportados',
             sheetName: 'produtos',
         })

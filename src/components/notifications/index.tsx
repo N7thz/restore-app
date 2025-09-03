@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Bell } from "lucide-react"
 import { NotificationCard } from "./notification-card"
 import { NotificationCardError } from "./notification-card-error"
+import { Badge } from "../ui/badge"
 
 export const Notifications = () => {
 
@@ -30,19 +31,43 @@ export const Notifications = () => {
         queryFn: () => findNotification()
     })
 
-    if (isLoading) {
+    if (isLoading || !notifications) {
+
+        const count = 1
+
         return (
-            <Button variant="ghost">
-                <Bell />
+            <Button
+                variant="outline"
+                size="icon"
+                className="relative"
+                aria-label="Notifications"
+            >
+                <Bell size={16} aria-hidden="true" />
+                {count > 0 && (
+                    <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1">
+                        {count}
+                    </Badge>
+                )}
             </Button>
         )
     }
 
+    const count = notifications.filter(notification => notification.read === false).length
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost">
-                    <Bell />
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="relative"
+                >
+                    <Bell className="size-4" />
+                    {count > 0 && (
+                        <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1">
+                            {count > 99 ? "99+" : count}
+                        </Badge>
+                    )}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

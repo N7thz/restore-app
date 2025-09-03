@@ -117,10 +117,8 @@
   body {
     @apply bg-background text-foreground;
   }
-}
 
-@layer utilities {
   .h-container {
-    height: calc(100dvh - 72px);
+    @apply h-[calc(100dvh_-_72px)];
   }
 }

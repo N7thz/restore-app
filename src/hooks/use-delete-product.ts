@@ -26,7 +26,6 @@ export function useDeleteProduct(id: string) {
         },
         onError: (err) => {
             console.error(err)
-
             toast({
                 title: "Não foi possivel excluir o produto",
                 variant: "error"

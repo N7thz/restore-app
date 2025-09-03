@@ -78,10 +78,6 @@ export const FormCreateProductExit = () => {
         control
     })
 
-    if (errors.products && errors.products[0]) {
-        console.log(errors.products[0])
-    }
-
     const isLoading = isPending || isSubmitting
 
     function validateFormData({ products }: InputCreateProductProps) {

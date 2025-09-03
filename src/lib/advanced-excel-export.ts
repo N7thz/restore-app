@@ -38,7 +38,7 @@ export function exportFormattedExcel(
 
 
     worksheet["!cols"] = columns.map(col => ({
-        width: col.width || 20
+        width: col.width || 20  
     }))
 
     const workbook = utils.book_new()

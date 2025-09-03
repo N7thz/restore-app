@@ -15,30 +15,30 @@ export const DataTableProductsExit = () => {
 
     if (isLoading) {
         return (
-            <div className="container mx-auto py-10">
+            <main className="h-container flex items-center justify-center p-8">
                 <DataTableExit
                     columns={columns}
                     data={[]}
                     isLoading={isLoading}
                 />
-            </div>
+            </main>
         )
     }
 
     if (status === "error" || !data) {
         return (
-            <div>
+            <main className="h-container flex items-center justify-center p-8">
                 Error
-            </div>
+            </main>
         )
     }
 
     return (
-        <div className="container mx-auto py-10">
+        <main className="h-container flex items-center justify-center p-8">
             <DataTableExit
                 columns={columns}
                 data={data.products}
             />
-        </div>
+        </main>
     )
 }

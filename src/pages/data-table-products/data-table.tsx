@@ -1,6 +1,59 @@
 "use client"
 
 import {
+    DataTablePagination
+} from "@/components/data-table/data-table-column-pagination"
+import { FormExportProdcts } from "@/components/forms/form-export-prodcts"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
+} from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { Separator } from "@/components/ui/separator"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import { cn } from "@/lib/utils"
+import { Product } from "@prisma/client"
+import {
     ColumnDef,
     ColumnFiltersState,
     SortingState,
@@ -11,42 +64,8 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { Input } from "@/components/ui/input"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { DataTablePagination } from "@/components/data-table-column-pagination"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from "@/components/ui/card"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
 import { Columns3, Download } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -69,6 +88,7 @@ export function DataTable<TData, TValue>({
     isLoading = false
 }: DataTableProps<TData, TValue>) {
 
+    const [open, setOpen] = useState(false)
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [rowSelection, setRowSelection] = useState({})
@@ -118,32 +138,59 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                     />
                     <div className="ml-auto flex gap-2">
-                        <Dialog>
-                            <DialogTrigger asChild>
+                        <AlertDialog
+                            open={open}
+                            onOpenChange={setOpen}
+                        >
+                            <AlertDialogTrigger asChild>
                                 <Button
                                     variant={"outline"}
                                     className={cn("dark:hover:bg-emerald-600")}>
                                     <Download className="group-hover:-translate-y-0.5 duration-200" />
                                     Exportar dados
                                 </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                                    <DialogDescription>
-                                        This action cannot be undone. This will permanently delete your account
-                                        and remove your data from our servers.
-                                    </DialogDescription>
-                                </DialogHeader>
-                            </DialogContent>
-                        </Dialog>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Exportar dados
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Selecione os dados a serem exportados
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <FormExportProdcts setOpen={setOpen} />
+                                <Separator />
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel
+                                        variant={"destructive"}
+                                        className="w-1/2"
+                                    >
+                                        Cancelar
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                        asChild
+                                        variant={"default"}
+                                        className="w-1/2"
+                                    >
+                                        <Button
+                                            type="submit"
+                                            form="form-export-prodcts"
+                                            className="bg-emerald-600 hover:bg-emerald-500"
+                                        >
+                                            Exportar dados
+                                        </Button>
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
                                     variant="outline"
                                     className="ml-auto"
                                 >
-                                    <Columns3  className="group-hover:-translate-y-0.5 duration-200" />
+                                    <Columns3 className="group-hover:-translate-y-0.5 duration-200" />
                                     Colunas
                                 </Button>
                             </DropdownMenuTrigger>

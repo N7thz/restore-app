@@ -1,4 +1,4 @@
-import { DataTableColumnHeader } from "@/components/data-table-column-header"
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Product } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 
@@ -11,7 +11,7 @@ export const quantity: ColumnDef<Product> = {
         />
     ),
     cell: ({ row }) => (
-        <div className="text-center">
+        <div className="text-center" >
             {row.getValue("quantity")}
         </div>
     )

@@ -26,10 +26,11 @@ export const DatePicker = ({ index }: { index: number }) => {
 	const date = watch(`products.${index}.date`)
 
 	function onSelect(date: Date | undefined) {
-		if (date != undefined) {
-			setValue(`products.${index}.date`, date)
-			setOpen(false)
-		}
+
+		if (date === undefined) return
+
+		setValue(`products.${index}.date`, date)
+		setOpen(false)
 	}
 
 	return (

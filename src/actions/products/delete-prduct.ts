@@ -19,6 +19,7 @@ export async function deleteProduct(id: string) {
         name: product.name,
         description: `O produto ${product.name} foi excluido com sucesso.`,
         action: "DELETE",
+        createdAt: new Date(),
     })
 
     return { notification }
