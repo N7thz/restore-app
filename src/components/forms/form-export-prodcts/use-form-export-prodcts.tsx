@@ -27,8 +27,6 @@ export function useFormExportProdcts() {
         }),
         onSuccess: (data) => {
 
-            console.log(data)
-
             const dataKeys = Object.keys(data[0])
 
             const columns = allColumns.filter(column => dataKeys.includes(column.key))
@@ -70,6 +68,15 @@ export function useFormExportProdcts() {
     const form = useForm<InputExportProdctsSchema>({
         resolver: zodResolver(inputExportProdctsSchema),
         reValidateMode: "onChange",
+        defaultValues: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            quantity: true,
+            minQuantity: true,
+            createdAt: true,
+        }
     })
 
     const {
@@ -87,8 +94,8 @@ export function useFormExportProdcts() {
     }: InputExportProdctsSchema) {
 
         const { error, data } = ouputExportProdctsSchema.safeParse({
-            dateStart: new Date(dateStart),
-            dateEnd: new Date(dateEnd),
+            dateStart: dateStart !== "" ? new Date(dateStart) : new Date(),
+            dateEnd: dateEnd !== "" ? new Date(dateEnd) : new Date(),
             ...rest
         })
 

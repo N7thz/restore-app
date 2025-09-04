@@ -2,10 +2,9 @@
 
 import { SpanErrorMessage } from "@/components/span-error"
 import {
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogFooter
-} from "@/components/ui/alert-dialog"
+    DialogClose,
+    DialogFooter
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -148,26 +147,23 @@ export const FormExportProdcts = () => {
                     </Select>
                 </div>
                 <Separator />
-                <AlertDialogFooter>
-                    <AlertDialogCancel
-                        variant={"destructive"}
-                        className="w-1/2"
-                    >
-                        Cancelar
-                    </AlertDialogCancel>
-                    <AlertDialogAction
-                        asChild
-                        variant={"default"}
-                        className="w-1/2"
-                    >
+                <DialogFooter>
+                    <DialogClose asChild>
                         <Button
-                            type="submit"
-                            className="bg-emerald-600 hover:bg-emerald-500"
+                            variant={"destructive"}
+                            className="w-1/2"
                         >
-                            Exportar dados
+                            Cancelar
                         </Button>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
+                    </DialogClose>
+                    <Button
+                        type="submit"
+                        variant={"default"}
+                        className="w-1/2 bg-emerald-600 hover:bg-emerald-500"
+                    >
+                        Exportar dados
+                    </Button>
+                </DialogFooter>
             </form>
         </FormProvider>
     )

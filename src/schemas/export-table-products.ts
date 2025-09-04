@@ -2,12 +2,8 @@ import { itemsLimit } from "@/types"
 import z from "zod"
 
 export const inputExportProdctsSchema = z.object({
-    dateStart: z
-        .string()
-        .refine(date => date !== "", { error: "selecione uma data inicial" }),
-    dateEnd: z
-        .string()
-        .refine(date => date !== "", { error: "selecione uma data final" }),
+    dateStart: z.string(),
+    dateEnd: z.string(),
     id: z.boolean(),
     name: z.boolean(),
     description: z.boolean(),
@@ -20,6 +16,16 @@ export const inputExportProdctsSchema = z.object({
     })
 }).refine(({ dateStart, dateEnd }) => dateStart <= dateEnd, {
     error: "a data inicial deve ser maior que a final.",
+    path: ["dateStart"]
+}).refine(({ id, name, description, price, quantity, minQuantity, createdAt }) => {
+    return id || name || description || price || quantity || minQuantity || createdAt
+}, {
+    error: "selecione pelo menos um campo para exportar",
+    path: ["id"]
+}).refine(({ dateStart, dateEnd, itemsLimit }) => !(
+    itemsLimit !== "all" && (dateStart === "" && dateEnd === "")
+), {
+    error: "Selecione um intervalo de datas",
     path: ["dateStart"]
 })
 
@@ -36,11 +42,6 @@ export const ouputExportProdctsSchema = z.object({
     itemsLimit: z.enum(itemsLimit, {
         error: "selecione um valor válido"
     })
-}).refine(({ id, name, description, price, quantity, minQuantity, createdAt }) => {
-    return id || name || description || price || quantity || minQuantity || createdAt
-}, {
-    error: "selecione pelo menos um campo para exportar",
-    path: ["id"]
 })
 
 export type InputExportProdctsSchema = z.infer<typeof inputExportProdctsSchema>

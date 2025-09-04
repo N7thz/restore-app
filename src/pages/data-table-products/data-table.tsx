@@ -4,14 +4,22 @@ import {
     DataTablePagination
 } from "@/components/data-table/data-table-column-pagination"
 import { FormExportProdcts } from "@/components/forms/form-export-prodcts"
+// import {
+//     AlertDialog,
+//     AlertDialogContent,
+//     AlertDialogDescription,
+//     AlertDialogHeader,
+//     AlertDialogTitle,
+//     AlertDialogTrigger
+// } from "@/components/ui/alert-dialog"
 import {
-    AlertDialog,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger
-} from "@/components/ui/alert-dialog"
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -122,27 +130,27 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                     />
                     <div className="ml-auto flex gap-2">
-                        <AlertDialog open={open} onOpenChange={setOpen}>
-                            <AlertDialogTrigger asChild>
+                        <Dialog open={open} onOpenChange={setOpen}>
+                            <DialogTrigger asChild>
                                 <Button
                                     variant={"outline"}
                                     className={cn("dark:hover:bg-emerald-600")}>
                                     <Download className="group-hover:-translate-y-0.5 duration-200" />
                                     Exportar dados
                                 </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>
+                                    <DialogTitle>
                                         Exportar dados
-                                    </AlertDialogTitle>
-                                    <AlertDialogDescription>
+                                    </DialogTitle>
+                                    <DialogDescription>
                                         Selecione os dados a serem exportados
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
+                                    </DialogDescription>
+                                </DialogHeader>
                                 <FormExportProdcts />
-                            </AlertDialogContent>
-                        </AlertDialog>
+                            </DialogContent>
+                        </Dialog>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button
