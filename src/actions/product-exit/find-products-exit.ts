@@ -1,16 +1,15 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { ResponseProducts } from "@/types"
-import { Prisma, ProductExit } from "@prisma/client"
+import { Prisma } from "@prisma/client"
 
-export async function findProductsExit(
+export async function findProductsExit<T>(
     props: Prisma.ProductExitFindManyArgs = {}
-): ResponseProducts<ProductExit> {
+) {
 
     const products = await prisma.productExit.findMany({
         ...props
-    })
+    }) as T[]
 
     const count = await prisma.product.count()
 

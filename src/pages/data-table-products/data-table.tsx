@@ -3,23 +3,8 @@
 import {
     DataTablePagination
 } from "@/components/data-table/data-table-column-pagination"
+import { DialogExportData } from "@/components/dialog-export-data"
 import { FormExportProdcts } from "@/components/forms/form-export-prodcts"
-// import {
-//     AlertDialog,
-//     AlertDialogContent,
-//     AlertDialogDescription,
-//     AlertDialogHeader,
-//     AlertDialogTitle,
-//     AlertDialogTrigger
-// } from "@/components/ui/alert-dialog"
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -44,7 +29,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { cn } from "@/lib/utils"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -56,7 +40,7 @@ import {
     getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table"
-import { Columns3, Download } from "lucide-react"
+import { Columns3 } from "lucide-react"
 import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
@@ -80,7 +64,6 @@ export function DataTable<TData, TValue>({
     isLoading = false
 }: DataTableProps<TData, TValue>) {
 
-    const [open, setOpen] = useState(false)
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [rowSelection, setRowSelection] = useState({})
@@ -130,27 +113,9 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                     />
                     <div className="ml-auto flex gap-2">
-                        <Dialog open={open} onOpenChange={setOpen}>
-                            <DialogTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn("dark:hover:bg-emerald-600")}>
-                                    <Download className="group-hover:-translate-y-0.5 duration-200" />
-                                    Exportar dados
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                                <DialogHeader>
-                                    <DialogTitle>
-                                        Exportar dados
-                                    </DialogTitle>
-                                    <DialogDescription>
-                                        Selecione os dados a serem exportados
-                                    </DialogDescription>
-                                </DialogHeader>
-                                <FormExportProdcts />
-                            </DialogContent>
-                        </Dialog>
+                        <DialogExportData>
+                            <FormExportProdcts />
+                        </DialogExportData>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button

@@ -9,10 +9,12 @@ import { region } from "./region"
 import { quantity } from "./quantity"
 import { select } from "./select"
 import { username } from "./username"
+import { productId } from "./product"
 
 export const columns: ColumnDef<ProductExit>[] = [
     select,
     actions,
+    productId,
     username,
     region,
     description,

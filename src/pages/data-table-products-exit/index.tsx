@@ -5,12 +5,18 @@ import { queryKeys } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
 import { DataTableExit } from "./data-table"
 import { columns } from "./columns"
+import { Product, ProductExit } from "@prisma/client"
+import { ProductExitWithProduct } from "@/types"
 
 export const DataTableProductsExit = () => {
 
     const { data, isLoading, status } = useQuery({
         queryKey: queryKeys.findAllProducts(),
-        queryFn: () => findProductsExit()
+        queryFn: () => findProductsExit<ProductExitWithProduct>({
+            include: {
+                product: true
+            }
+        })
     })
 
     if (isLoading) {

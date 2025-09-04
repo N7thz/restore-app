@@ -1,6 +1,8 @@
 "use client"
 
-import { DataTablePagination } from "@/components/data-table/data-table-column-pagination"
+import { 
+    DataTablePagination 
+} from "@/components/data-table/data-table-column-pagination"
 import { Button } from "@/components/ui/button"
 import {
     Card,
