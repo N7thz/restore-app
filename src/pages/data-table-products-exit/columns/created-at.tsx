@@ -8,7 +8,7 @@ export const createdAt: ColumnDef<ProductExit> = {
     accessorKey: "createdAt",
     header: ({ column }) => (
         <DataTableColumnHeader
-            title="Data de criação"
+            title="Data de saída"
             column={column}
         />
     ),

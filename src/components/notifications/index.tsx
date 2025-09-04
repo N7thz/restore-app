@@ -1,23 +1,26 @@
 "use client"
 
 import { findNotification } from "@/actions/notifications/find-notification"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuTrigger
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { queryKeys } from "@/lib/query-keys"
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu"
 import { useQuery } from "@tanstack/react-query"
-import { Bell } from "lucide-react"
+import { Bell, BellRing, Loader2 } from "lucide-react"
+import { ButtonDeleteAllNotifications } from "./button-delete-all-notifications"
+import { ButtonOrderAllNotifications } from "./button-order-all-notifications"
+import { ButtonReadAllNotifications } from "./button-read-all-notifications"
 import { NotificationCard } from "./notification-card"
 import { NotificationCardError } from "./notification-card-error"
-import { Badge } from "../ui/badge"
 
 export const Notifications = () => {
 
@@ -32,9 +35,6 @@ export const Notifications = () => {
     })
 
     if (isLoading || !notifications) {
-
-        const count = 1
-
         return (
             <Button
                 variant="outline"
@@ -43,16 +43,24 @@ export const Notifications = () => {
                 aria-label="Notifications"
             >
                 <Bell size={16} aria-hidden="true" />
-                {count > 0 && (
-                    <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1">
-                        {count}
-                    </Badge>
-                )}
+                <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1">
+                    <Loader2 className="animate-spin" />
+                </Badge>
             </Button>
         )
     }
 
-    const count = notifications.filter(notification => notification.read === false).length
+    const count = notifications.filter(({ read }) => read === false).length
+
+    const buttonReadDisabled = notifications.some(
+        notification =>
+            notification.action !== "MIN_QUANTITY" &&
+            notification.read === false
+    )
+
+    const buttonDeleteDisabled = notifications.some(notification => notification.action !== "MIN_QUANTITY")
+
+    console.log(buttonReadDisabled)
 
     return (
         <DropdownMenu>
@@ -62,7 +70,7 @@ export const Notifications = () => {
                     size="icon"
                     className="relative"
                 >
-                    <Bell className="size-4" />
+                    <BellRing className="size-4" />
                     {count > 0 && (
                         <Badge className="absolute -top-2 left-full min-w-5 -translate-x-1/2 px-1">
                             {count > 99 ? "99+" : count}
@@ -70,37 +78,48 @@ export const Notifications = () => {
                     )}
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-                asChild
-                align="end"
-            >
-                <div>
+            <DropdownMenuContent asChild align="end">
+                <div className="w-100">
                     <DropdownMenuLabel className="text-base">
                         Notificações
                     </DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-base grid grid-cols-2 gap-2 w-full">
+                        <ButtonReadAllNotifications
+                            disabled={!buttonReadDisabled}
+                        />
+                        <ButtonDeleteAllNotifications
+                            disabled={!buttonDeleteDisabled}
+                        />
+                    </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <ScrollArea className="size-104">
+                    <ScrollArea className="h-104 w-full">
                         <ScrollBar />
                         <DropdownMenuGroup>
                             {
                                 (status === "error" || !notifications)
                                     ? <NotificationCardError refetch={refetch} />
-                                    : (<div>{notifications.map((notification, i) => {
-
-                                        const isLastItem = i === notifications.length - 1
-
-                                        return (
-                                            <div key={notification.id}>
-                                                <NotificationCard
-                                                    notification={notification}
-                                                />
-                                                {
-                                                    !isLastItem &&
-                                                    <Separator />
-                                                }
-                                            </div>
-                                        )
-                                    })} </div>)
+                                    : (
+                                        <div>
+                                            {
+                                                notifications.map((notification, i) => {
+                                                    const isLastItem = i === notifications.length - 1
+                                                    return (
+                                                        <div
+                                                            key={notification.id}
+                                                        >
+                                                            <NotificationCard
+                                                                notification={notification}
+                                                            />
+                                                            {
+                                                                !isLastItem &&
+                                                                <Separator />
+                                                            }
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    )
                             }
                         </DropdownMenuGroup>
                     </ScrollArea>

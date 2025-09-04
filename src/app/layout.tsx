@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="ptBR"
+      lang="pt-BR"
       suppressHydrationWarning
     >
       <head />

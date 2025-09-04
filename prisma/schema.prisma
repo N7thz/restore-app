@@ -42,7 +42,14 @@ model Notification {
   description String?
   createdAt   DateTime @map("created_at")
   read        Boolean  @default(false)
-  action      String
+  action      Action
 
   @@map("notifications")
+}
+
+enum Action {
+  CREATE
+  UPDATE
+  DELETE
+  MIN_QUANTITY
 }

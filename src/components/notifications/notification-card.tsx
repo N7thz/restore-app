@@ -8,15 +8,24 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { Notification } from "@prisma/client"
+import { Action, Notification } from "@prisma/client"
 import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { CheckCircle, CircleAlert, Ellipsis, Icon, Info, TriangleAlert, XCircle } from "lucide-react"
+import {
+  BellMinus,
+  BellOff,
+  CheckCircle,
+  CircleAlert, Ellipsis,
+  TriangleAlert,
+  XCircle
+} from "lucide-react"
 
 type NotificationCardProps = {
   notification: Notification
@@ -24,7 +33,7 @@ type NotificationCardProps = {
 
 export const NotificationCard = ({
   notification: {
-    name, description, createdAt, action
+    name, description, createdAt, action, read
   }
 }: NotificationCardProps) => {
 
@@ -34,8 +43,7 @@ export const NotificationCard = ({
     { locale: ptBR }
   )
 
-  const useAction = (
-    action: "CREATE" | "UPDATE" | "DELETE" | "MIN_QUANTITY") => {
+  const useAction = (action: Action) => {
 
     if (action === "CREATE") {
       return CheckCircle
@@ -48,12 +56,18 @@ export const NotificationCard = ({
     return TriangleAlert
   }
 
-  const Icon = useAction(action as "CREATE" | "UPDATE" | "DELETE" | "MIN_QUANTITY")
+  const Icon = useAction(action)
 
   return (
-    <Card className="py-2.5 gap-0 ">
+    <Card className={cn(
+      "py-2.5 gap-0 border-none shadow-none rounded-none",
+      read && "bg-secondary"
+    )}>
       <CardHeader className="py-4">
-        <CardTitle className="truncate text-base flex items-center gap-2 capitalize">
+        <CardTitle className={cn(
+          "truncate text-base flex items-center gap-2 capitalize",
+          read && "text-muted-foreground"
+        )}>
           <Icon className={cn(
             "size-4",
             action === "CREATE"
@@ -72,11 +86,25 @@ export const NotificationCard = ({
             {description}
           </CardDescription>
         }
-        <CardAction>
-          <Button variant={"ghost"}>
-            <Ellipsis />
-          </Button>
-        </CardAction>
+        <DropdownMenuSub>
+          <CardAction>
+            <Button asChild variant={"ghost"}>
+              <DropdownMenuSubTrigger Icon={Ellipsis} />
+            </Button>
+          </CardAction>
+          <DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem disabled={read}>
+                <BellMinus />
+                Marcar com lida
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <BellOff />
+                Exclur
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuPortal>
+        </DropdownMenuSub>
       </CardHeader>
       <CardFooter className="justify-end">
         <CardDescription>
