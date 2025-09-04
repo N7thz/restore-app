@@ -7,7 +7,7 @@ export async function GET() {
 
     const notifications: Notification[] = []
 
-    Array.from({ length: 32 }).map(async () => {
+    Array.from({ length: 8 }).map(async () => {
 
         const notificationObject = {
             id: faker.string.uuid(),

@@ -26,37 +26,22 @@ import {
   TriangleAlert,
   XCircle
 } from "lucide-react"
+import { useNotificationCard } from "./use-notification-card"
 
-type NotificationCardProps = {
+export type NotificationCardProps = {
   notification: Notification
 }
 
-export const NotificationCard = ({
-  notification: {
-    name, description, createdAt, action, read
-  }
-}: NotificationCardProps) => {
+export const NotificationCard = ({ notification }: NotificationCardProps) => {
 
-  const date = formatDate(
-    createdAt,
-    "dd 'de' MMMM 'de' yyyy 'as' HH:mm",
-    { locale: ptBR }
-  )
+  const { read, name, description, action } = notification
 
-  const useAction = (action: Action) => {
-
-    if (action === "CREATE") {
-      return CheckCircle
-    } else if (action === "UPDATE") {
-      return CircleAlert
-    } else if (action === "DELETE") {
-      return XCircle
-    }
-
-    return TriangleAlert
-  }
-
-  const Icon = useAction(action)
+  const {
+    Icon,
+    date,
+    deleteNotification,
+    readNotification
+  } = useNotificationCard({ notification })
 
   return (
     <Card className={cn(
@@ -94,11 +79,17 @@ export const NotificationCard = ({
           </CardAction>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
-              <DropdownMenuItem disabled={read}>
+              <DropdownMenuItem
+                disabled={read || action === "MIN_QUANTITY"}
+                onClick={readNotification}
+              >
                 <BellMinus />
                 Marcar com lida
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={action === "MIN_QUANTITY"}
+                onClick={deleteNotification}
+              >
                 <BellOff />
                 Exclur
               </DropdownMenuItem>

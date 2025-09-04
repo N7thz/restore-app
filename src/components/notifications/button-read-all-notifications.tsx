@@ -1,6 +1,6 @@
 import {
     readAllNotification
-} from "@/actions/notifications/read-all-notification copy"
+} from "@/actions/notifications/read-all-notification"
 import { Button } from "@/components/ui/button"
 import {
     Tooltip,
