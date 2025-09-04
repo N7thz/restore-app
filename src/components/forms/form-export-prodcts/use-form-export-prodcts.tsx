@@ -1,39 +1,23 @@
 import {
-    findManyProductsWithFilter,
-    FindManyProductsWithFilterProps as FindManyProductsProps
+    FindManyProductsWithFilterProps as FindManyProductsProps,
+    findManyProductsWithFilter
 } from "@/actions/products/find-many-products-with-filter"
-import { SpanErrorMessage } from "@/components/span-error"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
-import { validateErrors } from "@/lib/zod"
-import { allColumns, itemsLimit, ItemsLimitProps, productKeyOfs } from "@/types"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
-import { FormProvider, useForm } from "react-hook-form"
 import { toast } from "@/components/toast"
 import { exportFormattedExcel } from "@/lib/advanced-excel-export"
+import { validateErrors } from "@/lib/zod"
 import {
     inputExportProdctsSchema,
     InputExportProdctsSchema,
     ouputExportProdctsSchema,
     OuputExportProdctsSchema
 } from "@/schemas/export-table-products"
+import { allColumns, ItemsLimitProps } from "@/types"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
 import { Sheet } from "lucide-react"
+import { useForm } from "react-hook-form"
 
-export function useFormExportProdcts({
-    setOpen
-}: { setOpen: (open: boolean) => void }) {
+export function useFormExportProdcts() {
 
     const { mutate } = useMutation({
         mutationKey: ["export-table-products"],
@@ -42,6 +26,8 @@ export function useFormExportProdcts({
             takeString,
         }),
         onSuccess: (data) => {
+
+            console.log(data)
 
             const dataKeys = Object.keys(data[0])
 
@@ -56,22 +42,34 @@ export function useFormExportProdcts({
 
             toast({
                 title: "Os dados foram exportados com sucesso.",
-                description: `${data.length} itens foram exportados.`,
+                description: (
+                    <span className="text-muted-foreground">
+                        {`${data.length} itens foram exportados.`}
+                    </span>
+                ),
                 duration: 3000,
                 icon: <Sheet className="size-4 text-primary" />,
-                onAutoClose: () => setOpen(false)
             })
         },
-        onError: (error) => toast({
-            title: error.message,
-            description: "Não foi possivel encontrar os dados desejados foi possivel encontrar os dados desejados",
-            variant: "error",
-        })
+        onError: (error) => {
+
+            console.log(error)
+
+            toast({
+                title: error.message,
+                description: (
+                    <span className="text-muted-foreground">
+                        Tente passar um intervalo diferente
+                    </span>
+                ),
+                variant: "error",
+            })
+        }
     })
 
     const form = useForm<InputExportProdctsSchema>({
         resolver: zodResolver(inputExportProdctsSchema),
-        reValidateMode: "onChange"
+        reValidateMode: "onChange",
     })
 
     const {
@@ -79,7 +77,7 @@ export function useFormExportProdcts({
         setValue,
         setError,
         handleSubmit,
-        formState: { errors, isSubmitting }
+        formState: { errors }
     } = form
 
     function onSubmit({

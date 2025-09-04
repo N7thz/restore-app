@@ -1,6 +1,12 @@
 "use client"
 
 import { SpanErrorMessage } from "@/components/span-error"
+import {
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogFooter
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -13,14 +19,13 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
 import { ItemsLimitProps, productKeyOfs } from "@/types"
 import { FormProvider } from "react-hook-form"
 import { useFormExportProdcts } from "./use-form-export-prodcts"
 
-export const FormExportProdcts = ({
-    setOpen
-}: { setOpen: (open: boolean) => void }) => {
+export const FormExportProdcts = () => {
 
     const {
         form,
@@ -30,14 +35,11 @@ export const FormExportProdcts = ({
         onSubmit,
         register,
         setValue,
-    } = useFormExportProdcts({ setOpen })
+    } = useFormExportProdcts()
 
     return (
         <FormProvider {...form}>
-            <form
-                id="form-export-prodcts"
-                onSubmit={handleSubmit(onSubmit)}
-            >
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-6">
                     <div className="flex gap-2 justify-between">
                         <div className="w-full flex flex-col gap-2.5">
@@ -87,10 +89,9 @@ export const FormExportProdcts = ({
                                         key={key}
                                         className="flex gap-2 items-center"
                                     >
-                                        <Input type="checkbox"
+                                        <Switch
                                             defaultChecked={true}
-                                            className="size-5"
-                                            {...register(key)}
+                                            onCheckedChange={(check) => setValue(key, check)}
                                         />
                                         <span className="text-sm capitalize">
                                             {label}
@@ -146,6 +147,27 @@ export const FormExportProdcts = ({
                         </SelectContent>
                     </Select>
                 </div>
+                <Separator />
+                <AlertDialogFooter>
+                    <AlertDialogCancel
+                        variant={"destructive"}
+                        className="w-1/2"
+                    >
+                        Cancelar
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                        asChild
+                        variant={"default"}
+                        className="w-1/2"
+                    >
+                        <Button
+                            type="submit"
+                            className="bg-emerald-600 hover:bg-emerald-500"
+                        >
+                            Exportar dados
+                        </Button>
+                    </AlertDialogAction>
+                </AlertDialogFooter>
             </form>
         </FormProvider>
     )

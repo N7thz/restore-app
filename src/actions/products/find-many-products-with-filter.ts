@@ -61,5 +61,10 @@ export async function findManyProductsWithFilter({
         take
     })
 
+    if (filteredProducts.length === 0)
+        throw new Error("Não foram encontrados dados dentro desse intervalo", {
+            cause: "você passou um intervalo onde não existe um produto."
+        })
+
     return filteredProducts
 }

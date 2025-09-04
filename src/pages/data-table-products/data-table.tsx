@@ -6,14 +6,11 @@ import {
 import { FormExportProdcts } from "@/components/forms/form-export-prodcts"
 import {
     AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
+    AlertDialogTrigger
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,7 +20,6 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -31,18 +27,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
 import {
     Table,
     TableBody,
@@ -52,7 +37,6 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import { Product } from "@prisma/client"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -138,10 +122,7 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                     />
                     <div className="ml-auto flex gap-2">
-                        <AlertDialog
-                            open={open}
-                            onOpenChange={setOpen}
-                        >
+                        <AlertDialog open={open} onOpenChange={setOpen}>
                             <AlertDialogTrigger asChild>
                                 <Button
                                     variant={"outline"}
@@ -159,29 +140,7 @@ export function DataTable<TData, TValue>({
                                         Selecione os dados a serem exportados
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
-                                <FormExportProdcts setOpen={setOpen} />
-                                <Separator />
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel
-                                        variant={"destructive"}
-                                        className="w-1/2"
-                                    >
-                                        Cancelar
-                                    </AlertDialogCancel>
-                                    <AlertDialogAction
-                                        asChild
-                                        variant={"default"}
-                                        className="w-1/2"
-                                    >
-                                        <Button
-                                            type="submit"
-                                            form="form-export-prodcts"
-                                            className="bg-emerald-600 hover:bg-emerald-500"
-                                        >
-                                            Exportar dados
-                                        </Button>
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
+                                <FormExportProdcts />
                             </AlertDialogContent>
                         </AlertDialog>
                         <DropdownMenu>
