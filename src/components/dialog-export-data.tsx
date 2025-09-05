@@ -10,17 +10,15 @@ import {
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 import { Download } from "lucide-react"
-import { ReactNode, useState } from "react"
+import { ComponentProps, ReactNode, useState } from "react"
 
-export const DialogExportData = ({ children }:{ children: ReactNode }) => {
+type DialogExportDataProps = ComponentProps<typeof Dialog> & { children: ReactNode }
 
-    const [open, setOpen] = useState(false)
-
+export const DialogExportData = ({
+    children, ...props
+}: DialogExportDataProps) => {
     return (
-        <Dialog
-            open={open}
-            onOpenChange={setOpen}
-        >
+        <Dialog {...props}>
             <DialogTrigger asChild>
                 <Button
                     variant={"outline"}

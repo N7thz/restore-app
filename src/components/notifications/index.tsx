@@ -60,8 +60,6 @@ export const Notifications = () => {
 
     const buttonDeleteDisabled = notifications.some(notification => notification.action !== "MIN_QUANTITY")
 
-    console.log(buttonReadDisabled)
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

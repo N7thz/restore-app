@@ -1,22 +1,27 @@
 "use client"
 
-import { findProducts } from "@/actions/products/find-products"
+import { findProductsExit } from "@/actions/product-exit/find-products-exit"
 import { queryKeys } from "@/lib/query-keys"
-import { columns } from "@/pages/data-table-products/columns"
-import { DataTable } from "@/pages/data-table-products/data-table"
 import { useQuery } from "@tanstack/react-query"
+import { DataTableExit } from "./data-table"
+import { columns } from "./columns"
+import { ProductExitWithProduct } from "@/types"
 
-export const DataTableProducts = () => {
+export const DataTableProductsExit = () => {
 
     const { data, isLoading, status } = useQuery({
         queryKey: queryKeys.findAllProducts(),
-        queryFn: () => findProducts()
+        queryFn: () => findProductsExit<ProductExitWithProduct>({
+            include: {
+                product: true
+            }
+        })
     })
 
     if (isLoading) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                <DataTable
+                <DataTableExit
                     columns={columns}
                     data={[]}
                     isLoading={isLoading}
@@ -28,14 +33,14 @@ export const DataTableProducts = () => {
     if (status === "error" || !data) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                error
+                Error
             </main>
         )
     }
 
     return (
         <main className="h-container flex items-center justify-center p-8">
-            <DataTable
+            <DataTableExit
                 columns={columns}
                 data={data.products}
             />

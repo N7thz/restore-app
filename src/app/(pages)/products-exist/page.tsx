@@ -1,4 +1,4 @@
-import { DataTableProductsExit } from "@/pages/data-table-products-exit"
+import { DataTableProductsExit } from "@/client_pages/data-table-products-exit"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {

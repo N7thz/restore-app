@@ -3,6 +3,7 @@ import {
     FileInput,
     FilePlus2,
     FileSearch,
+    FileSpreadsheet,
     Info,
     LayoutPanelLeft,
     LucideIcon,
@@ -34,13 +35,13 @@ export const routes: readonly Routes[] =[
     },
     {
         href: "/products-exist",
-        text: "Histórico saida de produtos",
-        Icon: FileClock
+        text: "Tabela de saida de produtos",
+        Icon: FileSpreadsheet
     },
     {
         href: "/products",
-        text: "Histórico de produtos",
-        Icon: FileSearch
+        text: "Tabela de produtos",
+        Icon: FileSpreadsheet
     },
     {
         href: "/help",

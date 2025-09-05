@@ -27,8 +27,6 @@ export const ButtonDeleteAllNotifications = (
                 queryKeys.findAllNotifications(),
                 (oldData) => {
 
-                    console.log(oldData)
-
                     if (!oldData) return []
 
                     return oldData.filter(notification => notification.action === "MIN_QUANTITY")

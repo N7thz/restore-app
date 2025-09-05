@@ -1,34 +1,36 @@
 import { prisma } from "@/lib/prisma"
+import { faker } from '@faker-js/faker'
+import { Prisma } from "@prisma/client"
 import { NextResponse } from "next/server"
-import { faker } from "@faker-js/faker"
-import { Product } from "@prisma/client"
-
-const generateProduct = () => ({
-    id: faker.string.uuid(),
-    name: faker.commerce.productName(),
-    imageUrl: faker.image.url(),
-    description: faker.commerce.productDescription(),
-    price: parseFloat(faker.commerce.price()),
-    createdAt: faker.date.past(),
-    quantity: faker.number.int({ min: 0, max: 200 }),
-    minQuantity: faker.number.float({ min: 0, max: 30 })
-})
 
 export async function GET() {
 
-    const products: Product[] = []
-
-    Array
-        .from({ length: 116 })
+    const products = Array
+        .from({ length: 42 })
         .map(async () => {
 
-            const data = generateProduct()
+            const notificationObject: Prisma.ProductExitCreateInput = {
+                createdAt: faker.date.recent({ days: 30 }),
+                region: faker.location.state(),
+                quantity: faker.number.int({ min: 1, max: 1000 }),
+                description: faker.helpers.maybe(() => faker.commerce.productDescription(), { probability: 0.7 }),
+                username: faker.person.firstName(),
+                product: {
+                    create: {
+                        name: faker.commerce.productName(),
+                        imageUrl: faker.image.url(),
+                        description: faker.commerce.productDescription(),
+                        price: parseFloat(faker.commerce.price()),
+                        createdAt: faker.date.past(),
+                        quantity: faker.number.int({ min: 1, max: 200 }),
+                        minQuantity: faker.number.int({ min: 1, max: 30 })
+                    }
+                }
+            }
 
-            const product = await prisma.product.create({
-                data
+            return await prisma.productExit.create({
+                data: notificationObject
             })
-
-            products.push(product)
         })
 
     return NextResponse.json(products)

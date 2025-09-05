@@ -1,39 +1,60 @@
 import {
-    FindManyProductsWithFilterProps as FindManyProductsProps,
-    findManyProductsWithFilter
-} from "@/actions/products/find-many-products-with-filter"
+    findManyProductsExitWithFilter
+} from "@/actions/product-exit/find-many-products-exit-with-filter"
+import { findProductById } from "@/actions/products/find-product-by-id"
 import { toast } from "@/components/toast"
-import { allColumns } from "@/data/all-columns-products"
+import { allColumns, allColumnsProductExist } from "@/data/all-columns-products"
 import { exportFormattedExcel } from "@/lib/advanced-excel-export"
 import { validateErrors } from "@/lib/zod"
 import {
-    inputExportProdctsSchema,
-    InputExportProdctsSchema,
-    ouputExportProdctsSchema,
-    OuputExportProdctsSchema
-} from "@/schemas/export-table-products"
+    InputExportProdctsExitSchema,
+    OuputExportProdctsExitSchema,
+    inputExportProdctsExitSchema,
+    ouputExportProdctsExitSchema
+} from "@/schemas/export-table-products-exit"
 import { ItemsLimitProps } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
+import { formatDate } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { Sheet } from "lucide-react"
 import { useForm } from "react-hook-form"
 
-export function useFormExportProdcts() {
+export type FindManyProductsWithFilterProps = {
+    takeString: ItemsLimitProps
+    products: OuputExportProdctsExitSchema
+}
 
-    const { mutate } = useMutation({
-        mutationKey: ["export-table-products"],
-        mutationFn: ({ products, takeString }: FindManyProductsProps) => findManyProductsWithFilter({
+export function useFormExportExitProdcts( setOpen: (open: boolean) => void) {
+
+    const { mutate, isPending, isSuccess } = useMutation({
+        mutationKey: ["export-table-products-exit"],
+        mutationFn: ({
+            products, takeString
+        }: FindManyProductsWithFilterProps) => findManyProductsExitWithFilter({
             products,
             takeString,
         }),
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
 
-            const dataKeys = Object.keys(data[0])
+            const tableData = data.map(item => {
 
-            const columns = allColumns.filter(column => dataKeys.includes(column.key))
+                const { product: { name, price } } = item
 
-            exportFormattedExcel(data, columns, {
-                fileName: 'produtos_exportados',
+                return {
+                    ...item,
+                    createdAt: formatDate(new Date(), "P", { locale: ptBR }),
+                    name,
+                    price
+                }
+            })
+
+            const dataKeys = Object.keys(tableData[0])
+
+            const columns = allColumnsProductExist.filter(column => dataKeys.includes(column.key))
+
+            exportFormattedExcel(tableData, columns, {
+                fileName: 'produtos_saida',
                 sheetName: 'produtos',
             })
 
@@ -46,6 +67,7 @@ export function useFormExportProdcts() {
                 ),
                 duration: 3000,
                 icon: <Sheet className="size-4 text-primary" />,
+                onAutoClose: () => setOpen(false)
             })
         },
         onError: (error) => {
@@ -64,16 +86,15 @@ export function useFormExportProdcts() {
         }
     })
 
-    const form = useForm<InputExportProdctsSchema>({
-        resolver: zodResolver(inputExportProdctsSchema),
+    const form = useForm<InputExportProdctsExitSchema>({
+        resolver: zodResolver(inputExportProdctsExitSchema),
         reValidateMode: "onChange",
         defaultValues: {
             id: true,
-            name: true,
+            region: true,
+            username: true,
             description: true,
-            price: true,
             quantity: true,
-            minQuantity: true,
             createdAt: true,
         }
     })
@@ -90,30 +111,33 @@ export function useFormExportProdcts() {
         dateStart,
         dateEnd,
         ...rest
-    }: InputExportProdctsSchema) {
+    }: InputExportProdctsExitSchema) {
 
-        const { error, data } = ouputExportProdctsSchema.safeParse({
+        const { error, data } = ouputExportProdctsExitSchema.safeParse({
             dateStart: dateStart !== "" ? new Date(dateStart) : new Date(),
             dateEnd: dateEnd !== "" ? new Date(dateEnd) : new Date(),
             ...rest
         })
 
         if (error) {
-            return validateErrors<OuputExportProdctsSchema>(error, setError)
+            return validateErrors<OuputExportProdctsExitSchema>(error, setError)
         }
 
         mutate({
             products: data,
-            takeString: data.itemsLimit as ItemsLimitProps
+            takeString: data.itemsLimit
         })
     }
 
     const ItemsLimit = ["10", "25", "30", "40", "50", "100", "todos"]
 
+    const isLoading = isPending || isSuccess
+
     return {
         form,
         errors,
         ItemsLimit,
+        isLoading,
         handleSubmit,
         onSubmit,
         register,

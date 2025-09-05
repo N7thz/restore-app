@@ -11,12 +11,9 @@ export const minQuantity: ColumnDef<Product> = {
         />
     ),
     cell: ({ row }) => {
-
-        const minQuantity = row.getValue("minQuantity") as number
-
         return (
             <div className="text-center">
-                {minQuantity.toFixed(2)}
+                {row.getValue("minQuantity")}
             </div>
         )
     }

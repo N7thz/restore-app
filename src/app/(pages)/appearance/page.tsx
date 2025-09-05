@@ -8,7 +8,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Download } from 'lucide-react';
-import { allColumns } from '@/types';
+import { allColumns } from '@/data/all-columns-products';
+import { format } from 'path';
+import { formatDate } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 export interface ColumnDefinition {
     key: string
     header: string

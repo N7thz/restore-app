@@ -1,28 +1,22 @@
 "use client"
 
-import { findProductsExit } from "@/actions/product-exit/find-products-exit"
+import { findProducts } from "@/actions/products/find-products"
 import { queryKeys } from "@/lib/query-keys"
+import { columns } from "@/client_pages/data-table-products/columns"
+import { DataTable } from "@/client_pages/data-table-products/data-table"
 import { useQuery } from "@tanstack/react-query"
-import { DataTableExit } from "./data-table"
-import { columns } from "./columns"
-import { Product, ProductExit } from "@prisma/client"
-import { ProductExitWithProduct } from "@/types"
 
-export const DataTableProductsExit = () => {
+export const DataTableProducts = () => {
 
     const { data, isLoading, status } = useQuery({
         queryKey: queryKeys.findAllProducts(),
-        queryFn: () => findProductsExit<ProductExitWithProduct>({
-            include: {
-                product: true
-            }
-        })
+        queryFn: () => findProducts()
     })
 
     if (isLoading) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                <DataTableExit
+                <DataTable
                     columns={columns}
                     data={[]}
                     isLoading={isLoading}
@@ -34,14 +28,14 @@ export const DataTableProductsExit = () => {
     if (status === "error" || !data) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                Error
+                error
             </main>
         )
     }
 
     return (
         <main className="h-container flex items-center justify-center p-8">
-            <DataTableExit
+            <DataTable
                 columns={columns}
                 data={data.products}
             />

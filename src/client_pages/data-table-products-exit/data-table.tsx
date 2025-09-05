@@ -1,8 +1,10 @@
 "use client"
 
-import { 
-    DataTablePagination 
+import {
+    DataTablePagination
 } from "@/components/data-table/data-table-column-pagination"
+import { DialogExportData } from "@/components/dialog-export-data"
+import { FormExportProdctsExit } from "@/components/forms/form-export-prodcts-exit"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -60,6 +62,7 @@ export function DataTableExit<TData, TValue>({
     isLoading = false
 }: DataTableProps<TData, TValue>) {
 
+    const [open, setOpen] = useState(false)
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
     const [rowSelection, setRowSelection] = useState({})
@@ -92,10 +95,10 @@ export function DataTableExit<TData, TValue>({
         <Card className="w-full border-primary gap-0">
             <CardHeader>
                 <CardTitle>
-                    Produtos cadastrados
+                    Saida de produtos
                 </CardTitle>
                 <CardDescription>
-                    Acompanhe todos os produtos cadastrados
+                    Acompanhe a saida de produtos do estoque
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -108,35 +111,43 @@ export function DataTableExit<TData, TValue>({
                         }
                         className="max-w-sm"
                     />
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="outline"
-                                className="ml-auto"
-                            >
-                                Colunas
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            {
-                                table
-                                    .getAllColumns()
-                                    .filter((column) => column.getCanHide())
-                                    .map((column) => (
-                                        <DropdownMenuCheckboxItem
-                                            key={column.id}
-                                            className="capitalize"
-                                            checked={column.getIsVisible()}
-                                            onCheckedChange={(value) =>
-                                                column.toggleVisibility(!!value)
-                                            }
-                                        >
-                                            {column.id}
-                                        </DropdownMenuCheckboxItem>
-                                    ))
-                            }
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="ml-auto flex gap-2">
+                        <DialogExportData
+                            open={open}
+                            onOpenChange={setOpen}
+                        >
+                            <FormExportProdctsExit setOpen={setOpen} />
+                        </DialogExportData>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className="ml-auto"
+                                >
+                                    Colunas
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                {
+                                    table
+                                        .getAllColumns()
+                                        .filter((column) => column.getCanHide())
+                                        .map((column) => (
+                                            <DropdownMenuCheckboxItem
+                                                key={column.id}
+                                                className="capitalize"
+                                                checked={column.getIsVisible()}
+                                                onCheckedChange={(value) =>
+                                                    column.toggleVisibility(!!value)
+                                                }
+                                            >
+                                                {column.id}
+                                            </DropdownMenuCheckboxItem>
+                                        ))
+                                }
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                 </div>
                 <DataTablePagination table={table} />
                 <ScrollArea className="h-[460px]">

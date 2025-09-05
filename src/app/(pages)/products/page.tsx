@@ -1,4 +1,4 @@
-import { DataTableProducts } from "@/pages/data-table-products"
+import { DataTableProducts } from "@/client_pages/data-table-products"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {

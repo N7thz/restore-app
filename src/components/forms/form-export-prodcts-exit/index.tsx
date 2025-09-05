@@ -22,20 +22,24 @@ import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
 import { ItemsLimitProps } from "@/types"
 import { FormProvider } from "react-hook-form"
-import { useFormExportProdcts } from "./use-form-export-prodcts"
-import { productKeyOfs } from "@/data/product-key-of"
+import { useFormExportExitProdcts } from "./use-form-export-prodcts-exit"
+import { productExitKeyOfs } from "@/data/product-exit-key-of"
+import { Loader2 } from "lucide-react"
 
-export const FormExportProdcts = () => {
+export const FormExportProdctsExit = ({
+    setOpen
+}: { setOpen: (open: boolean) => void }) => {
 
     const {
         form,
         errors,
         ItemsLimit,
+        isLoading,
         handleSubmit,
         onSubmit,
         register,
         setValue,
-    } = useFormExportProdcts()
+    } = useFormExportExitProdcts(setOpen)
 
     return (
         <FormProvider {...form}>
@@ -84,7 +88,7 @@ export const FormExportProdcts = () => {
                     <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-2">
                             {
-                                productKeyOfs.map(({ key, label }) => (
+                                productExitKeyOfs.map(({ key, label }) => (
                                     <div
                                         key={key}
                                         className="flex gap-2 items-center"
@@ -151,6 +155,7 @@ export const FormExportProdcts = () => {
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
+                            disabled={isLoading}
                             variant={"destructive"}
                             className="w-1/2"
                         >
@@ -160,9 +165,15 @@ export const FormExportProdcts = () => {
                     <Button
                         type="submit"
                         variant={"default"}
+                        disabled={isLoading}
                         className="w-1/2 bg-emerald-600 hover:bg-emerald-500"
                     >
-                        Exportar dados
+                        {
+                            isLoading ? (
+                                <Loader2 className="animate-spin" />
+                            )
+                                : "Exportar dados"
+                        }
                     </Button>
                 </DialogFooter>
             </form>
