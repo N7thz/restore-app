@@ -1,21 +1,21 @@
 import { deleteProduct } from "@/actions/products/delete-prduct"
 import { queryClient } from "@/components/theme-provider"
 import { toast } from "@/components/toast"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { Notification } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 
 export function useDeleteProduct(id: string) {
     return useMutation({
-        mutationKey: queryKeys.deleteProduct(),
+        mutationKey: queryKey.deleteProduct(),
         mutationFn: () => deleteProduct(id),
         onSuccess: ({ notification }) => {
             queryClient.invalidateQueries({
-                queryKey: queryKeys.findAllProducts()
+                queryKey: queryKey.findAllProducts()
             })
 
             queryClient.setQueryData<Notification[]>(
-                queryKeys.findAllNotifications(),
+                queryKey.findAllNotifications(),
                 (oldData) => {
 
                     if (!oldData) return [notification]

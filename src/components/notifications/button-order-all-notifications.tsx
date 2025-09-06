@@ -5,7 +5,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { Action, Notification } from "@prisma/client"
 import { ArrowDownUp } from "lucide-react"
 
@@ -42,7 +42,7 @@ export const ButtonOrderAllNotifications = ({
 
     function orderAllNotification() {
         queryClient.setQueryData<Notification[]>(
-            queryKeys.findAllNotifications(),
+            queryKey.findAllNotifications(),
             orderedNotifications
         )
     }

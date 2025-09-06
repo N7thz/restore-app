@@ -1,7 +1,7 @@
 import { updateProduct } from "@/actions/products/update-product"
 import { queryClient } from "@/components/theme-provider"
 import { toast } from "@/components/toast"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
 import {
     InputProductProps,
@@ -29,14 +29,14 @@ export function useFormUpdateProduct(
     const { push } = useRouter()
 
     const { mutate, isPending, isSuccess } = useMutation({
-        mutationKey: queryKeys.updateProduct(id),
+        mutationKey: queryKey.updateProduct(id),
         mutationFn: (formData: OutputProductProps) => updateProduct(id, formData),
         onSuccess: ({ notification }) => {
 
             if (!notification) return
 
             queryClient.setQueryData<Notification[]>(
-                queryKeys.findAllNotifications(),
+                queryKey.findAllNotifications(),
                 (oldData) => {
 
                     if (!oldData) return [notification]

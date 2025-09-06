@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query"
 import { deleteNotificationById } from "@/actions/notifications/delete-notification-by-id"
 import { readNotificationById } from "@/actions/notifications/read-notification-by-id"
 import { queryClient } from "../theme-provider"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 
 export function useNotificationCard({
     notification: { id, createdAt, action }
@@ -40,11 +40,11 @@ export function useNotificationCard({
     const Icon = useAction(action)
 
     const { mutate: deleteNotificationMutate } = useMutation({
-        mutationKey: ["delete-notification-by-id"],
+        mutationKey: queryKey.deleteNotificationById(),
         mutationFn: () => deleteNotificationById(id),
         onSuccess: (notification) => {
             queryClient.setQueryData<Notification[]>(
-                queryKeys.findAllNotifications(),
+                queryKey.findAllNotifications(),
                 (oldData) => {
 
                     if (!oldData) return [notification]
@@ -60,7 +60,7 @@ export function useNotificationCard({
         mutationFn: () => readNotificationById(id),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: queryKeys.findAllNotifications()
+                queryKey: queryKey.findAllNotifications()
             })
         }
     })

@@ -22,7 +22,7 @@ import { Loader2 } from "lucide-react"
 import { FormProvider, useFieldArray, useForm } from "react-hook-form"
 import { CardFormCreateProductExit } from "./card-form-create-product-exit"
 import { queryClient } from "@/components/theme-provider"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { Notification } from "@prisma/client"
 import { toast } from "@/components/toast"
 import { useRouter } from "next/navigation"
@@ -39,12 +39,12 @@ export const FormCreateProductExit = () => {
     })
 
     const { mutate, isPending, isSuccess } = useMutation({
-        mutationKey: ["create-prodcuct-exit"],
+        mutationKey: queryKey.createProdcuctExit(),
         mutationFn: (data: OutputCreateProductProps) => createManyProductsExist(data),
         onSuccess: ({ notifications }) => {
 
             queryClient.setQueryData<Notification[]>(
-                queryKeys.findAllNotifications(),
+                queryKey.findAllNotifications(),
                 (oldData) => {
 
                     if (!oldData) return notifications

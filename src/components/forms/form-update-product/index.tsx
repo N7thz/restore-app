@@ -7,7 +7,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import {
     InputProductProps,
     inputProductObject
@@ -21,7 +21,7 @@ import { useFormUpdateProduct } from "./use-form-update-product"
 export const FormUpdateProduct = ({ id }: { id: string }) => {
 
     const { data, isLoading, status } = useQuery({
-        queryKey: queryKeys.findProductById(id),
+        queryKey: queryKey.findProductById(id),
         queryFn: () => findProductById(id)
     })
 

@@ -37,16 +37,17 @@ export default async function Home() {
             className="w-1/3"
           >
             <Link href="/create-products">
-              <Plus />
+              <Plus className="group-hover:-translate-y-0.5 duration-200" />
               Registre um produto
             </Link>
           </Button>
           <Button
             asChild
             className="w-1/3"
+            variant={"secondary"}
           >
             <Link href="/create-products-exist">
-              <Minus />
+              <Minus className="group-hover:-translate-y-0.5 duration-200" />
               Saida Produto
             </Link>
           </Button>

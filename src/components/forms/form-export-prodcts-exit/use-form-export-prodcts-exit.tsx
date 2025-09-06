@@ -5,6 +5,7 @@ import { findProductById } from "@/actions/products/find-product-by-id"
 import { toast } from "@/components/toast"
 import { allColumns, allColumnsProductExist } from "@/data/all-columns-products"
 import { exportFormattedExcel } from "@/lib/advanced-excel-export"
+import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
 import {
     InputExportProdctsExitSchema,
@@ -25,10 +26,10 @@ export type FindManyProductsWithFilterProps = {
     products: OuputExportProdctsExitSchema
 }
 
-export function useFormExportExitProdcts( setOpen: (open: boolean) => void) {
+export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
 
     const { mutate, isPending, isSuccess } = useMutation({
-        mutationKey: ["export-table-products-exit"],
+        mutationKey: queryKey.exportTableProductsExit(),
         mutationFn: ({
             products, takeString
         }: FindManyProductsWithFilterProps) => findManyProductsExitWithFilter({

@@ -5,6 +5,7 @@ import {
 import { toast } from "@/components/toast"
 import { allColumns } from "@/data/all-columns-products"
 import { exportFormattedExcel } from "@/lib/advanced-excel-export"
+import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
 import {
     inputExportProdctsSchema,
@@ -21,7 +22,7 @@ import { useForm } from "react-hook-form"
 export function useFormExportProdcts(setOpen: (open: boolean) => void) {
 
     const { mutate } = useMutation({
-        mutationKey: ["export-table-products"],
+        mutationKey: queryKey.exportTableProducts(),
         mutationFn: ({ products, takeString }: FindManyProductsProps) => findManyProductsWithFilter({
             products,
             takeString,

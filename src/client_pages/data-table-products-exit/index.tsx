@@ -1,7 +1,7 @@
 "use client"
 
 import { findProductsExit } from "@/actions/product-exit/find-products-exit"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
 import { DataTableExit } from "./data-table"
 import { columns } from "./columns"
@@ -10,7 +10,7 @@ import { ProductExitWithProduct } from "@/types"
 export const DataTableProductsExit = () => {
 
     const { data, isLoading, status } = useQuery({
-        queryKey: queryKeys.findAllProducts(),
+        queryKey: queryKey.findAllProducts(),
         queryFn: () => findProductsExit<ProductExitWithProduct>({
             include: {
                 product: true

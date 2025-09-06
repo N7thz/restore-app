@@ -1,8 +1,15 @@
-export const queryKeys = {
+export const queryKey = {
     findAllNotifications: () => ["find-all-notifications"],
     findAllProducts: () => ["find-all-products"],
     findProductById: (id: string) => ["find-product-by-id", id],
     createManyProducts: () => ["create-many-products"],
     deleteProduct: () => ["delete-product"],
-    updateProduct: (id: string) => ["update-product", id]
+    updateProduct: (id: string) => ["update-product", id],
+    createProdcuctExit: () => ["create-prodcuct-exit"],
+    exportTableProducts: () => ["export-table-products"],
+    exportTableProductsExit: () => ["export-table-products-exit"],
+    buttonDeleteAllNotifications: () => ["button-delete-all-notifications"],
+    buttonReadAllNotifications: () => ["button-read-all-notifications"],
+    deleteNotificationById: () => ["delete-notification-by-id"],
+    readNotificationById: () => ["read-notification-by-id"]
 }

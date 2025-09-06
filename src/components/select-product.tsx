@@ -22,13 +22,13 @@ import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 import { useFormContext } from "react-hook-form"
 import { InputCreateProductProps } from "@/schemas/create-product-exit-schema"
 import { findProducts } from "@/actions/products/find-products"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
 
 export const SelectProduct = ({ index }: { index: number }) => {
 
     const { data, isLoading } = useQuery({
-        queryKey: queryKeys.findAllProducts(),
+        queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts()
     })
 

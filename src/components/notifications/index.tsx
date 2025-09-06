@@ -3,6 +3,7 @@
 import { findNotification } from "@/actions/notifications/find-notification"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,12 +13,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu"
 import { useQuery } from "@tanstack/react-query"
 import { Bell, BellRing, Loader2 } from "lucide-react"
 import { ButtonDeleteAllNotifications } from "./button-delete-all-notifications"
-import { ButtonOrderAllNotifications } from "./button-order-all-notifications"
 import { ButtonReadAllNotifications } from "./button-read-all-notifications"
 import { NotificationCard } from "./notification-card"
 import { NotificationCardError } from "./notification-card-error"
@@ -30,7 +30,7 @@ export const Notifications = () => {
         status,
         refetch
     } = useQuery({
-        queryKey: queryKeys.findAllNotifications(),
+        queryKey: queryKey.findAllNotifications(),
         queryFn: () => findNotification()
     })
 
@@ -96,28 +96,38 @@ export const Notifications = () => {
                             {
                                 (status === "error" || !notifications)
                                     ? <NotificationCardError refetch={refetch} />
-                                    : (
-                                        <div>
-                                            {
-                                                notifications.map((notification, i) => {
-                                                    const isLastItem = i === notifications.length - 1
-                                                    return (
-                                                        <div
-                                                            key={notification.id}
-                                                        >
-                                                            <NotificationCard
-                                                                notification={notification}
-                                                            />
-                                                            {
-                                                                !isLastItem &&
-                                                                <Separator />
-                                                            }
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    )
+                                    : notifications.length === 0
+                                        ? (
+                                            <Card className="border-none rounded-none">
+                                                <CardHeader>
+                                                    <CardTitle className="text-lg font-light text-muted-foreground">
+                                                        Caixa de notificações vazias
+                                                    </CardTitle>
+                                                </CardHeader>
+                                            </Card>
+                                        )
+                                        : (
+                                            <div>
+                                                {
+                                                    notifications.map((notification, i) => {
+                                                        const isLastItem = i === notifications.length - 1
+                                                        return (
+                                                            <div
+                                                                key={notification.id}
+                                                            >
+                                                                <NotificationCard
+                                                                    notification={notification}
+                                                                />
+                                                                {
+                                                                    !isLastItem &&
+                                                                    <Separator />
+                                                                }
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        )
                             }
                         </DropdownMenuGroup>
                     </ScrollArea>

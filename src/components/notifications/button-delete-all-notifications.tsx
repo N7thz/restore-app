@@ -8,7 +8,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { useMutation } from "@tanstack/react-query"
 import { BellOff } from "lucide-react"
 import { Notification } from "@prisma/client"
@@ -20,11 +20,11 @@ export const ButtonDeleteAllNotifications = (
 ) => {
 
     const { mutate } = useMutation({
-        mutationKey: ["button-delete-all-notifications"],
+        mutationKey: queryKey.buttonDeleteAllNotifications(),
         mutationFn: () => deleteAllNotification(),
         onSuccess: () => {
             queryClient.setQueryData<Notification[]>(
-                queryKeys.findAllNotifications(),
+                queryKey.findAllNotifications(),
                 (oldData) => {
 
                     if (!oldData) return []

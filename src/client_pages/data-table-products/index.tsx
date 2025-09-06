@@ -1,7 +1,7 @@
 "use client"
 
 import { findProducts } from "@/actions/products/find-products"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKey } from "@/lib/query-keys"
 import { columns } from "@/client_pages/data-table-products/columns"
 import { DataTable } from "@/client_pages/data-table-products/data-table"
 import { useQuery } from "@tanstack/react-query"
@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 export const DataTableProducts = () => {
 
     const { data, isLoading, status } = useQuery({
-        queryKey: queryKeys.findAllProducts(),
+        queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts()
     })
 
