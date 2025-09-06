@@ -1,7 +1,7 @@
 import z from "zod"
 
 export const inputProductExitObject = z.object({
-    date: z.date("A data é obrigatória"),
+    createdAt: z.date("A data é obrigatória"),
     region: z
         .string()
         .min(1, "O nome é obrigatório"),
@@ -20,7 +20,7 @@ export const inputProductExitObject = z.object({
 })
 
 export const outputProductExitObject = z.object({
-    date: z.date("A data é obrigatória"),
+    createdAt: z.date("A data é obrigatória"),
     region: z
         .string()
         .min(1, "O nome é obrigatório")

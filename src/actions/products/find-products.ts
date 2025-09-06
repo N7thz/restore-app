@@ -5,9 +5,7 @@ import { Prisma } from "@prisma/client"
 
 export async function findProducts(props: Prisma.ProductFindManyArgs = {}) {
 
-    const products = await prisma.product.findMany({
-        ...props
-    })
+    const products = await prisma.product.findMany(props)
 
     const count = await prisma.product.count()
 

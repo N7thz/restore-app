@@ -1,3 +1,4 @@
+import { FormUpdateProductExit } from "@/components/forms/form-update-product-exit"
 import {
     Card,
     CardDescription,
@@ -29,7 +30,7 @@ export default async function UpdateProductExit({
                         Atualize uma saida de um produto
                     </CardDescription>
                 </CardHeader>
-                {/* <FormUpdateProduct id={id} /> */}
+                <FormUpdateProductExit id={id} />
             </Card>
         </main>
     )

@@ -1,29 +1,30 @@
 "use client"
 
-import { findProductById } from "@/actions/products/find-product-by-id"
-import {
-    CardFormUpdateProduct
-} from "@/components/forms/form-update-product/card-form-update-product"
+import { findProductsExitById } from "@/actions/product-exit/find-products-exit-by-id"
+import { DatePickerUpdate } from "@/components/date-picker-update"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { queryKey } from "@/lib/query-keys"
 import {
-    OutputProductProps,
-    InputProductProps,
-    inputProductObject
-} from "@/schemas/product-object"
+    OutputProductExitObjectProps
+} from "@/schemas/product-exit-object"
+import { Product } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 import { Loader2 } from "lucide-react"
 import { FormProvider } from "react-hook-form"
-import { formatError } from "zod"
-import { useFormUpdateProduct } from "./use-form-update-product"
+import { DescriptionLabel } from "./description"
+import { QuantityLabel } from "./quantity"
+import { RegionLabel } from "./region"
+import { SelectProductUpdate } from "./select-product-update"
+import { useFormUpdateProductExit } from "./use-form-update-product"
+import { UsernameLabel } from "./user-name"
 
-export const FormUpdateProduct = ({ id }: { id: string }) => {
+export const FormUpdateProductExit = ({ id }: { id: string }) => {
 
     const { data: product, isLoading, status } = useQuery({
-        queryKey: queryKey.findProductById(id),
-        queryFn: () => findProductById(id)
+        queryKey: queryKey.findProductExitById(id),
+        queryFn: () => findProductsExitById(id)
     })
 
     if (isLoading) {
@@ -43,17 +44,20 @@ export const FormUpdateProduct = ({ id }: { id: string }) => {
     }
 
     return (
-        <UpdateProduct
+        <UpdateProductExit
             id={id}
             product={product}
         />
     )
 }
 
-export const UpdateProduct = ({
+export const UpdateProductExit = ({
     id,
     product
-}: { id: string, product: OutputProductProps }) => {
+}: {
+    id: string,
+    product: OutputProductExitObjectProps & { product: Product }
+}) => {
 
     const {
         form,
@@ -62,19 +66,24 @@ export const UpdateProduct = ({
         isPending,
         handleSubmit,
         onSubmit,
-    } = useFormUpdateProduct(id, product)
+    } = useFormUpdateProductExit(id, product)
 
     return (
         <>
             <FormProvider {...form}>
                 <form
-                    id="form-create-products"
+                    id="form-update-product-exit"
                     onSubmit={handleSubmit(onSubmit)}
                     className="space-y-4"
                 >
                     <Separator />
-                    <CardContent className="size-full">
-                        <CardFormUpdateProduct />
+                    <CardContent className="size-full space-y-4">
+                        <DatePickerUpdate />
+                        <UsernameLabel />
+                        <QuantityLabel />
+                        <RegionLabel />
+                        <SelectProductUpdate />
+                        <DescriptionLabel />
                     </CardContent>
                     <Separator />
                 </form>
@@ -82,7 +91,7 @@ export const UpdateProduct = ({
             <CardFooter className="justify-end">
                 <Button
                     type="submit"
-                    form="form-create-products"
+                    form="form-update-product-exit"
                     className="w-1/2"
                     disabled={isLoading || isSuccess}
                 >
@@ -96,4 +105,3 @@ export const UpdateProduct = ({
         </>
     )
 }
-

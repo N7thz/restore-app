@@ -1,6 +1,6 @@
 "use client"
 
-import { ProductExit } from "@prisma/client"
+import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { actions } from "./action"
 import { createdAt } from "./created-at"
@@ -11,7 +11,7 @@ import { select } from "./select"
 import { username } from "./username"
 import { productId } from "./product"
 
-export const columns: ColumnDef<ProductExit>[] = [
+export const columns: ColumnDef<ProductExit & { product: Product }>[] = [
     select,
     actions,
     productId,

@@ -1,8 +1,8 @@
 import { Checkbox } from "@/components/ui/checkbox"
-import { ProductExit } from "@prisma/client"
+import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 
-export const select: ColumnDef<ProductExit> = {
+export const select: ColumnDef<ProductExit & { product: Product }> = {
     id: "select",
     header: ({ table }) => (
         <Checkbox

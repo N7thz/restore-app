@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 
-export const createdAt: ColumnDef<ProductExit> = {
+export const createdAt: ColumnDef<ProductExit & { product: Product }> = {
     accessorKey: "createdAt",
     header: ({ column }) => (
         <DataTableColumnHeader

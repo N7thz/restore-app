@@ -1,4 +1,3 @@
-import { findProductById } from "@/actions/products/find-product-by-id"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
@@ -21,4 +20,12 @@ export const productId: ColumnDef<ProductExit & { product: Product }> = {
             </div>
         )
     },
+    filterFn: (row, _, filterValue: string) => {
+
+        const { name } = row.getValue<Product>("product")
+
+        console.log(name)
+
+        return name.toLowerCase().includes(filterValue.toLowerCase())
+    }
 }

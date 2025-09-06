@@ -10,12 +10,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { ProductExit } from "@prisma/client"
+import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 import { Edit, Ellipsis } from "lucide-react"
 import Link from "next/link"
 
-export const actions: ColumnDef<ProductExit> = {
+export const actions: ColumnDef<ProductExit & { product: Product }> = {
     id: "actions",
     cell: ({ row }) => {
 

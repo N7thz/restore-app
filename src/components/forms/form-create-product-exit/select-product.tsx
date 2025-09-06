@@ -18,13 +18,13 @@ import {
 import { cn } from "@/lib/utils"
 import { CheckIcon, ChevronDownIcon, RotateCcw } from "lucide-react"
 import { useState } from "react"
-import { ScrollArea, ScrollBar } from "./ui/scroll-area"
+import { ScrollArea, ScrollBar } from "../../ui/scroll-area"
 import { useFormContext } from "react-hook-form"
 import { InputCreateProductProps } from "@/schemas/create-product-exit-schema"
 import { findProducts } from "@/actions/products/find-products"
 import { queryKey } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
-import { Card, CardAction, CardDescription, CardHeader } from "./ui/card"
+import { Card, CardAction, CardDescription, CardHeader } from "../../ui/card"
 
 export const SelectProduct = ({ index }: { index: number }) => {
 
@@ -69,7 +69,7 @@ export const SelectProduct = ({ index }: { index: number }) => {
                     </CardDescription>
                     <CardAction>
                         <Button onClick={() => refetch()}>
-                            <RotateCcw className="group-hover:-rotate-360 transition-all"/>
+                            <RotateCcw className="group-hover:-rotate-360 transition-all" />
                         </Button>
                     </CardAction>
                 </CardHeader>
@@ -83,8 +83,6 @@ export const SelectProduct = ({ index }: { index: number }) => {
         setValue(`products.${index}.productId`, value)
         setOpen(false)
     }
-
-    console.table(products)
 
     const productsFilterd = (
         products.filter(({ name }) => name

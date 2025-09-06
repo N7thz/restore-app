@@ -1,5 +1,5 @@
 import { DatePicker } from "@/components/date-picker"
-import { SelectProduct } from "@/components/select-product"
+import { SelectProduct } from "@/components/forms/form-create-product-exit/select-product"
 import { Button } from "@/components/ui/button"
 import {
     Card,

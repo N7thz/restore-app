@@ -126,7 +126,7 @@ export const FormCreateProductExit = () => {
 
     function appendProduct() {
         append({
-            date: new Date(),
+            createdAt: new Date(),
             description: null,
             username: "",
             productId: "",

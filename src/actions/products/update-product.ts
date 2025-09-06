@@ -4,12 +4,6 @@ import { prisma } from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
 import { createNotification } from "../notifications/create-notification"
 
-type UpdateProductProps = {
-    id: string,
-    formData: Prisma.ProductUpdateInput,
-    includeNotifications?: boolean
-}
-
 export async function updateProduct(
     id: string,
     formData: Prisma.ProductUpdateInput,

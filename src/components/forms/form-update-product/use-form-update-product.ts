@@ -23,7 +23,7 @@ export function useFormUpdateProduct(
         imageUrl,
         quantity,
         minQuantity,
-    }: InputProductProps
+    }: OutputProductProps
 ) {
 
     const { push } = useRouter()
@@ -57,10 +57,10 @@ export function useFormUpdateProduct(
         resolver: zodResolver(inputProductObject),
         defaultValues: {
             name,
-            price,
             imageUrl,
-            quantity,
-            minQuantity,
+            quantity: quantity.toString(),
+            minQuantity: minQuantity.toString(),
+            price: price.toString(),
         }
     })
 

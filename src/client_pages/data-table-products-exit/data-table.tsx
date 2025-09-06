@@ -60,12 +60,13 @@ export function DataTableExit<TData, TValue>({
                 <div className="flex items-center py-4">
                     <Input
                         placeholder="Pesquise um produto..."
-                        value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
+                        value={(table?.getColumn("product")?.getFilterValue() as string) ?? ""}
                         onChange={(event) =>
-                            table.getColumn("username")?.setFilterValue(event.target.value)
+                            table?.getColumn("product")?.setFilterValue(event.target.value)
                         }
                         className="max-w-sm"
                     />
+
                     <div className="ml-auto flex gap-2">
                         <Tooltip>
                             <TooltipTrigger asChild>
