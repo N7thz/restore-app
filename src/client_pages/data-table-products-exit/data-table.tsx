@@ -77,7 +77,7 @@ export function DataTableExit<TData, TValue>({
                                 >
                                     <Link
                                         className="group"
-                                        href={"/create-products-exist"}
+                                        href={"/create-products-exit"}
                                     >
                                         <FileSpreadsheet className="group-hover:-translate-y-0.5 duration-200" />
                                     </Link>

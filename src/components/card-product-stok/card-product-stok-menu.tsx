@@ -7,20 +7,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { Edit, Ellipsis, Trash } from "lucide-react"
+import { Edit, Ellipsis } from "lucide-react"
 import Link from "next/link"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { cn } from "@/lib/utils"
 import { DialogDeleteProduct } from "./dialog-delete-product"
 
 export const CardProductStokMenu = ({ id }: { id: string }) => {

@@ -73,7 +73,7 @@ export const CardFormCreateProduct = ({
                     <Input
                         id="price"
                         type="number"
-                        step={0.1}
+                        step={0.01}
                         defaultValue={1}
                         className={cn(
                             errors.products?.[index]?.price &&

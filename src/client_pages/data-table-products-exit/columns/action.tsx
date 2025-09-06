@@ -1,6 +1,3 @@
-import {
-    DialogDeleteProduct
-} from "@/components/card-product-stok/dialog-delete-product"
 import { Button } from "@/components/ui/button"
 import {
     DropdownMenu,
@@ -12,8 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { Edit, Ellipsis } from "lucide-react"
+import { Edit, Ellipsis, Undo2 } from "lucide-react"
 import Link from "next/link"
+import { DialogDeleteProductExit } from "./dialog-delete-product-exit"
+import { useState } from "react"
 
 export const actions: ColumnDef<ProductExit & { product: Product }> = {
     id: "actions",
@@ -21,8 +20,13 @@ export const actions: ColumnDef<ProductExit & { product: Product }> = {
 
         const { id } = row.original
 
+        const [open, setOpen] = useState(false)
+
         return (
-            <DropdownMenu>
+            <DropdownMenu
+                open={open}
+                onOpenChange={setOpen}
+            >
                 <DropdownMenuTrigger asChild>
                     <Button
                         variant="ghost"
@@ -39,13 +43,22 @@ export const actions: ColumnDef<ProductExit & { product: Product }> = {
                     <DropdownMenuLabel>Opções</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
+                        <Link href={`/products-exit/${id}`}>
+                            <Undo2 className="size-4" />
+                            Visualizar
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
                         <Link href={`/update-product-exit/${id}`}>
                             <Edit className="size-4" />
                             Editar
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                        <DialogDeleteProduct id={id} />
+                        <DialogDeleteProductExit
+                            id={id}
+                            setOpen={setOpen}
+                        />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

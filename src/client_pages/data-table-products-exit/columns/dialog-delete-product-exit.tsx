@@ -9,13 +9,16 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { useDeleteProduct } from "@/hooks/use-delete-product"
+import { useDeleteProductExit } from "@/hooks/use-delete-product-exit"
 import { cn } from "@/lib/utils"
-import { Loader2, Trash } from "lucide-react"
+import { Loader2, Trash, Undo2, X } from "lucide-react"
 
-export const DialogDeleteProduct = ({ id }: { id: string }) => {
+export const DialogDeleteProductExit = ({ id, setOpen }: {
+    id: string,
+    setOpen: (open: boolean) => void
+}) => {
 
-    const { mutate, isPending } = useDeleteProduct(id)
+    const { mutate, isPending } = useDeleteProductExit(id, setOpen)
 
     return (
         <AlertDialog>
@@ -32,18 +35,24 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        A exclusão de um produto não pode ser desfeita.
+                        A exclusão de uma saida não pode ser desfeita.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>
+                        <Undo2 className="group-hover:-translate-x-0.5 duration-200" />
                         Cancelar
                     </AlertDialogCancel>
                     <AlertDialogAction onClick={() => mutate()}>
                         {
                             isPending
                                 ? <Loader2 className="animate-spin" />
-                                : "Confirmar"
+                                : (
+                                    <span className="size-full flex items-center gap-2 group">
+                                        <X className="group-hover:rotate-90 duration-200" />
+                                        Confirmar
+                                    </span>
+                                )
                         }
                     </AlertDialogAction>
                 </AlertDialogFooter>

@@ -1,6 +1,6 @@
 "use client"
 
-import { findProductsExit } from "@/actions/product-exit/find-products-exit"
+import { findProductsExit } from "@/actions/products-exit/find-products-exit"
 import { queryKey } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
 import { DataTableExit } from "./data-table"
@@ -9,8 +9,8 @@ import { ProductExitWithProduct } from "@/types"
 
 export const DataTableProductsExit = () => {
 
-    const { data, isLoading, status } = useQuery({
-        queryKey: queryKey.findAllProducts(),
+    const { data: products, isLoading, status } = useQuery({
+        queryKey: queryKey.findAllProductsExit(),
         queryFn: () => findProductsExit<ProductExitWithProduct>({
             include: {
                 product: true
@@ -30,7 +30,7 @@ export const DataTableProductsExit = () => {
         )
     }
 
-    if (status === "error" || !data) {
+    if (status === "error" || !products) {
         return (
             <main className="h-container flex items-center justify-center p-8">
                 <DataTableExit
@@ -45,7 +45,7 @@ export const DataTableProductsExit = () => {
         <main className="h-container flex items-center justify-center p-8">
             <DataTableExit
                 columns={columns}
-                data={data.products}
+                data={products}
             />
         </main>
     )

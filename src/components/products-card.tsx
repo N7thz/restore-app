@@ -1,5 +1,6 @@
 "use client"
 
+import { findProductsCount } from "@/actions/products/find-all-products-count"
 import { findProducts } from "@/actions/products/find-products"
 import { CardProductStok } from "@/components/card-product-stok"
 import { Button } from "@/components/ui/button"
@@ -17,31 +18,31 @@ import Link from "next/link"
 
 export const ProductsCard = () => {
 
-    const {
-        data,
-        isLoading,
-        status
-    } = useQuery({
+    const { data: products, isLoading, status } = useQuery({
         queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts({ take: 12 })
     })
 
+    const { data: count } = useQuery({
+        queryKey: ["find-all-products-count"],
+        queryFn: () => findProductsCount()
+    })
+
     if (isLoading) return <div>Loading...</div>
 
-    if (status === "error" || !data)
+    if (status === "error" || !products) {
         return <div>Error loading products</div>
-
-    const { products, count } = data
+    }
 
     return (
         <ScrollArea className="h-[500px] overflow-hidden">
             <ScrollBar />
             <CardContent className={cn(
                 "grid grid-cols-3 gap-2 size-full space-y-2",
-                products.length === 0 && "grid-cols-1"
+                count === 0 && "grid-cols-1"
             )}>
                 {
-                    products.length === 0 && (
+                    count === 0 && (
                         <CardFooter className="w-full">
                             <CardDescription className="text-2xl mx-auto italic">
                                 Sem produtos cadastrados
@@ -59,7 +60,7 @@ export const ProductsCard = () => {
                 }
             </CardContent>
             {
-                count > 12 && (
+                (typeof count === "number" && count > 12) && (
                     <div className="w-full flex justify-center ">
                         <Button
                             asChild

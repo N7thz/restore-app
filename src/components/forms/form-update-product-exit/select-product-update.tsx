@@ -33,7 +33,7 @@ import { useFormContext } from "react-hook-form"
 
 export const SelectProductUpdate = () => {
 
-    const { data, isLoading, status, refetch } = useQuery({
+    const { data: products, isLoading, status, refetch } = useQuery({
         queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts()
     })
@@ -49,7 +49,7 @@ export const SelectProductUpdate = () => {
 
     const value = watch("productId")
 
-    if (isLoading || !data) {
+    if (isLoading || !products) {
         return (
             <Button
                 type="button"
@@ -81,8 +81,6 @@ export const SelectProductUpdate = () => {
             </Card>
         )
     }
-
-    const { products } = data
 
     function onSelect(value: string) {
         setValue("productId", value)

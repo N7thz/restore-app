@@ -31,9 +31,9 @@ model ProductExit {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   productId   String   @unique @map("product_id")
-  product     Product  @relation(fields: [productId], references: [id])
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  @@map("products_exist")
+  @@map("products_exit")
 }
 
 model Notification {

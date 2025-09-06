@@ -12,7 +12,7 @@ CREATE TABLE "products" (
 );
 
 -- CreateTable
-CREATE TABLE "products_exist" (
+CREATE TABLE "products_exit" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "description" TEXT,
     "username" TEXT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE "products_exist" (
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" DATETIME NOT NULL,
     "product_id" TEXT NOT NULL,
-    CONSTRAINT "products_exist_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "products_exit_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -35,4 +35,4 @@ CREATE TABLE "notifications" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "products_exist_product_id_key" ON "products_exist"("product_id");
+CREATE UNIQUE INDEX "products_exit_product_id_key" ON "products_exit"("product_id");

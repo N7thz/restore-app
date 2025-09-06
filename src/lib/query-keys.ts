@@ -1,6 +1,7 @@
 export const queryKey = {
     findAllNotifications: () => ["find-all-notifications"],
     findAllProducts: () => ["find-all-products"],
+    findAllProductsExit: () => ["find-all-products-exit"],
     findProductById: (id: string) => ["find-product-by-id", id],
     findProductExitById: (id: string) => ["find-product-exit-by-id", id],
     createManyProducts: () => ["create-many-products"],

@@ -8,19 +8,16 @@ import { Notification } from "@prisma/client"
 import { createNotification } from "../notifications/create-notification"
 import { updateProduct } from "../products/update-product"
 
-export async function createManyProductsExist(
+export async function createManyProductsExit(
     { products }: OutputCreateProductProps
 ) {
 
     const notifications: Notification[] = []
 
-    for (const { date, ...rest } of products) {
+    for (const data of products) {
 
         const { product } = await prisma.productExit.create({
-            data: {
-                ...rest,
-                createdAt: date,
-            },
+            data,
             include: {
                 product: true
             }
@@ -34,7 +31,7 @@ export async function createManyProductsExist(
         })
 
         await updateProduct(product.id, {
-            quantity: product.quantity - rest.quantity
+            quantity: product.quantity - data.quantity
         }, {
             includeNotifications: false
         })

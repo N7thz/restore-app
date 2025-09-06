@@ -1,6 +1,6 @@
 "use client"
 
-import { findProductsExitById } from "@/actions/product-exit/find-products-exit-by-id"
+import { findProductsExitById } from "@/actions/products-exit/find-products-exit-by-id"
 import { DatePickerUpdate } from "@/components/date-picker-update"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"

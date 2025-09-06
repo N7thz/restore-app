@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 
 export const DataTableProducts = () => {
 
-    const { data, isLoading, status } = useQuery({
+    const { data: product, isLoading, status } = useQuery({
         queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts()
     })
@@ -25,7 +25,7 @@ export const DataTableProducts = () => {
         )
     }
 
-    if (status === "error" || !data) {
+    if (status === "error" || !product) {
         return (
             <main className="h-container flex items-center justify-center p-8">
                 error
@@ -37,7 +37,7 @@ export const DataTableProducts = () => {
         <main className="h-container flex items-center justify-center p-8">
             <DataTable
                 columns={columns}
-                data={data.products}
+                data={product}
             />
         </main>
     )

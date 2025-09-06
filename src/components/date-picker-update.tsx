@@ -21,7 +21,7 @@ export const DatePickerUpdate = () => {
 		watch,
 	} = useFormContext<OutputProductExitObjectProps>()
 
-	const date = watch("date")
+	const date = watch("createdAt")
 
 	return (
 		<div className="flex flex-col gap-3 w-full">
@@ -52,8 +52,8 @@ export const DatePickerUpdate = () => {
 						locale={ptBR}
 						onSelect={(date) => {
 							isDate(date)
-								? setValue("date", date)
-								: setValue("date", new Date())
+								? setValue("createdAt", date)
+								: setValue("createdAt", new Date())
 						}}
 					/>
 				</PopoverContent>

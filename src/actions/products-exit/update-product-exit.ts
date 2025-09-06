@@ -46,9 +46,7 @@ export async function updateProductExit(
 
     const quantity = calculateNewQuantity()
 
-    console.log(quantity)
-
-    await updateProduct(product.id, {
+    const { productUpdated } = await updateProduct(product.id, {
         quantity
     }, {
         includeNotifications: false
@@ -58,7 +56,7 @@ export async function updateProductExit(
         action: "UPDATE",
         name: product.name,
         description: `A saida do produto ${product.name} foi atualizada.`,
-        createdAt: new Date()
+        createdAt: productUpdated.updatedAt
     })
 
     return { notification }

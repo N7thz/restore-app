@@ -13,7 +13,7 @@ import { ChevronDownIcon } from "lucide-react"
 import { useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const DatePicker = ({ index }: { index: number }) => {
+export const createdAtPicker = ({ index }: { index: number }) => {
 
 	const [open, setOpen] = useState(false)
 
@@ -23,22 +23,22 @@ export const DatePicker = ({ index }: { index: number }) => {
 		formState: { errors }
 	} = useFormContext<InputCreateProductProps>()
 
-	const date = watch(`products.${index}.date`)
+	const createdAt = watch(`products.${index}.createdAt`)
 
-	function onSelect(date: Date | undefined) {
+	function onSelect(createdAt: Date | undefined) {
 
-		if (date === undefined) return
+		if (createdAt === undefined) return
 
-		setValue(`products.${index}.date`, date)
+		setValue(`products.${index}.createdAt`, createdAt)
 		setOpen(false)
 	}
 
 	return (
 		<div className={cn(
 			"flex flex-col gap-3 w-full",
-			(errors.products?.[index]?.date && !isDate(date))
+			(errors.products?.[index]?.createdAt && !isDate(createdAt))
 				? "border border-destructive rounded-lg"
-				: isDate(date) && "border border-sucess rounded-lg"
+				: isDate(createdAt) && "border border-sucess rounded-lg"
 		)}>
 			<Popover
 				open={open}
@@ -49,16 +49,16 @@ export const DatePicker = ({ index }: { index: number }) => {
 						variant="outline"
 						className={cn(
 							"w-full justify-between font-normal",
-							(errors.products?.[index]?.date && !isDate(date)) &&
+							(errors.products?.[index]?.createdAt && !isDate(createdAt)) &&
 							"text-destructive",
-							isDate(date) && "text-primary-foreground"
+							isDate(createdAt) && "text-primary-foreground"
 						)}
 					>
 						{
-							date
-								? format(date, "P", { locale: ptBR })
-								: errors.products?.[index]?.date
-									? errors.products?.[index]?.date.message
+							createdAt
+								? format(createdAt, "P", { locale: ptBR })
+								: errors.products?.[index]?.createdAt
+									? errors.products?.[index]?.createdAt.message
 									: "Selecione a data"
 						}
 						<ChevronDownIcon />
@@ -70,7 +70,7 @@ export const DatePicker = ({ index }: { index: number }) => {
 				>
 					<Calendar
 						mode="single"
-						selected={date}
+						selected={createdAt}
 						captionLayout="dropdown"
 						locale={ptBR}
 						onSelect={onSelect}

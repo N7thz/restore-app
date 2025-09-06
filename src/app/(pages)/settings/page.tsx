@@ -21,20 +21,18 @@ export interface ColumnDefinition {
 
 export default function UsersPage() {
 
-    const { data } = useQuery({
+    const { data: products } = useQuery({
         queryKey: ["kfseçlfks"],
         queryFn: () => findProducts()
     })
 
-    if (!data) {
+    if (!products) {
         return (
             <div>
                 Carregando...
             </div>
         )
     }
-
-    const { products } = data
 
     const handleAdvancedExport = () => {
         exportFormattedExcel(products, allColumns, {

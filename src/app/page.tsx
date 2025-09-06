@@ -25,7 +25,7 @@ export default async function Home() {
             Stoke App
           </CardTitle>
           <CardDescription>
-            Ultimas saidas do estoque
+            Ultimos produtos carregados
           </CardDescription>
         </CardHeader>
         <Separator />
@@ -46,7 +46,7 @@ export default async function Home() {
             className="w-1/3"
             variant={"secondary"}
           >
-            <Link href="/create-products-exist">
+            <Link href="/create-products-exit">
               <Minus className="group-hover:-translate-y-0.5 duration-200" />
               Saida Produto
             </Link>

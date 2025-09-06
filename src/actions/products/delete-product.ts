@@ -2,16 +2,13 @@
 
 import { prisma } from "@/lib/prisma"
 import { createNotification } from "../notifications/create-notification"
+import { findProductById } from "./find-product-by-id"
 
 export async function deleteProduct(id: string) {
 
-    const product = await prisma.product.findUnique({
-        where: { id }
-    })
+    const product = await findProductById(id)
 
-    if (!product) throw new Error("Não foi possivel encontrar o produto")
-
-    await prisma.product.delete({
+    const productDeleted = await prisma.product.delete({
         where: { id }
     })
 
@@ -22,5 +19,5 @@ export async function deleteProduct(id: string) {
         createdAt: new Date(),
     })
 
-    return { notification }
+    return { notification, productDeleted }
 }

@@ -31,7 +31,7 @@ export const allColumns: ColumnDefinition[] = [
     },
 ] as const
 
-export const allColumnsProductExist: ColumnDefinition[] = [
+export const allColumnsProductExit: ColumnDefinition[] = [
     {
         header: "Entrege a",
         key: "username"

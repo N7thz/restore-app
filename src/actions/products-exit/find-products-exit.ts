@@ -11,10 +11,5 @@ export async function findProductsExit<T>(
         ...props
     }) as T[]
 
-    const count = await prisma.product.count()
-
-    return {
-        products,
-        count
-    }
+    return products
 }

@@ -1,8 +1,8 @@
 "use client"
 
 import {
-    createManyProductsExist
-} from "@/actions/product-exit/create-many-product-exit"
+    createManyProductsExit
+} from "@/actions/products-exit/create-many-product-exit"
 import { findProductById } from "@/actions/products/find-product-by-id"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
@@ -40,7 +40,7 @@ export const FormCreateProductExit = () => {
 
     const { mutate, isPending, isSuccess } = useMutation({
         mutationKey: queryKey.createProdcuctExit(),
-        mutationFn: (data: OutputCreateProductProps) => createManyProductsExist(data),
+        mutationFn: (data: OutputCreateProductProps) => createManyProductsExit(data),
         onSuccess: ({ notifications }) => {
 
             queryClient.setQueryData<Notification[]>(

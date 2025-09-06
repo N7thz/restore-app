@@ -1,4 +1,4 @@
-import { updateProductExit } from "@/actions/product-exit/update-product-exit"
+import { updateProductExit } from "@/actions/products-exit/update-product-exit"
 import { queryClient } from "@/components/theme-provider"
 import { toast } from "@/components/toast"
 import { queryKey } from "@/lib/query-keys"
@@ -68,7 +68,7 @@ export function useFormUpdateProductExit(
             toast({
                 title: "Produto atualizado",
                 description: "O produto foi atualizado com sucesso.",
-                onAutoClose: () => push("/products-exist")
+                onAutoClose: () => push("/products-exit")
             })
         },
         onError: (error) => {

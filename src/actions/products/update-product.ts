@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
 import { createNotification } from "../notifications/create-notification"
+import { findProductById } from "./find-product-by-id"
 
 export async function updateProduct(
     id: string,
@@ -12,34 +13,28 @@ export async function updateProduct(
     } = {}
 ) {
 
-    const product = await prisma.product.findUnique({
-        where: {
-            id
-        }
-    })
+    const product = await findProductById(id)
 
-    if (!product) throw new Error("Não foi possivel encontrar o produto")
-
-    await prisma.product.update({
+    const productUpdated = await prisma.product.update({
         where: {
             id
         },
-        data: {
-            ...formData
-        }
+        data: formData
     })
 
     if (options.includeNotifications) {
 
+        const description = `O produto ${product.name} foi atualizado com sucesso.`
+
         const notification = await createNotification({
             name: product.name,
-            description: `O produto ${product.name} foi atualizado com sucesso.`,
+            description,
             action: "UPDATE",
-            createdAt: new Date()
+            createdAt: productUpdated.updatedAt
         })
 
-        return { notification }
+        return { notification, productUpdated }
     }
 
-    return {}
+    return { productUpdated }
 }   

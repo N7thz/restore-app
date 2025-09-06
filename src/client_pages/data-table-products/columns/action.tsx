@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Product } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { Edit, Ellipsis } from "lucide-react"
+import { Edit, Ellipsis, Undo2 } from "lucide-react"
 import Link from "next/link"
 
 export const actions: ColumnDef<Product> = {
     id: "actions",
     cell: ({ row }) => {
 
-        const payment = row.original
+        const { id } = row.original
 
         return (
             <DropdownMenu>
@@ -39,13 +39,19 @@ export const actions: ColumnDef<Product> = {
                     <DropdownMenuLabel>Opções</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                        <Link href={`/update-product/${payment.id}`}>
+                        <Link href={`/products/${id}`}>
+                            <Undo2 className="size-4" />
+                            Visualizar
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                        <Link href={`/update-product/${id}`}>
                             <Edit className="size-4" />
                             Editar
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                        <DialogDeleteProduct id={payment.id} />
+                        <DialogDeleteProduct id={id} />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

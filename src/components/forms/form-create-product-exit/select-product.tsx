@@ -28,7 +28,7 @@ import { Card, CardAction, CardDescription, CardHeader } from "../../ui/card"
 
 export const SelectProduct = ({ index }: { index: number }) => {
 
-    const { data, isLoading, status, refetch } = useQuery({
+    const { data: products, isLoading, status, refetch } = useQuery({
         queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts()
     })
@@ -44,7 +44,7 @@ export const SelectProduct = ({ index }: { index: number }) => {
 
     const value = watch(`products.${index}.productId`)
 
-    if (isLoading || !data) {
+    if (isLoading || !products) {
         return (
             <Button
                 type="button"
@@ -76,8 +76,6 @@ export const SelectProduct = ({ index }: { index: number }) => {
             </Card>
         )
     }
-
-    const { products } = data
 
     function onSelect(value: string) {
         setValue(`products.${index}.productId`, value)

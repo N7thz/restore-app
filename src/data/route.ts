@@ -29,12 +29,12 @@ export const routes: Routes[] =[
         Icon: FilePlus2
     },
     {
-        href: "/create-products-exist",
+        href: "/create-products-exit",
         text: "Registrar saida de produto",
         Icon: FileInput
     },
     {
-        href: "/products-exist",
+        href: "/products-exit",
         text: "Tabela de saida de produtos",
         Icon: FileSpreadsheet
     },

@@ -12,11 +12,21 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Ellipsis, Info, Settings } from "lucide-react"
+import {
+    ChevronsLeft,
+    ChevronsRight,
+    Ellipsis,
+    Info,
+    Settings
+} from "lucide-react"
 import { useEffect, useState } from "react"
 import { Button } from "./ui/button"
 import Link from "next/link"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
+import {
+    Tooltip, TooltipContent, TooltipTrigger
+} from "@/components/ui/tooltip"
+import { useRouter } from "next/navigation"
 
 export const Header = () => {
 
@@ -92,6 +102,7 @@ export const Header = () => {
                             </Link>
                         </Button>
                     </SheetFooter>
+
                 </SheetContent>
             </Sheet>
             <div className="flex gap-2">

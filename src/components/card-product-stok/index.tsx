@@ -11,6 +11,7 @@ import { Product } from "@prisma/client"
 import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CardProductStokMenu } from "./card-product-stok-menu"
+import Link from "next/link"
 
 export const CardProductStok = ({
     product: {
@@ -21,14 +22,19 @@ export const CardProductStok = ({
     const data = formatDate(createdAt, "PPP", { locale: ptBR })
 
     return (
-        <Card className="rounded-md">
+        <Card className="rounded-md size-full justify-between">
             <CardHeader>
-                <CardTitle className="text-lg">
-                    {name}
-                </CardTitle>
-                <CardDescription>
-                    {data}
-                </CardDescription>
+                <Link
+                    href={`/products/${id}`}
+                    className="hover:text-primary block"
+                >
+                    <CardTitle className="text-lg">
+                        {name}
+                    </CardTitle>
+                    <CardDescription>
+                        {data}
+                    </CardDescription>
+                </Link>
                 <CardAction>
                     <CardProductStokMenu id={id} />
                 </CardAction>
