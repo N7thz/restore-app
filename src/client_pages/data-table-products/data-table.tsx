@@ -30,33 +30,12 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {
-    ColumnDef,
-    ColumnFiltersState,
-    SortingState,
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    useReactTable,
-} from "@tanstack/react-table"
-import { Columns3 } from "lucide-react"
-import { useState } from "react"
-
-interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
-    isLoading?: boolean
-}
-
-type VisibilityState = {
-    name?: boolean
-    description?: boolean
-    price?: boolean
-    quantity?: boolean
-    minQuantity?: boolean
-    createdAt?: boolean
-}
+    Tooltip, TooltipContent, TooltipTrigger
+} from "@/components/ui/tooltip"
+import { flexRender } from "@tanstack/react-table"
+import { Columns3, FileSpreadsheet } from "lucide-react"
+import Link from "next/link"
+import { DataTableProps, useDataTable } from "./use-data-table"
 
 export function DataTable<TData, TValue>({
     columns,
@@ -64,33 +43,7 @@ export function DataTable<TData, TValue>({
     isLoading = false
 }: DataTableProps<TData, TValue>) {
 
-    const [sorting, setSorting] = useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-    const [rowSelection, setRowSelection] = useState({})
-    const [
-        columnVisibility, setColumnVisibility
-    ] = useState<VisibilityState>({
-        description: false,
-    })
-
-    const table = useReactTable({
-        data,
-        columns,
-        onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        getSortedRowModel: getSortedRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-        onColumnVisibilityChange: setColumnVisibility,
-        onRowSelectionChange: setRowSelection,
-        state: {
-            sorting,
-            columnFilters,
-            columnVisibility,
-            rowSelection,
-        },
-    })
+    const { table, open, setOpen } = useDataTable({ data, columns })
 
     return (
         <Card className="w-full border-primary gap-0">
@@ -113,39 +66,84 @@ export function DataTable<TData, TValue>({
                         className="max-w-sm"
                     />
                     <div className="ml-auto flex gap-2">
-                        <DialogExportData>
-                            <FormExportProdcts />
-                        </DialogExportData>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
                                 <Button
-                                    variant="outline"
-                                    className="ml-auto"
+                                    asChild
+                                    variant={"outline"}
+                                    className="hover:bg-primary dark:hover:bg-primary"
                                 >
-                                    <Columns3 className="group-hover:-translate-y-0.5 duration-200" />
-                                    Colunas
+                                    <Link
+                                        className="group"
+                                        href={"/create-products-exist"}
+                                    >
+                                        <FileSpreadsheet className="group-hover:-translate-y-0.5 duration-200" />
+                                    </Link>
                                 </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                {
-                                    table
-                                        .getAllColumns()
-                                        .filter((column) => column.getCanHide())
-                                        .map((column) => (
-                                            <DropdownMenuCheckboxItem
-                                                key={column.id}
-                                                className="capitalize"
-                                                checked={column.getIsVisible()}
-                                                onCheckedChange={(value) =>
-                                                    column.toggleVisibility(!!value)
-                                                }
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>
+                                    Registrar saída de produto
+                                </p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div>
+                                    <DialogExportData
+                                        open={open}
+                                        onOpenChange={setOpen}
+                                    >
+                                        <FormExportProdcts setOpen={setOpen} />
+                                    </DialogExportData>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-emerald-600">
+                                <p>
+                                    Exportar dados
+                                </p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                className="ml-auto"
                                             >
-                                                {column.id}
-                                            </DropdownMenuCheckboxItem>
-                                        ))
-                                }
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                                                <Columns3 className="group-hover:-translate-y-0.5 duration-200" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            {
+                                                table
+                                                    .getAllColumns()
+                                                    .filter((column) => column.getCanHide())
+                                                    .map((column) => (
+                                                        <DropdownMenuCheckboxItem
+                                                            key={column.id}
+                                                            className="capitalize"
+                                                            checked={column.getIsVisible()}
+                                                            onCheckedChange={(value) =>
+                                                                column.toggleVisibility(!!value)
+                                                            }
+                                                        >
+                                                            {column.id}
+                                                        </DropdownMenuCheckboxItem>
+                                                    ))
+                                            }
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>
+                                    Colunas
+                                </p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 </div>
                 <DataTablePagination table={table} />
@@ -211,6 +209,6 @@ export function DataTable<TData, TValue>({
                     </div>
                 </ScrollArea>
             </CardContent>
-        </Card>
+        </Card >
     )
 }

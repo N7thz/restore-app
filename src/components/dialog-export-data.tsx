@@ -24,7 +24,6 @@ export const DialogExportData = ({
                     variant={"outline"}
                     className={cn("dark:hover:bg-emerald-600")}>
                     <Download className="group-hover:-translate-y-0.5 duration-200" />
-                    Exportar dados
                 </Button>
             </DialogTrigger>
             <DialogContent>

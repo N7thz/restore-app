@@ -25,7 +25,7 @@ import { FormProvider } from "react-hook-form"
 import { useFormExportProdcts } from "./use-form-export-prodcts"
 import { productKeyOfs } from "@/data/product-key-of"
 
-export const FormExportProdcts = () => {
+export const FormExportProdcts = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
 
     const {
         form,
@@ -35,7 +35,7 @@ export const FormExportProdcts = () => {
         onSubmit,
         register,
         setValue,
-    } = useFormExportProdcts()
+    } = useFormExportProdcts(setOpen)
 
     return (
         <FormProvider {...form}>

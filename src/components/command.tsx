@@ -10,7 +10,7 @@ import {
     CommandShortcut,
 } from "@/components/ui/command"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { routes } from "@/utils/route"
+import { routes } from "@/data/route"
 import { redirect, RedirectType } from "next/navigation"
 import { useEffect, useState } from "react"
 

@@ -18,7 +18,7 @@ import { useMutation } from "@tanstack/react-query"
 import { Sheet } from "lucide-react"
 import { useForm } from "react-hook-form"
 
-export function useFormExportProdcts() {
+export function useFormExportProdcts(setOpen: (open: boolean) => void) {
 
     const { mutate } = useMutation({
         mutationKey: ["export-table-products"],
@@ -46,6 +46,7 @@ export function useFormExportProdcts() {
                 ),
                 duration: 3000,
                 icon: <Sheet className="size-4 text-primary" />,
+                onAutoClose: () => setOpen(false)
             })
         },
         onError: (error) => {
