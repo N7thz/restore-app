@@ -7,17 +7,34 @@ import {
     Sheet,
     SheetContent,
     SheetDescription,
+    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import { Ellipsis, Home, LucideIcon } from "lucide-react"
-import { Route as Href } from "next"
-import { useState } from "react"
+import { Ellipsis, Info, Settings } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Button } from "./ui/button"
+import Link from "next/link"
+import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 
 export const Header = () => {
 
     const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+
+        const down = (e: KeyboardEvent) => {
+            if (e.key === "q" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault()
+                setOpen((open) => !open)
+            }
+        }
+
+        document.addEventListener("keydown", down)
+
+        return () => document.removeEventListener("keydown", down)
+    }, [])
 
     return (
         <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
@@ -53,10 +70,32 @@ export const Header = () => {
                             </AvatarFallback>
                         </Avatar>
                     </div>
-
+                    <SheetFooter className="w-full grid grid-cols-2 p-0 pb-4">
+                        <Button asChild>
+                            <Link
+                                href={"/settings"}
+                                onNavigate={() => {
+                                    setTimeout(() => setOpen(false), 800)
+                                }}
+                            >
+                                <Settings className="group-hover:animate-spin duration-200" />
+                            </Link>
+                        </Button>
+                        <Button asChild>
+                            <Link
+                                href={"/help"}
+                                onNavigate={() => {
+                                    setTimeout(() => setOpen(false), 800)
+                                }}
+                            >
+                                <Info />
+                            </Link>
+                        </Button>
+                    </SheetFooter>
                 </SheetContent>
             </Sheet>
             <div className="flex gap-2">
+                <AnimatedThemeToggler />
                 <Command />
                 <Notifications />
             </div>

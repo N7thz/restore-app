@@ -70,7 +70,7 @@ export const FormCreateProductExit = () => {
         control,
         setError,
         handleSubmit,
-        formState: { errors, isSubmitting },
+        formState: { isSubmitting },
     } = form
 
     const { append, remove, fields } = useFieldArray({

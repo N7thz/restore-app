@@ -16,7 +16,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
-import { CheckIcon, ChevronDownIcon } from "lucide-react"
+import { CheckIcon, ChevronDownIcon, RotateCcw } from "lucide-react"
 import { useState } from "react"
 import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 import { useFormContext } from "react-hook-form"
@@ -24,10 +24,11 @@ import { InputCreateProductProps } from "@/schemas/create-product-exit-schema"
 import { findProducts } from "@/actions/products/find-products"
 import { queryKey } from "@/lib/query-keys"
 import { useQuery } from "@tanstack/react-query"
+import { Card, CardAction, CardDescription, CardHeader } from "./ui/card"
 
 export const SelectProduct = ({ index }: { index: number }) => {
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, status, refetch } = useQuery({
         queryKey: queryKey.findAllProducts(),
         queryFn: () => findProducts()
     })
@@ -38,12 +39,12 @@ export const SelectProduct = ({ index }: { index: number }) => {
     const {
         setValue,
         watch,
-        formState: { errors }
+        formState
     } = useFormContext<InputCreateProductProps>()
 
     const value = watch(`products.${index}.productId`)
 
-    if (!data || isLoading) {
+    if (isLoading || !data) {
         return (
             <Button
                 type="button"
@@ -59,12 +60,37 @@ export const SelectProduct = ({ index }: { index: number }) => {
         )
     }
 
+    if (status === "error") {
+        return (
+            <Card className="bg-secondary">
+                <CardHeader>
+                    <CardDescription>
+                        Não foi possivel carregar os produtos.Clique para tentar novamente
+                    </CardDescription>
+                    <CardAction>
+                        <Button onClick={() => refetch()}>
+                            <RotateCcw className="group-hover:-rotate-360 transition-all"/>
+                        </Button>
+                    </CardAction>
+                </CardHeader>
+            </Card>
+        )
+    }
+
     const { products } = data
 
     function onSelect(value: string) {
         setValue(`products.${index}.productId`, value)
         setOpen(false)
     }
+
+    console.table(products)
+
+    const productsFilterd = (
+        products.filter(({ name }) => name
+            ?.toLowerCase()
+            .includes(searchValue.toLowerCase()))
+    )
 
     return (
         <div className="*:not-first:mt-2">
@@ -110,15 +136,7 @@ export const SelectProduct = ({ index }: { index: number }) => {
                                 <ScrollBar />
                                 <CommandGroup>
                                     {
-                                        products
-                                            .filter(product =>
-                                                product
-                                                    .name
-                                                    .toLowerCase()
-                                                    .includes(
-                                                        searchValue.toLowerCase()
-                                                    )
-                                            )
+                                        productsFilterd
                                             .map((product) => (
                                                 <CommandItem
                                                     key={product.id}

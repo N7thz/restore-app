@@ -12,13 +12,14 @@ import { DescriptionLabel } from "./description"
 import { QuantityLabel } from "./quantity"
 import { RegionLabel } from "./region"
 import { UsernameLabel } from "./user-name"
+import { cn } from "@/lib/utils"
 
 type CardFormCreateProductProps = {
     fields: unknown[]
     index: number
-    remove: (index: number) => void
-    isLoading: boolean,
+    isLoading: boolean
     isSuccess: boolean
+    remove: (index: number) => void
 }
 
 export const CardFormCreateProductExit = ({
@@ -33,7 +34,11 @@ export const CardFormCreateProductExit = ({
                         variant={"outline"}
                         disabled={fields.length === 1 || (isLoading || isSuccess)}
                         onClick={() => remove(index)}
-                        className="hover:bg-red-500 hover:text-foreground"
+                        className={cn([
+                            "duration-200",
+                            "hover:scale-95",
+                            "dark:hover:bg-red-500 dark:hover:text-foreground"
+                        ])}
                     >
                         <X />
                     </Button>

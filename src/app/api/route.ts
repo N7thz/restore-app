@@ -17,7 +17,7 @@ export async function GET() {
                 username: faker.person.firstName(),
                 product: {
                     create: {
-                        name: faker.commerce.productName(),
+                        name: faker.commerce.productName().toLowerCase(),
                         imageUrl: faker.image.url(),
                         description: faker.commerce.productDescription(),
                         price: parseFloat(faker.commerce.price()),

@@ -2,10 +2,8 @@ import { findProductById } from "@/actions/products/find-product-by-id"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
-import { useRouter } from "next/navigation"
 
-
-export const productId: ColumnDef<ProductExit> = {
+export const productId: ColumnDef<ProductExit & { product: Product }> = {
     accessorKey: "product",
     header: ({ column }) => (
         <DataTableColumnHeader
@@ -15,11 +13,11 @@ export const productId: ColumnDef<ProductExit> = {
     ),
     cell: ({ row }) => {
 
-        const product = row.getValue<Product>("product")
+        const { product } = row.original
 
         return (
             <div className="text-center capitalize">
-                {product.name}
+                {product?.name}
             </div>
         )
     },

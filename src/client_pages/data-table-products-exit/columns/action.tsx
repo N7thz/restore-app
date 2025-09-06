@@ -19,7 +19,7 @@ export const actions: ColumnDef<ProductExit> = {
     id: "actions",
     cell: ({ row }) => {
 
-        const payment = row.original
+        const { id } = row.original
 
         return (
             <DropdownMenu>
@@ -39,13 +39,13 @@ export const actions: ColumnDef<ProductExit> = {
                     <DropdownMenuLabel>Opções</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                        <Link href={`/update-product/${payment.id}`}>
+                        <Link href={`/update-product-exit/${id}`}>
                             <Edit className="size-4" />
                             Editar
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                        <DialogDeleteProduct id={payment.id} />
+                        <DialogDeleteProduct id={id} />
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

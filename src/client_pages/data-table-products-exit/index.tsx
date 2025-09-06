@@ -33,7 +33,10 @@ export const DataTableProductsExit = () => {
     if (status === "error" || !data) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                Error
+                <DataTableExit
+                    columns={columns}
+                    data={[]}
+                />
             </main>
         )
     }
