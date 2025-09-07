@@ -7,7 +7,7 @@ export interface ColumnDefinition {
     style?: CellObject
 }
 
-export function exportFormattedExcel(
+export async function exportFormattedExcel(
     data: any[],
     columns: ColumnDefinition[],
     options: {
@@ -44,5 +44,5 @@ export function exportFormattedExcel(
     const workbook = utils.book_new()
     utils.book_append_sheet(workbook, worksheet, options.sheetName || "Sheet1")
 
-    writeFile(workbook, `${options.fileName}.xlsx`)
+    await writeFile(workbook, `${options.fileName}.xlsx`)
 }

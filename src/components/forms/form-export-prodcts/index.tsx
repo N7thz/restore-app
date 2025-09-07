@@ -68,11 +68,11 @@ export const FormExportProdcts = ({ setOpen }: { setOpen: (open: boolean) => voi
                     <div>
                         {
                             errors.dateStart &&
-                            <SpanErrorMessage message={errors.dateStart.message} />
+                            <SpanErrorMessage message={errors.dateStart?.message} />
                         }
                         {
                             errors.dateEnd &&
-                            <SpanErrorMessage message={errors.dateEnd.message} />
+                            <SpanErrorMessage message={errors.dateEnd?.message} />
                         }
                     </div>
                     <Separator />
@@ -102,7 +102,7 @@ export const FormExportProdcts = ({ setOpen }: { setOpen: (open: boolean) => voi
                         </div>
                         <div className="block">
                             {
-                                errors.id && <SpanErrorMessage message={errors.id.message} />
+                                errors.id && <SpanErrorMessage message={errors.id?.message} />
                             }
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export const FormExportProdcts = ({ setOpen }: { setOpen: (open: boolean) => voi
                                 )}
                                 placeholder={
                                     errors.itemsLimit
-                                        ? errors.itemsLimit.message
+                                        ? errors.itemsLimit?.message
                                         : "Selecione a quantidade de itens"
                                 } />
 

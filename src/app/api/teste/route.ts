@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma"
-import { faker } from '@faker-js/faker'
+import { faker } from "@faker-js/faker"
 import { NextResponse } from "next/server"
 import { Notification } from "@prisma/client"
 

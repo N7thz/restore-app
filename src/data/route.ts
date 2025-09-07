@@ -17,7 +17,7 @@ type Routes = {
     Icon: LucideIcon
 }
 
-export const routes: Routes[] =[
+export const routes: readonly Routes[] = [
     {
         href: "/",
         text: "Home",
@@ -44,13 +44,13 @@ export const routes: Routes[] =[
         Icon: FileSpreadsheet
     },
     {
+        href: "/appearance",
+        text: "Configurações",
+        Icon: Wallpaper
+    },
+    {
         href: "/help",
         text: "Ajuda",
         Icon: Info
     },
-    {
-        href: "/appearance",
-        text: "Aparência",
-        Icon: Wallpaper
-    },
-] as const
+]

@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm } from "react-hook-form"
 import {
     getCookie, setCookie
-} from 'cookies-next/client'
+} from "cookies-next/client"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "@/components/toast"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"

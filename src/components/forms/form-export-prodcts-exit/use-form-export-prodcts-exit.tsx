@@ -1,9 +1,8 @@
 import {
     findManyProductsExitWithFilter
 } from "@/actions/products-exit/find-many-products-exit-with-filter"
-import { findProductById } from "@/actions/products/find-product-by-id"
 import { toast } from "@/components/toast"
-import { allColumns, allColumnsProductExit } from "@/data/all-columns-products"
+import { allColumnsProductExit } from "@/data/all-columns-products"
 import { exportFormattedExcel } from "@/lib/advanced-excel-export"
 import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
@@ -40,11 +39,11 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
 
             const tableData = data.map(item => {
 
-                const { product: { name, price } } = item
+                const { createdAt, product: { name, price } } = item
 
                 return {
                     ...item,
-                    createdAt: formatDate(new Date(), "P", { locale: ptBR }),
+                    createdAt: formatDate(createdAt, "P", { locale: ptBR }),
                     name,
                     price
                 }
@@ -54,9 +53,9 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
 
             const columns = allColumnsProductExit.filter(column => dataKeys.includes(column.key))
 
-            exportFormattedExcel(tableData, columns, {
-                fileName: 'produtos_saida',
-                sheetName: 'produtos',
+            await exportFormattedExcel(tableData, columns, {
+                fileName: "produtos_saida",
+                sheetName: "produtos",
             })
 
             toast({

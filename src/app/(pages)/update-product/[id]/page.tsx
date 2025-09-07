@@ -1,3 +1,4 @@
+import { findProductById } from "@/actions/products/find-product-by-id"
 import { FormUpdateProduct } from "@/components/forms/form-update-product"
 import {
     Card,
@@ -7,8 +8,17 @@ import {
 } from "@/components/ui/card"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-    title: "stock App | Registrar produto",
+export async function generateMetadata({
+    params
+}: { params: Promise<{ id: string }> }): Promise<Metadata> {
+
+    const { id } = await params
+
+    const { name } = await findProductById(id)
+
+    return {
+        title: `Stoke App | ${name}`
+    }
 }
 
 export default async function UpdateProduct({

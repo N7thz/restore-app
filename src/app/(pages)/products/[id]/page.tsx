@@ -1,6 +1,6 @@
 import { findProductById } from "@/actions/products/find-product-by-id"
 import { ProductPage } from "@/client_pages/product-page"
-import type { Metadata } from 'next'
+import type { Metadata } from "next"
 
 export async function generateMetadata({
     params

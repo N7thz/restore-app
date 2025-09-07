@@ -32,7 +32,7 @@ export const UsernameLabel = ({ index }: { index: number }) => {
             {
                 errors.products?.[index]?.username &&
                 <SpanErrorMessage
-                    message={errors.products[index]?.username.message}
+                    message={errors.products[index]?.username?.message}
                 />
             }
         </>

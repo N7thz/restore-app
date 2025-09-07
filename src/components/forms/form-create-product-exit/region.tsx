@@ -32,7 +32,7 @@ export const RegionLabel = ({ index }: { index: number }) => {
             {
                 errors.products?.[index]?.region &&
                 <SpanErrorMessage
-                    message={errors.products[index]?.region.message}
+                    message={errors.products[index]?.region?.message}
                 />
             }
         </>

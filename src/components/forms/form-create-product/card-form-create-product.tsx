@@ -62,7 +62,7 @@ export const CardFormCreateProduct = ({
                 {
                     errors.products?.[index]?.name &&
                     <SpanErrorMessage
-                        message={errors.products[index].name.message}
+                        message={errors.products?.[index]?.name?.message}
                     />
                 }
                 <Label
@@ -88,7 +88,7 @@ export const CardFormCreateProduct = ({
                 {
                     errors.products?.[index]?.price &&
                     <SpanErrorMessage
-                        message={errors.products[index].price.message}
+                        message={errors.products?.[index]?.price?.message}
                     />
                 }
                 <Label
@@ -114,7 +114,7 @@ export const CardFormCreateProduct = ({
                 {
                     errors.products?.[index]?.quantity &&
                     <SpanErrorMessage
-                        message={errors.products[index].quantity.message}
+                        message={errors.products?.[index]?.quantity?.message}
                     />
                 }
                 <Label
@@ -140,7 +140,7 @@ export const CardFormCreateProduct = ({
                 {
                     errors.products?.[index]?.minQuantity &&
                     <SpanErrorMessage
-                        message={errors.products[index].minQuantity.message}
+                        message={errors.products?.[index]?.minQuantity?.message}
                     />
                 }
                 <Label
@@ -164,7 +164,7 @@ export const CardFormCreateProduct = ({
                 {
                     errors.products?.[index]?.imageUrl &&
                     <SpanErrorMessage
-                        message={errors.products[index].imageUrl.message}
+                        message={errors.products?.[index]?.imageUrl?.message}
                     />
                 }
             </CardContent>

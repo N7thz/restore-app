@@ -16,6 +16,8 @@ import {
 import { ItemsLimitProps } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
+import { formatDate } from "date-fns"
+import { ptBR } from "date-fns/locale"
 import { Sheet } from "lucide-react"
 import { useForm } from "react-hook-form"
 
@@ -27,15 +29,25 @@ export function useFormExportProdcts(setOpen: (open: boolean) => void) {
             products,
             takeString,
         }),
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
 
             const dataKeys = Object.keys(data[0])
 
             const columns = allColumns.filter(column => dataKeys.includes(column.key))
 
-            exportFormattedExcel(data, columns, {
-                fileName: 'produtos_exportados',
-                sheetName: 'produtos',
+            const tableData = data.map(item => {
+
+                const { createdAt } = item
+
+                return {
+                    ...item,
+                    createdAt: formatDate(createdAt, "P", { locale: ptBR }),
+                }
+            })
+
+            await exportFormattedExcel(tableData, columns, {
+                fileName: "produtos_exportados",
+                sheetName: "produtos",
             })
 
             toast({

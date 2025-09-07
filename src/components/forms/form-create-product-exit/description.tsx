@@ -36,7 +36,7 @@ export const DescriptionLabel = ({ index }: { index: number }) => {
             {
                 errors.products?.[index]?.description &&
                 <SpanErrorMessage
-                    message={errors.products[index]?.description.message}
+                    message={errors.products[index]?.description?.message}
                 />
             }
         </>

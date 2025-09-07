@@ -1,7 +1,7 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { Notification, Prisma } from '@prisma/client'
+import { Notification, Prisma } from "@prisma/client"
 import { createNotification } from "../notifications/create-notification"
 
 export async function createManyProducts(

@@ -71,7 +71,7 @@ export const ProductPage = ({ id }: { id: string }) => {
         minQuantity,
     } = product
 
-    const data = formatDate(createdAt, "PPP 'as' HH:mm", { locale: ptBR })
+    const data = formatDate(createdAt, "PPP " as " HH:mm", { locale: ptBR })
 
     const formatted = new Intl.NumberFormat("pt-BR", {
         style: "currency",

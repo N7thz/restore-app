@@ -34,7 +34,12 @@ import { UploadImageProps } from "@/schemas/upload-file-schema"
 import ImageNext from "next/image"
 import { Skeleton } from "./ui/skeleton"
 
-type Area = { x: number; y: number; width: number; height: number }
+type Area = {
+  x: number
+  y: number
+  width: number
+  height: number
+}
 
 const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-import { UseFormSetError } from "react-hook-form";
+import { UseFormSetError } from "react-hook-form"
 import { ZodError } from "zod"
 
 export function validateErrors<T>(

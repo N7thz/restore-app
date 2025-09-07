@@ -13,7 +13,7 @@ import { ChevronDownIcon } from "lucide-react"
 import { useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const createdAtPicker = ({ index }: { index: number }) => {
+export const DatePicker = ({ index }: { index: number }) => {
 
 	const [open, setOpen] = useState(false)
 
@@ -58,7 +58,7 @@ export const createdAtPicker = ({ index }: { index: number }) => {
 							createdAt
 								? format(createdAt, "P", { locale: ptBR })
 								: errors.products?.[index]?.createdAt
-									? errors.products?.[index]?.createdAt.message
+									? errors.products?.[index]?.createdAt?.message
 									: "Selecione a data"
 						}
 						<ChevronDownIcon />

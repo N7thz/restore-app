@@ -1,6 +1,6 @@
 import { findProductsExitById } from "@/actions/products-exit/find-products-exit-by-id"
 import { ProductPageExit } from "@/client_pages/product-exit-page"
-import type { Metadata } from 'next'
+import type { Metadata } from "next"
 
 export async function generateMetadata({
     params

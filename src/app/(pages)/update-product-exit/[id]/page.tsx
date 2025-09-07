@@ -1,3 +1,4 @@
+import { findProductsExitById } from "@/actions/products-exit/find-products-exit-by-id"
 import { FormUpdateProductExit } from "@/components/forms/form-update-product-exit"
 import {
     Card,
@@ -7,8 +8,17 @@ import {
 } from "@/components/ui/card"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-    title: "stock App | Registrar produto",
+export async function generateMetadata({
+    params
+}: { params: Promise<{ id: string }> }): Promise<Metadata> {
+
+    const { id } = await params
+
+    const { product: { name } } = await findProductsExitById(id)
+
+    return {
+        title: `Stoke App | ${name}`
+    }
 }
 
 export default async function UpdateProductExit({

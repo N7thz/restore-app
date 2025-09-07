@@ -1,6 +1,6 @@
 import { ColumnDefinition } from "@/lib/advanced-excel-export"
 
-export const allColumns: ColumnDefinition[] = [
+export const allColumns: readonly ColumnDefinition[] = [
     {
         header: "Id",
         key: "id"
@@ -29,12 +29,12 @@ export const allColumns: ColumnDefinition[] = [
         header: "Quantidade minima",
         key: "minQuantity"
     },
-] as const
+]
 
-export const allColumnsProductExit: ColumnDefinition[] = [
+export const allColumnsProductExit: readonly ColumnDefinition[] = [
     {
         header: "Entrege a",
         key: "username"
     },
     ...allColumns
-] as const
+]

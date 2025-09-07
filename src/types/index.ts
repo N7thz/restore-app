@@ -1,5 +1,5 @@
 import { ColumnDefinition } from "@/lib/advanced-excel-export"
-import { Product } from "@prisma/client";
+import { Product } from "@prisma/client"
 
 export type ResponseProducts<T> = Promise<{
     products: T[]
@@ -7,14 +7,14 @@ export type ResponseProducts<T> = Promise<{
 }>
 
 export type ProductExitWithProduct = {
-    id: string;
-    description: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-    quantity: number;
-    region: string;
-    username: string;
-    productId: string;
+    id: string
+    description: string | null
+    createdAt: Date
+    updatedAt: Date
+    quantity: number
+    region: string
+    username: string
+    productId: string
     product: Product
 }
 

@@ -34,7 +34,7 @@ export const QuantityLabel = ({ index }: { index: number }) => {
             {
                 errors.products?.[index]?.quantity &&
                 <SpanErrorMessage
-                    message={errors.products[index]?.quantity.message}
+                    message={errors.products[index]?.quantity?.message}
                 />
             }
         </>

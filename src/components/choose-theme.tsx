@@ -65,7 +65,7 @@ export const ChooseATheme = () => {
           const Icon = theme === value ? CheckIcon : MinusIcon
 
           return (
-            <label key={value}>
+            <label key={value} className={cn(theme === value && "text-primary")}>
               <RadioGroupItem
                 id={`${id}-${value}`}
                 value={value}
@@ -79,12 +79,12 @@ export const ChooseATheme = () => {
                 className={cn(
                   "border-input peer-focus-visible:ring-ring/50  relative cursor-pointer overflow-hidden rounded-md border shadow-xs transition-[color,box-shadow] outline-none peer-focus-visible:ring-[3px] size-30",
                   theme === value
-                    ? "border-ring bg-accent"
+                    ? "border-primary"
                     : "peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50 "
                 )}
               />
               <span className="group peer-data-[state=unchecked]:text-muted-foreground/70 mt-2 flex items-center gap-1">
-                <Icon className={cn("size-4")} />
+                <Icon className="size-4"  />
                 <span className="text-xs font-medium">{label}</span>
               </span>
             </label>

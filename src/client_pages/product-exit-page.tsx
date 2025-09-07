@@ -71,7 +71,7 @@ export const ProductPageExit = ({ id }: { id: string }) => {
         product,
     } = productExit
 
-    const data = formatDate(createdAt, "PPP 'as' HH:mm", { locale: ptBR })
+    const data = formatDate(createdAt, "PPP " as " HH:mm", { locale: ptBR })
 
     console.log(product.imageUrl)
 
