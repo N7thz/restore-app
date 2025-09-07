@@ -1,11 +1,10 @@
+import { ChooseATheme } from "@/components/choose-theme"
 import { FormUploadUserIcon } from "@/components/forms/form-upload-user-icon"
-import { Button } from "@/components/ui/button"
+
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 export default function UploadPage() {
     return (
         <main className="h-container flex items-center justify-center p-8">
-            <Card className="rounded-md w-2/3 justify-between border-primary">
+            <Card className="rounded-md w-1/3 justify-between border-primary">
                 <CardHeader>
                     <CardTitle className="text-lg truncate">
                         Configurações
@@ -27,17 +26,22 @@ export default function UploadPage() {
                         Altere as configurações padrões do sistema
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="flex size-full gap-2">
-                    <FormUploadUserIcon />
+                <CardContent className="size-full flex flex-col gap-2">
+                    <FormUploadUserIcon
+                        isTitle
+                        className="w-full bg-transparent shadow-none"
+                    />
+                    <Card className="w-full h-max">
+                        <CardHeader>
+                            <CardTitle className="text-lg truncate">
+                                Escolha o tema
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <ChooseATheme />
+                        </CardContent>
+                    </Card>
                 </CardContent>
-                <CardFooter>
-                    <Button
-                        form="form-upload-file"
-                        type="submit"
-                    >
-                        Fazer Upload
-                    </Button>
-                </CardFooter>
             </Card>
         </main>
     )

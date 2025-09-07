@@ -3,7 +3,7 @@
 import { uploadImage } from "@/actions/upload-files"
 import { InputFile } from "@/components/input-file"
 import { SpanErrorMessage } from "@/components/span-error"
-import { UploadImageProps, imageFileSchema } from "@/schemas/upload-file-schema"
+import { ALLOWED_EXTENSIONS, UploadImageProps, imageFileSchema } from "@/schemas/upload-file-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { FormProvider, useForm } from "react-hook-form"
 import {
@@ -11,12 +11,20 @@ import {
 } from 'cookies-next/client'
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "@/components/toast"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { ComponentProps } from "react"
 
-export const FormUploadUserIcon = () => {
+type FormUploadUserIconProps = ComponentProps<typeof Card> & {
+    isTitle?: boolean
+}
+
+export const FormUploadUserIcon = ({ isTitle, ...props }: FormUploadUserIconProps) => {
 
     const refresh = () => window.location.reload()
 
-    const { mutate } = useMutation({
+    const { mutate, isPending, isSuccess } = useMutation({
         mutationKey: ["upload-user-icon"],
         mutationFn: async (formData: FormData) => await uploadImage(formData),
         onSuccess: ({ data }) => {
@@ -24,8 +32,6 @@ export const FormUploadUserIcon = () => {
             if (!data) return
 
             const { filename } = data
-
-            console.log(data)
 
             setCookie("user-icon", filename)
 
@@ -56,24 +62,18 @@ export const FormUploadUserIcon = () => {
     })
 
     const userIcon = getCookie("user-icon")
-
-    console.log("token", userIcon)
-
     const defaultUrl = userIcon ? `/uploads/${userIcon}` : undefined
-
-    console.log(defaultUrl)
 
     const form = useForm<UploadImageProps>({
         resolver: zodResolver(imageFileSchema)
     })
 
     const {
-        setError,
-        watch,
-        register,
         handleSubmit,
         formState: { errors }
     } = form
+
+    const isLoading = isPending || isSuccess
 
     async function onSubmit({ file }: UploadImageProps) {
 
@@ -85,19 +85,54 @@ export const FormUploadUserIcon = () => {
     }
 
     return (
-        <FormProvider {...form}>
-            <form
-                id="form-upload-file"
-                onSubmit={handleSubmit(onSubmit)}
-                className="space-y-4"
-            >
-                <InputFile defaultUrl={defaultUrl} />
-                {
-                    errors.file &&
-                    <SpanErrorMessage message={errors.file.message} />
-                }
-            </form>
-        </FormProvider>
-
+        <Card {...props}>
+            {
+                isTitle &&
+                <CardHeader>
+                    <CardTitle className="text-lg">
+                        Altere o icon de usuário
+                    </CardTitle>
+                    <CardDescription>
+                        São permitidos os tipos
+                        {
+                            ALLOWED_EXTENSIONS.map(item => (
+                                <span key={item} className="ml-2 italic">
+                                    {item},
+                                </span>
+                            ))
+                        }
+                    </CardDescription>
+                </CardHeader>
+            }
+            <CardContent className="flex size-full gap-2">
+                <FormProvider {...form}>
+                    <form
+                        id="form-upload-file"
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="space-y-4 mx-auto"
+                    >
+                        <InputFile defaultUrl={defaultUrl} />
+                        {
+                            errors.file &&
+                            <SpanErrorMessage message={errors.file.message} />
+                        }
+                    </form>
+                </FormProvider>
+            </CardContent>
+            <CardFooter>
+                <Button
+                    type="submit"
+                    form="form-upload-file"
+                    disabled={isLoading || !form.watch("file")}
+                    className="w-full"
+                >
+                    {
+                        isPending
+                            ? <Loader2 className="animate-spin" />
+                            : "Confirmar"
+                    }
+                </Button>
+            </CardFooter>
+        </Card>
     )
 }

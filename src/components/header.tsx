@@ -16,8 +16,10 @@ import { getCookie } from "cookies-next/client"
 import { Ellipsis, Info, Settings } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { FormUploadUserIcon } from "./forms/form-upload-user-icon"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 import { Button } from "./ui/button"
+import { ChooseATheme } from "./choose-theme"
 
 export const Header = () => {
 
@@ -67,23 +69,15 @@ export const Header = () => {
                             Opções do app e preferências
                         </SheetDescription>
                     </SheetHeader>
-                    <div className="mx-auto">
-                        <Avatar className="size-48">
-                            <AvatarImage src={defaultUrl} />
-                            <AvatarFallback>
-                                <Ellipsis />
-                            </AvatarFallback>
-                        </Avatar>
-                    </div>
                     <SheetFooter className="w-full grid grid-cols-2 p-0 pb-4">
                         <Button asChild>
                             <Link
-                                href={"/settings"}
+                                href={"/appearance"}
                                 onNavigate={() => {
                                     setTimeout(() => setOpen(false), 800)
                                 }}
                             >
-                                <Settings className="group-hover:animate-spin duration-200" />
+                                <Settings className="group-hover:rotate-180 duration-200" />
                             </Link>
                         </Button>
                         <Button asChild>

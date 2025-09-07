@@ -20,6 +20,7 @@ export const AnimatedThemeToggler = ({
   })
 
   const changeTheme = async () => {
+
     if (!buttonRef.current) return
 
     const newTheme = theme === "dark" ? "light" : "dark"

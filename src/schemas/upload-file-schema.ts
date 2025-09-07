@@ -9,7 +9,7 @@ const ALLOWED_MIME_TYPES = [
     "image/svg+xml"
 ] as const
 
-const ALLOWED_EXTENSIONS = [
+export const ALLOWED_EXTENSIONS = [
     ".jpg",
     ".jpeg",
     ".png",
