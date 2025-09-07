@@ -12,21 +12,12 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import {
-    ChevronsLeft,
-    ChevronsRight,
-    Ellipsis,
-    Info,
-    Settings
-} from "lucide-react"
-import { useEffect, useState } from "react"
-import { Button } from "./ui/button"
+import { getCookie } from "cookies-next/client"
+import { Ellipsis, Info, Settings } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
-import {
-    Tooltip, TooltipContent, TooltipTrigger
-} from "@/components/ui/tooltip"
-import { useRouter } from "next/navigation"
+import { Button } from "./ui/button"
 
 export const Header = () => {
 
@@ -46,6 +37,10 @@ export const Header = () => {
         return () => document.removeEventListener("keydown", down)
     }, [])
 
+    const userIcon = getCookie("user-icon")
+
+    const defaultUrl = userIcon ? `/uploads/${userIcon}` : "https://github.com/shadcn.png"
+
     return (
         <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
             <Sheet
@@ -54,7 +49,7 @@ export const Header = () => {
             >
                 <SheetTrigger>
                     <Avatar className="size-8">
-                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarImage src={defaultUrl} />
                         <AvatarFallback>
                             <Ellipsis />
                         </AvatarFallback>
@@ -74,7 +69,7 @@ export const Header = () => {
                     </SheetHeader>
                     <div className="mx-auto">
                         <Avatar className="size-48">
-                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarImage src={defaultUrl} />
                             <AvatarFallback>
                                 <Ellipsis />
                             </AvatarFallback>

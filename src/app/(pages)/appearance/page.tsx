@@ -1,3 +1,4 @@
+import { FormUploadUserIcon } from "@/components/forms/form-upload-user-icon"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -8,32 +9,33 @@ import {
     CardHeader,
     CardTitle
 } from "@/components/ui/card"
+import { Metadata } from "next"
 
-export default function UsersPage() {
+export const metadata: Metadata = {
+    title: "Stock App | Configurações",
+}
+
+export default function UploadPage() {
     return (
         <main className="h-container flex items-center justify-center p-8">
             <Card className="rounded-md w-2/3 justify-between border-primary">
                 <CardHeader>
                     <CardTitle className="text-lg truncate">
-
+                        Configurações
                     </CardTitle>
                     <CardDescription>
-
+                        Altere as configurações padrões do sistema
                     </CardDescription>
-                    <CardAction>
-
-                    </CardAction>
                 </CardHeader>
                 <CardContent className="flex size-full gap-2">
-                    <Card className="size-full shadow-none">
-                        <CardContent className="flex flex-col gap-2">
-
-                        </CardContent>
-                    </Card>
+                    <FormUploadUserIcon />
                 </CardContent>
                 <CardFooter>
-                    <Button>
-                        Confirmar
+                    <Button
+                        form="form-upload-file"
+                        type="submit"
+                    >
+                        Fazer Upload
                     </Button>
                 </CardFooter>
             </Card>
