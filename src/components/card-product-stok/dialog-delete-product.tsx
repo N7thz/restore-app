@@ -33,7 +33,7 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
           <AlertDialogDescription>
-            A exclusão de um produto não pode ser desfeita.
+            A exclusão de um produto também ira acarretar na exclusão de suas saidas.Essa ação não pode ser desfeita.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -91,23 +91,35 @@ export function useFormCreateProductExit() {
     quantity,
     index,
   }: OutputProductExitObjectProps & { index: number }) {
-    const product = await findProductById(productId)
+
+    const product = await findProductById(productId);
 
     if (quantity > product.quantity) {
-      return setError(`products.${index}.quantity`, {
+
+      setError(`products.${index}.quantity`, {
         message: `Quantidade de saída excede o estoque disponível que é ${product.quantity}`,
       })
+
+      return false
     }
+
+    return true
   }
 
   async function onSubmit({ products }: InputCreateProductProps) {
+
     const { data, error } = validateFormData({ products })
 
     if (error) return validateErrors<OutputCreateProductProps>(error, setError)
 
-    data.products.map(async (productExit, index) => {
-      validateQuantity({ ...productExit, index })
+    const validationPromises = data.products.map(async (productExit, index) => {
+      return await validateQuantity({ ...productExit, index })
     })
+
+    const validationResults = await Promise.all(validationPromises)
+    const formIsValid = validationResults.every(result => result === true)
+
+    if (!formIsValid) return
 
     mutate(data)
   }

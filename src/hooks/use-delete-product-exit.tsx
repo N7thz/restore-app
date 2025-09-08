@@ -24,27 +24,18 @@ export function useDeleteProductExit(
         }
       )
 
-      queryClient.setQueryData<{
-        count: number
-        products: ProductExit[]
-      }>(queryKey.findAllProductsExit(), oldData => {
-        if (!oldData)
-          return {
-            count: 1,
-            products: [productExit],
-          }
+      queryClient.setQueryData<ProductExit[]>(
+        queryKey.findAllProductsExit(),
+        (oldData) => {
 
-        const { products } = oldData
+          if (!oldData) return [productExit]
 
-        const productsFilterd = products.filter(
-          ({ id }) => id !== productExit.id
-        )
+          const productsFilterd = oldData.filter(
+            ({ id }) => id !== productExit.id
+          )
 
-        return {
-          count: 1,
-          products: productsFilterd,
-        }
-      })
+          return productsFilterd
+        })
 
       toast({
         title: "A saida de produto foi excluida.",

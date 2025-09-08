@@ -40,7 +40,18 @@ export async function createManyProductsExit({
       }
     )
 
-    if (quantity < data.quantity) {
+    if (quantity === 0) {
+
+      const notification = await createNotification({
+        action: "MIN_QUANTITY",
+        name: product.name,
+        description: `O produto ${product.name} está zerado.`,
+        createdAt,
+      })
+
+      notifications.push(notification)
+
+    } else if (quantity < data.quantity) {
 
       const notification = await createNotification({
         action: "MIN_QUANTITY",

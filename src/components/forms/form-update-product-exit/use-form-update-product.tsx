@@ -52,7 +52,7 @@ export function useFormUpdateProductExit(
     mutationFn: (formData: OutputProductExitObjectProps) =>
       updateProductExit(id, formData),
     onSuccess: ({ notifications }) => {
-      
+
       queryClient.setQueryData<Notification[]>(
         queryKey.findAllNotifications(),
         oldData => {
@@ -86,14 +86,20 @@ export function useFormUpdateProductExit(
   const isLoading = isPending || isSubmitting
 
   function validateQuantity(quantity: number) {
+    
     if (quantity > product.quantity) {
-      return setError("quantity", {
+      
+      setError("quantity", {
         message: `Quantidade de saída excede o estoque disponível que é ${product.quantity}`,
       })
+
+      return false
     }
+
+    return true
   }
 
-  function onSubmit({ quantity, ...rest }: InputProductExitObjectProps) {
+  async function onSubmit({ quantity, ...rest }: InputProductExitObjectProps) {
     const { data, error } = outputProductExitObject.safeParse({
       quantity: Number(quantity),
       ...rest,
@@ -102,7 +108,9 @@ export function useFormUpdateProductExit(
     if (error)
       return validateErrors<OutputProductExitObjectProps>(error, setError)
 
-    validateQuantity(data.quantity)
+    const formIsValid = validateQuantity(data.quantity)
+
+    if (!formIsValid) return
 
     mutate(data)
   }

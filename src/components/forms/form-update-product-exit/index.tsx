@@ -126,8 +126,15 @@ export const UpdateProductExit = ({
   id: string
   product: OutputProductExitObjectProps & { product: Product }
 }) => {
-  const { form, isLoading, isSuccess, isPending, handleSubmit, onSubmit } =
-    useFormUpdateProductExit(id, product)
+
+  const {
+    form,
+    isLoading,
+    isSuccess,
+    isPending,
+    handleSubmit,
+    onSubmit
+  } = useFormUpdateProductExit(id, product)
 
   return (
     <>
@@ -141,9 +148,9 @@ export const UpdateProductExit = ({
           <CardContent className="size-full space-y-4">
             <DatePickerUpdate />
             <UsernameLabel />
+            <SelectProductUpdate />
             <QuantityLabel />
             <RegionLabel />
-            <SelectProductUpdate />
             <DescriptionLabel />
           </CardContent>
           <Separator />

@@ -6,6 +6,7 @@ import { updateProduct } from "../products/update-product"
 import { findProductsExitById } from "./find-products-exit-by-id"
 
 export async function deleteProductExit(id: string) {
+  
   const { product, quantity } = await findProductsExitById(id)
 
   const productExit = await prisma.productExit.delete({
