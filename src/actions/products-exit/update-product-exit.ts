@@ -1,63 +1,85 @@
 "use server"
 
-import { Prisma } from "@prisma/client"
+import { Notification, Prisma } from "@prisma/client"
 import { findProductsExitById } from "./find-products-exit-by-id"
 import { prisma } from "@/lib/prisma"
 import { updateProduct } from "../products/update-product"
 import { createNotification } from "../notifications/create-notification"
 
 export async function updateProductExit(
-    id: string,
-    formData: Prisma.ProductExitUpdateInput,
+  id: string,
+  formData: Prisma.ProductExitUpdateInput
 ) {
 
-    const oldProductExit = await findProductsExitById(id)
+  const notifications: Notification[] = []
 
-    console.log(formData)
+  const oldProductExit = await findProductsExitById(id)
 
-    const { product } = await prisma.productExit.update({
-        where: {
-            id
-        },
-        data: formData,
-        include: {
-            product: true
-        }
-    })
+  const {
+    product,
+    quantity: productExitQuantity
+  } = await prisma.productExit.update({
+    where: {
+      id,
+    },
+    data: formData,
+    include: {
+      product: true,
+    },
+  })
 
-    function calculateNewQuantity(): Prisma.FloatFieldUpdateOperationsInput | undefined {
+  function calculateNewQuantity():
+    Prisma.FloatFieldUpdateOperationsInput | undefined {
 
-        if (!formData.quantity || typeof formData.quantity !== "number") {
-            return undefined
-        }
-
-        const newQuantity = oldProductExit.quantity - formData.quantity
-
-        if (newQuantity < 0) {
-            return {
-                decrement: Math.abs(newQuantity)
-            }
-        }
-
-        return {
-            increment: newQuantity
-        }
+    if (!formData.quantity || typeof formData.quantity !== "number") {
+      return undefined
     }
 
-    const quantity = calculateNewQuantity()
+    const newQuantity = oldProductExit.quantity - formData.quantity
 
-    const { productUpdated } = await updateProduct(product.id, {
-        quantity
-    }, {
-        includeNotifications: false
-    })
+    if (newQuantity < 0) {
+      return {
+        decrement: Math.abs(newQuantity),
+      }
+    }
+
+    return {
+      increment: newQuantity,
+    }
+  }
+
+  const quantity = calculateNewQuantity()
+
+  const { productUpdated } = await updateProduct(
+    product.id,
+    {
+      quantity,
+    },
+    {
+      includeNotifications: false,
+    }
+  )
+
+  const notification = await createNotification({
+    action: "UPDATE",
+    name: product.name,
+    description: `A saida do produto ${product.name} foi atualizada.`,
+    createdAt: productUpdated.updatedAt,
+  })
+
+  notifications.push(notification)
+
+  if (productUpdated.quantity < productExitQuantity) {
 
     const notification = await createNotification({
-        action: "UPDATE",
-        name: product.name,
-        description: `A saida do produto ${product.name} foi atualizada.`,
-        createdAt: productUpdated.updatedAt
+      name: product.name,
+      description: `O produto ${product.name} entrou na quantidade miníma.`,
+      action: "MIN_QUANTITY",
+      createdAt: productUpdated.updatedAt
     })
 
-    return { notification }
+    notifications.push(notification)
+  }
+
+  return { notifications }
 }

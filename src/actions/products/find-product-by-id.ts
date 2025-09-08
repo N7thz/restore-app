@@ -3,12 +3,11 @@
 import { prisma } from "@/lib/prisma"
 
 export async function findProductById(id: string) {
+  const product = await prisma.product.findUnique({
+    where: { id },
+  })
 
-    const product = await prisma.product.findUnique({
-        where: { id }
-    })
+  if (!product) throw new Error("Não foi possivel encontrar o produto")
 
-    if (!product) throw new Error("Não foi possivel encontrar o produto")
-
-    return product    
+  return product
 }

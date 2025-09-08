@@ -5,14 +5,14 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card"
 import {
   DropdownMenuItem,
   DropdownMenuPortal,
   DropdownMenuSub,
   DropdownMenuSubContent,
-  DropdownMenuSubTrigger
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { Action, Notification } from "@prisma/client"
@@ -22,9 +22,10 @@ import {
   BellMinus,
   BellOff,
   CheckCircle,
-  CircleAlert, Ellipsis,
+  CircleAlert,
+  Ellipsis,
   TriangleAlert,
-  XCircle
+  XCircle,
 } from "lucide-react"
 import { useNotificationCard } from "./use-notification-card"
 
@@ -33,44 +34,40 @@ export type NotificationCardProps = {
 }
 
 export const NotificationCard = ({ notification }: NotificationCardProps) => {
-
   const { read, name, description, action } = notification
 
-  const {
-    Icon,
-    date,
-    deleteNotification,
-    readNotification
-  } = useNotificationCard({ notification })
+  const { Icon, date, deleteNotification, readNotification } =
+    useNotificationCard({ notification })
 
   return (
-    <Card className={cn(
-      "py-2.5 gap-0 border-none shadow-none rounded-none",
-      read && "bg-secondary"
-    )}>
+    <Card
+      className={cn(
+        "py-2.5 gap-0 border-none shadow-none rounded-none",
+        read && "bg-secondary"
+      )}
+    >
       <CardHeader className="py-4">
-        <CardTitle className={cn(
-          "truncate text-base flex items-center gap-2 capitalize",
-          read && "text-muted-foreground"
-        )}>
-          <Icon className={cn(
-            "size-4",
-            action === "CREATE"
-              ? "text-green-500"
-              : action === "UPDATE"
-                ? "text-yellow-500"
-                : action === "DELETE"
-                  ? "text-destructive"
-                  : "text-primary"
-          )} />
+        <CardTitle
+          className={cn(
+            "truncate text-base flex items-center gap-2 capitalize",
+            read && "text-muted-foreground"
+          )}
+        >
+          <Icon
+            className={cn(
+              "size-4",
+              action === "CREATE"
+                ? "text-green-500"
+                : action === "UPDATE"
+                  ? "text-yellow-500"
+                  : action === "DELETE"
+                    ? "text-destructive"
+                    : "text-primary"
+            )}
+          />
           {name}
         </CardTitle>
-        {
-          description &&
-          <CardDescription>
-            {description}
-          </CardDescription>
-        }
+        {description && <CardDescription>{description}</CardDescription>}
         <DropdownMenuSub>
           <CardAction>
             <Button asChild variant={"ghost"}>
@@ -98,9 +95,7 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
         </DropdownMenuSub>
       </CardHeader>
       <CardFooter className="justify-end">
-        <CardDescription>
-          {date}
-        </CardDescription>
+        <CardDescription>{date}</CardDescription>
       </CardFooter>
     </Card>
   )

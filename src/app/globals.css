@@ -109,7 +109,6 @@
 }
 
 @layer base {
-
   * {
     @apply border-border outline-ring/50 select-none;
   }
@@ -123,7 +122,8 @@
   }
 }
 
-::view-transition-old(root), ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }

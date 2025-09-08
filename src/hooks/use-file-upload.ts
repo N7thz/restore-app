@@ -72,7 +72,7 @@ export const useFileUpload = (
   } = options
 
   const [state, setState] = useState<FileUploadState>({
-    files: initialFiles.map((file) => ({
+    files: initialFiles.map(file => ({
       file,
       id: file.id,
       preview: file.url,
@@ -96,11 +96,11 @@ export const useFileUpload = (
       }
 
       if (accept !== "*") {
-        const acceptedTypes = accept.split(",").map((type) => type.trim())
+        const acceptedTypes = accept.split(",").map(type => type.trim())
         const fileType = file instanceof File ? file.type || "" : file.type
         const fileExtension = `.${file instanceof File ? file.name.split(".").pop() : file.name.split(".").pop()}`
 
-        const isAccepted = acceptedTypes.some((type) => {
+        const isAccepted = acceptedTypes.some(type => {
           if (type.startsWith(".")) {
             return fileExtension.toLowerCase() === type.toLowerCase()
           }
@@ -139,9 +139,9 @@ export const useFileUpload = (
   }, [])
 
   const clearFiles = useCallback(() => {
-    setState((prev) => {
+    setState(prev => {
       // Clean up object URLs
-      prev.files.forEach((file) => {
+      prev.files.forEach(file => {
         if (
           file.preview &&
           file.file instanceof File &&
@@ -174,7 +174,7 @@ export const useFileUpload = (
       const errors: string[] = []
 
       // Clear existing errors when new files are uploaded
-      setState((prev) => ({ ...prev, errors: [] }))
+      setState(prev => ({ ...prev, errors: [] }))
 
       // In single file mode, clear existing files first
       if (!multiple) {
@@ -188,17 +188,17 @@ export const useFileUpload = (
         state.files.length + newFilesArray.length > maxFiles
       ) {
         errors.push(`You can only upload a maximum of ${maxFiles} files.`)
-        setState((prev) => ({ ...prev, errors }))
+        setState(prev => ({ ...prev, errors }))
         return
       }
 
       const validFiles: FileWithPreview[] = []
 
-      newFilesArray.forEach((file) => {
+      newFilesArray.forEach(file => {
         // Only check for duplicates if multiple files are allowed
         if (multiple) {
           const isDuplicate = state.files.some(
-            (existingFile) =>
+            existingFile =>
               existingFile.file.name === file.name &&
               existingFile.file.size === file.size
           )
@@ -236,7 +236,7 @@ export const useFileUpload = (
         // Call the onFilesAdded callback with the newly added valid files
         onFilesAdded?.(validFiles)
 
-        setState((prev) => {
+        setState(prev => {
           const newFiles = !multiple
             ? validFiles
             : [...prev.files, ...validFiles]
@@ -248,7 +248,7 @@ export const useFileUpload = (
           }
         })
       } else if (errors.length > 0) {
-        setState((prev) => ({
+        setState(prev => ({
           ...prev,
           errors,
         }))
@@ -275,8 +275,8 @@ export const useFileUpload = (
 
   const removeFile = useCallback(
     (id: string) => {
-      setState((prev) => {
-        const fileToRemove = prev.files.find((file) => file.id === id)
+      setState(prev => {
+        const fileToRemove = prev.files.find(file => file.id === id)
         if (
           fileToRemove &&
           fileToRemove.preview &&
@@ -286,7 +286,7 @@ export const useFileUpload = (
           URL.revokeObjectURL(fileToRemove.preview)
         }
 
-        const newFiles = prev.files.filter((file) => file.id !== id)
+        const newFiles = prev.files.filter(file => file.id !== id)
         onFilesChange?.(newFiles)
 
         return {
@@ -300,7 +300,7 @@ export const useFileUpload = (
   )
 
   const clearErrors = useCallback(() => {
-    setState((prev) => ({
+    setState(prev => ({
       ...prev,
       errors: [],
     }))
@@ -309,7 +309,7 @@ export const useFileUpload = (
   const handleDragEnter = useCallback((e: DragEvent<HTMLElement>) => {
     e.preventDefault()
     e.stopPropagation()
-    setState((prev) => ({ ...prev, isDragging: true }))
+    setState(prev => ({ ...prev, isDragging: true }))
   }, [])
 
   const handleDragLeave = useCallback((e: DragEvent<HTMLElement>) => {
@@ -320,7 +320,7 @@ export const useFileUpload = (
       return
     }
 
-    setState((prev) => ({ ...prev, isDragging: false }))
+    setState(prev => ({ ...prev, isDragging: false }))
   }, [])
 
   const handleDragOver = useCallback((e: DragEvent<HTMLElement>) => {
@@ -332,7 +332,7 @@ export const useFileUpload = (
     (e: DragEvent<HTMLElement>) => {
       e.preventDefault()
       e.stopPropagation()
-      setState((prev) => ({ ...prev, isDragging: false }))
+      setState(prev => ({ ...prev, isDragging: false }))
 
       // Don't process files if the input is disabled
       if (inputRef.current?.disabled) {

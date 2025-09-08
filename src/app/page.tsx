@@ -5,37 +5,36 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
 import { Minus, Plus } from "lucide-react"
 import { Metadata } from "next"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Stoke App | Home"
+  title: "Stoke App | Home",
 }
 
 export default async function Home() {
   return (
-    <main className="h-container flex items-center justify-center p-8">
-      <Card className="w-full h-5/6 border-primary">
+    <main
+      className={cn(
+        "h-container flex items-center justify-center p-8",
+        "max-sm:px-4"
+      )}
+    >
+      <Card className={cn("w-full h-5/6 border-primary", "xl:w-3/5")}>
         <CardHeader>
-          <CardTitle className="text-2xl">
-            Stoke App
-          </CardTitle>
-          <CardDescription>
-            Ultimos produtos carregados
-          </CardDescription>
+          <CardTitle className="text-2xl">Stoke App</CardTitle>
+          <CardDescription>Ultimos produtos carregados</CardDescription>
         </CardHeader>
         <Separator />
         <ProductsCard />
         <Separator />
-        <CardFooter className="justify-end gap-4">
-          <Button
-            asChild
-            className="w-1/3"
-          >
+        <CardFooter className={cn("justify-end gap-4", "max-sm:flex-col")}>
+          <Button asChild className={cn("w-1/3", "max-sm:w-full")}>
             <Link href="/create-products">
               <Plus className="group-hover:-translate-y-0.5 duration-200" />
               Registre um produto
@@ -43,7 +42,7 @@ export default async function Home() {
           </Button>
           <Button
             asChild
-            className="w-1/3"
+            className={cn("w-1/3", "max-sm:w-full")}
             variant={"secondary"}
           >
             <Link href="/create-products-exit">
@@ -53,6 +52,6 @@ export default async function Home() {
           </Button>
         </CardFooter>
       </Card>
-    </main >
+    </main>
   )
 }

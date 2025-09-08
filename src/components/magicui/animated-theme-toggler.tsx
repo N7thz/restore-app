@@ -7,9 +7,9 @@ import { ComponentProps, useRef, useState } from "react"
 import { flushSync } from "react-dom"
 
 export const AnimatedThemeToggler = ({
-  className, ...props
+  className,
+  ...props
 }: ComponentProps<"button">) => {
-
   const { setTheme, theme } = useTheme()
   const [isMounted, setIsMounted] = useState(false)
 
@@ -20,7 +20,6 @@ export const AnimatedThemeToggler = ({
   })
 
   const changeTheme = async () => {
-
     if (!buttonRef.current) return
 
     const newTheme = theme === "dark" ? "light" : "dark"
@@ -51,7 +50,7 @@ export const AnimatedThemeToggler = ({
         duration: 700,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
-      },
+      }
     )
   }
 

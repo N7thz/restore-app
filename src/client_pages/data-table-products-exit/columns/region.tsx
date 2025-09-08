@@ -3,15 +3,11 @@ import { Product, ProductExit } from "@prisma/client"
 import { ColumnDef } from "@tanstack/react-table"
 
 export const region: ColumnDef<ProductExit & { product: Product }> = {
-    accessorKey: "region",
-    header: ({ column }) => (
-        <DataTableColumnHeader
-            title="Região"
-            column={column}
-        />
-    ), cell: ({ row }) => (
-        <div className="text-center">
-            {row.getValue("region")}
-        </div>
-    ),
+  accessorKey: "region",
+  header: ({ column }) => (
+    <DataTableColumnHeader title="Região" column={column} />
+  ),
+  cell: ({ row }) => (
+    <div className="text-center">{row.getValue("region")}</div>
+  ),
 }

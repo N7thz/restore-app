@@ -12,12 +12,12 @@ import { quantity } from "./quantity"
 import { select } from "./select"
 
 export const columns: ColumnDef<Product>[] = [
-    select,
-    actions,
-    name,
-    description,
-    price,
-    quantity,
-    minQuantity,
-    createdAt,
+  select,
+  actions,
+  name,
+  description,
+  price,
+  quantity,
+  minQuantity,
+  createdAt,
 ]

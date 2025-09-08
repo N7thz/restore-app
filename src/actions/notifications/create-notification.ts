@@ -4,9 +4,9 @@ import { prisma } from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
 
 export async function createNotification(
-    notification: Prisma.NotificationCreateInput
+  notification: Prisma.NotificationCreateInput
 ) {
-    return await prisma.notification.create({
-        data: notification
-    })
+  return await prisma.notification.create({
+    data: notification,
+  })
 }

@@ -10,7 +10,7 @@ import "./globals.css"
 const jetBrains = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  weight: ["300", "400", "600", "700"]
+  weight: ["300", "400", "600", "700"],
 })
 
 export const metadata: Metadata = {
@@ -24,22 +24,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="pt-BR"
-      suppressHydrationWarning
-    >
+    <html lang="pt-BR" suppressHydrationWarning>
       <head />
-      <body className={cn(
-        jetBrains.className,
-        "antialiased"
-      )}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-        >
+      <body className={cn(jetBrains.className, "antialiased")}>
+        <ThemeProvider attribute="class" defaultTheme="system">
           <Header />
-          <ScrollArea className="h-container flex overflow-hidden">
+          <ScrollArea className="h-container flex overflow-y-hidden">
             <ScrollBar />
             {children}
           </ScrollArea>

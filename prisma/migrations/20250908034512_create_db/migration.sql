@@ -33,6 +33,3 @@ CREATE TABLE "notifications" (
     "read" BOOLEAN NOT NULL DEFAULT false,
     "action" TEXT NOT NULL
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "products_exit_product_id_key" ON "products_exit"("product_id");

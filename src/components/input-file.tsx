@@ -1,16 +1,5 @@
 "use client"
 
-import { ComponentProps, useCallback, useEffect, useRef, useState } from "react"
-import {
-  ArrowLeftIcon,
-  Camera,
-  CircleUserRoundIcon,
-  XIcon,
-  ZoomInIcon,
-  ZoomOutIcon,
-} from "lucide-react"
-
-import { useFileUpload } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
 import {
   Cropper,
@@ -26,13 +15,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Slider } from "@/components/ui/slider"
-import { Input } from "./ui/input"
+import { useFileUpload } from "@/hooks/use-file-upload"
 import { cn } from "@/lib/utils"
-import { useFormContext } from "react-hook-form"
 import { UploadImageProps } from "@/schemas/upload-file-schema"
+import { deleteCookie } from "cookies-next/client"
+import {
+  ArrowLeftIcon,
+  Camera,
+  CircleUserRoundIcon,
+  XIcon,
+  ZoomInIcon,
+  ZoomOutIcon
+} from "lucide-react"
 import ImageNext from "next/image"
-import { Skeleton } from "./ui/skeleton"
+import { ComponentProps, useCallback, useEffect, useRef, useState } from "react"
+import { useFormContext } from "react-hook-form"
 
 type Area = {
   x: number
@@ -45,7 +45,7 @@ const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image()
     image.addEventListener("load", () => resolve(image))
-    image.addEventListener("error", (error) => reject(error))
+    image.addEventListener("error", error => reject(error))
     image.setAttribute("crossOrigin", "anonymous")
     image.src = url
   })
@@ -65,10 +65,8 @@ async function getCroppedImg(
       return null
     }
 
-
     canvas.width = outputWidth
     canvas.height = outputHeight
-
 
     ctx.drawImage(
       image,
@@ -82,9 +80,8 @@ async function getCroppedImg(
       outputHeight
     )
 
-
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
+    return new Promise(resolve => {
+      canvas.toBlob(blob => {
         resolve(blob)
       }, "image/jpeg")
     })
@@ -98,8 +95,11 @@ type InputFileProps = ComponentProps<typeof Input> & {
   defaultUrl?: string
 }
 
-export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) => {
-
+export const InputFile = ({
+  defaultUrl,
+  className,
+  ...props
+}: InputFileProps) => {
   const { setValue } = useFormContext<UploadImageProps>()
 
   const [
@@ -135,7 +135,6 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
   }, [])
 
   const handleApply = async () => {
-
     if (!previewUrl || !fileId || !croppedAreaPixels) {
       console.error("Dados faltantes para aplicar:", {
         previewUrl,
@@ -152,7 +151,6 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
     }
 
     try {
-
       const croppedBlob = await getCroppedImg(previewUrl, croppedAreaPixels)
 
       if (!croppedBlob) {
@@ -175,7 +173,6 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
       setFinalImageUrl(newFinalUrl)
       setIsDialogOpen(false)
     } catch (error) {
-
       console.error("Error durante a aplicação:", error)
 
       setIsDialogOpen(false)
@@ -199,9 +196,7 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
     }
   }, [finalImageUrl])
 
-
   useEffect(() => {
-
     if (fileId && fileId !== previousFileIdRef.current) {
       setIsDialogOpen(true)
       setCroppedAreaPixels(null)
@@ -214,13 +209,12 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
   if (!isClient) {
     return (
       <Skeleton className="size-50 rounded-full">
-        <CircleUserRoundIcon
-          strokeWidth="0.5"
-          className="size-50 opacity-60"
-        />
+        <CircleUserRoundIcon strokeWidth="0.5" className="size-50 opacity-60" />
       </Skeleton>
     )
   }
+
+  let imageExist = finalImageUrl || defaultUrl || ""
 
   return (
     <div className={cn("flex flex-col items-center gap-2")}>
@@ -238,15 +232,20 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
         >
           <Camera className="absolute size-8  hidden group-hover:flex opacity-100" />
           {
-            defaultUrl || (finalImageUrl && defaultUrl) ? (
+            imageExist !== "" ? (
               <ImageNext
                 className="size-full object-cover group-hover:opacity-60"
-                src={finalImageUrl || defaultUrl}
+                src={imageExist}
                 alt="User avatar"
                 quality={100}
                 width={200}
                 height={200}
                 style={{ objectFit: "cover" }}
+                unoptimized
+                onError={() => {
+                  deleteCookie("user-icon")
+                  imageExist = ""
+                }}
               />
             ) : (
               <div aria-hidden="true">
@@ -255,8 +254,7 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
                   className="size-50 opacity-60"
                 />
               </div>
-            )
-          }
+            )}
         </button>
         {finalImageUrl && (
           <Button
@@ -271,6 +269,8 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
         )}
         <input
           {...getInputProps()}
+          type="file"
+          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
           className="sr-only"
           aria-label="Upload image file"
           tabIndex={-1}
@@ -278,10 +278,7 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
         />
       </div>
 
-      <Dialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-      >
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="gap-0 p-0 sm:max-w-140 *:[button]:hidden">
           <DialogDescription className="sr-only">
             Selecione o tamanho da imagem
@@ -338,7 +335,7 @@ export const InputFile = ({ defaultUrl, className, ...props }: InputFileProps) =
                 min={1}
                 max={3}
                 step={0.1}
-                onValueChange={(value) => setZoom(value[0])}
+                onValueChange={value => setZoom(value[0])}
                 aria-label="Zoom slider"
               />
               <ZoomInIcon

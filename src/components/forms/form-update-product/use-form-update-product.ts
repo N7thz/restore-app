@@ -4,10 +4,10 @@ import { toast } from "@/components/toast"
 import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
 import {
-    InputProductProps,
-    inputProductObject,
-    OutputProductProps,
-    outputProductObject
+  InputProductProps,
+  inputProductObject,
+  OutputProductProps,
+  outputProductObject,
 } from "@/schemas/product-object"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification } from "@prisma/client"
@@ -16,89 +16,80 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
 export function useFormUpdateProduct(
-    id: string,
-    {
-        name,
-        price,
-        imageUrl,
-        quantity,
-        minQuantity,
-    }: OutputProductProps
+  id: string,
+  { name, price, imageUrl, quantity, minQuantity }: OutputProductProps
 ) {
+  const { push } = useRouter()
 
-    const { push } = useRouter()
+  const { mutate, isPending, isSuccess } = useMutation({
+    mutationKey: queryKey.updateProduct(id),
+    mutationFn: (formData: OutputProductProps) => updateProduct(id, formData),
+    onSuccess: ({ notification }) => {
 
-    const { mutate, isPending, isSuccess } = useMutation({
-        mutationKey: queryKey.updateProduct(id),
-        mutationFn: (formData: OutputProductProps) => updateProduct(id, formData),
-        onSuccess: ({ notification }) => {
+      if (notification) {
+        queryClient.setQueryData<Notification[]>(
+          queryKey.findAllNotifications(),
+          oldData => {
+            if (!oldData) return [notification]
 
-            if (!notification) return
+            return [...oldData, notification]
+          }
+        )
+      }
 
-            queryClient.setQueryData<Notification[]>(
-                queryKey.findAllNotifications(),
-                (oldData) => {
+      toast({
+        title: "Produto atualizado",
+        description: "O produto foi atualizado com sucesso.",
+        onAutoClose: () => push("/products"),
+      })
+    },
+  })
 
-                    if (!oldData) return [notification]
+  const form = useForm<InputProductProps>({
+    resolver: zodResolver(inputProductObject),
+    defaultValues: {
+      name,
+      imageUrl,
+      quantity: quantity.toString(),
+      minQuantity: minQuantity.toString(),
+      price: price.toString(),
+    },
+  })
 
-                    return [...oldData, notification]
-                }
-            )
+  const {
+    setError,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form
 
-            toast({
-                title: "Produto atualizado",
-                description: "O produto foi atualizado com sucesso.",
-                onAutoClose: () => push("/")
-            })
-        }
+  const isLoading = isPending || isSubmitting
+
+  function onSubmit({
+    name,
+    price,
+    imageUrl,
+    quantity,
+    minQuantity,
+  }: InputProductProps) {
+    const { data, error } = outputProductObject.safeParse({
+      name,
+      price: Number(price),
+      quantity: Number(quantity),
+      minQuantity: Number(minQuantity),
+      imageUrl: imageUrl !== "" ? imageUrl : null,
     })
 
-    const form = useForm<InputProductProps>({
-        resolver: zodResolver(inputProductObject),
-        defaultValues: {
-            name,
-            imageUrl,
-            quantity: quantity.toString(),
-            minQuantity: minQuantity.toString(),
-            price: price.toString(),
-        }
-    })
+    if (error) return validateErrors<OutputProductProps>(error, setError)
 
-    const {
-        setError,
-        handleSubmit,
-        formState: { errors, isSubmitting }
-    } = form
+    mutate(data)
+  }
 
-    const isLoading = isPending || isSubmitting
-
-    function onSubmit({
-        name,
-        price,
-        imageUrl,
-        quantity,
-        minQuantity,
-    }: InputProductProps) {
-
-        const { data, error } = outputProductObject.safeParse({
-            name,
-            price: Number(price),
-            quantity: Number(quantity),
-            minQuantity: Number(minQuantity),
-            imageUrl: imageUrl !== "" ? imageUrl : null,
-        })
-
-        if (error) return validateErrors<OutputProductProps>(error, setError)
-
-        mutate(data)
-    }
-
-    return {
-        form,
-        isLoading,
-        isSuccess,
-        isPending,
-        handleSubmit,
-        onSubmit,
-    }
+  return {
+    form,
+    isLoading,
+    isSuccess,
+    isPending,
+    handleSubmit,
+    onSubmit,
+  }
 }

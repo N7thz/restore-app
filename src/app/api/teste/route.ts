@@ -4,31 +4,29 @@ import { NextResponse } from "next/server"
 import { Notification } from "@prisma/client"
 
 export async function GET() {
+  const notifications: Notification[] = []
 
-    const notifications: Notification[] = []
+  Array.from({ length: 8 }).map(async () => {
+    const notificationObject = {
+      id: faker.string.uuid(),
+      name: faker.lorem.words(3),
+      description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
+      createdAt: faker.date.recent(),
+      read: faker.datatype.boolean(),
+      action: faker.helpers.arrayElement([
+        "CREATE",
+        "UPDATE",
+        "DELETE",
+        "MIN_QUANTITY",
+      ]),
+    }
 
-    Array.from({ length: 8 }).map(async () => {
-
-        const notificationObject = {
-            id: faker.string.uuid(),
-            name: faker.lorem.words(3),
-            description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-            createdAt: faker.date.recent(),
-            read: faker.datatype.boolean(),
-            action: faker.helpers.arrayElement([
-                "CREATE",
-                "UPDATE",
-                "DELETE",
-                "MIN_QUANTITY"
-            ])
-        }
-
-        const notification = await prisma.notification.create({
-            data: notificationObject
-        })
-
-        notifications.push(notification)
+    const notification = await prisma.notification.create({
+      data: notificationObject,
     })
 
-    return NextResponse.json(notifications)
+    notifications.push(notification)
+  })
+
+  return NextResponse.json(notifications)
 }

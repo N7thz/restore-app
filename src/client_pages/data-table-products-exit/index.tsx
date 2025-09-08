@@ -6,26 +6,27 @@ import { useQuery } from "@tanstack/react-query"
 import { DataTableExit } from "./data-table"
 import { columns } from "./columns"
 import { ProductExitWithProduct } from "@/types"
+import { cn } from "@/lib/utils"
 
 export const DataTableProductsExit = () => {
-
-    const { data: products, isLoading, status } = useQuery({
+    const {
+        data: products,
+        isLoading,
+        status,
+    } = useQuery({
         queryKey: queryKey.findAllProductsExit(),
-        queryFn: () => findProductsExit<ProductExitWithProduct>({
-            include: {
-                product: true
-            }
-        })
+        queryFn: () =>
+            findProductsExit<ProductExitWithProduct>({
+                include: {
+                    product: true,
+                },
+            }),
     })
 
     if (isLoading) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                <DataTableExit
-                    columns={columns}
-                    data={[]}
-                    isLoading={isLoading}
-                />
+                <DataTableExit columns={columns} data={[]} isLoading={isLoading} />
             </main>
         )
     }
@@ -33,20 +34,17 @@ export const DataTableProductsExit = () => {
     if (status === "error" || !products) {
         return (
             <main className="h-container flex items-center justify-center p-8">
-                <DataTableExit
-                    columns={columns}
-                    data={[]}
-                />
+                <DataTableExit columns={columns} data={[]} />
             </main>
         )
     }
 
     return (
-        <main className="h-container flex items-center justify-center p-8">
-            <DataTableExit
-                columns={columns}
-                data={products}
-            />
+        <main className={cn(
+            "h-container flex items-center justify-center p-8",
+            "max-sm:px-4"
+        )} >
+            <DataTableExit columns={columns} data={products} />
         </main>
     )
 }

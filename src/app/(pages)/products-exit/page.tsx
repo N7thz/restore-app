@@ -6,8 +6,5 @@ export const metadata: Metadata = {
 }
 
 export default function ProductsExit() {
-    return (
-        <DataTableProductsExit />
-    )
+    return <DataTableProductsExit />
 }
-

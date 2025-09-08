@@ -9,9 +9,9 @@ export const queryClient = new QueryClient()
 type ThemeProviderProps = React.ComponentProps<typeof NextThemesProvider>
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
-	return (
-		<QueryClientProvider client={queryClient}>
-			<NextThemesProvider {...props}>{children}</NextThemesProvider>
-		</QueryClientProvider>
-	)
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NextThemesProvider {...props}>{children}</NextThemesProvider>
+    </QueryClientProvider>
+  )
 }

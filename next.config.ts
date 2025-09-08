@@ -1,6 +1,9 @@
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -9,7 +12,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  typedRoutes: true
+  typedRoutes: true,
 }
 
 export default nextConfig

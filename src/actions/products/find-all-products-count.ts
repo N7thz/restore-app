@@ -3,5 +3,5 @@
 import { prisma } from "@/lib/prisma"
 
 export async function findProductsCount() {
-    return await prisma.product.count()
+  return await prisma.product.count()
 }
