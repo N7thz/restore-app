@@ -7,7 +7,7 @@
     "reset": "npx prisma migrate reset",
     "migrate": "npx prisma migrate dev",
     "studio": "npx prisma studio",
-    "build": "prisma generate && prisma db push && next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -16,8 +16,7 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate:deploy": "prisma migrate deploy",
-    "vercel-build": "prisma generate && prisma db push && next build",
-    "setup": "node init.js"
+    "vercele-build": "prisma generate && prisma db push && next build"
   },
   "dependencies": {
     "@faker-js/faker": "^10.0.0",
