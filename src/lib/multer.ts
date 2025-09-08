@@ -30,10 +30,7 @@ export const storage = multer.diskStorage({
 })
 
 export function generateFilename(originalname: string): string {
-
-  const time = new Date().getTime()
-
-  return `${time}_${originalname}`
+  return originalname
 }
 
 export function validateFile(file: File): string | null {

@@ -126,12 +126,24 @@ Before you begin, ensure you have the following installed:
 
 ## 📜 Available Scripts
 
+### Development
 - `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build the application for production
-- `npm run start` - Start the production server
-- `npm run migrate` - Run Prisma database migrations
+- `npm run migrate` - Run Prisma database migrations (development)
 - `npm run reset` - Reset the database
 - `npm run studio` - Open Prisma Studio for database management
+
+### Production
+- `npm run build` - Build the application for production
+- `npm run start` - Start the production server
+- `npm run vercel-build` - Build command for Vercel deployment
+- `npm run db:push` - Push schema to database (production)
+- `npm run db:generate` - Generate Prisma client
+
+### Code Quality
+- `npm run lint` - Check for linting issues
+- `npm run lint:fix` - Fix linting issues automatically  
+- `npm run format` - Format code with Prettier
+- `npm run format:check` - Check code formatting
 
 ## 📁 Project Structure
 
@@ -164,6 +176,63 @@ The application uses three main models:
 - **Product**: Core product information with inventory tracking
 - **ProductExit**: Stock movement and exit tracking
 - **Notification**: System notifications and alerts
+
+## 🚀 Deploy na Produção
+
+### Deploy na Vercel (Recomendado)
+
+1. **Configure o banco de dados:**
+   - Crie uma conta no [Neon](https://neon.tech) (PostgreSQL gratuito)
+   - Obtenha a URL de conexão
+
+2. **Faça o deploy:**
+   ```bash
+   # Clone e prepare o repositório
+   git add .
+   git commit -m "feat: preparar para deploy"
+   git push origin main
+   ```
+
+3. **Configure na Vercel:**
+   - Conecte seu repositório GitHub
+   - Adicione as variáveis de ambiente:
+     ```env
+     DATABASE_URL=sua-url-postgresql
+     NEXTAUTH_URL=https://seu-app.vercel.app
+     NEXTAUTH_SECRET=sua-chave-secreta
+     NEXT_PUBLIC_APP_URL=https://seu-app.vercel.app
+     NODE_ENV=production
+     ```
+
+4. **Deploy automático:**
+   - A Vercel fará o build automaticamente
+   - Acesse sua URL: `https://seu-app.vercel.app`
+
+### Guia Completo
+Para instruções detalhadas, veja: [DEPLOY.md](./DEPLOY.md)
+
+### Variáveis de Ambiente
+Copie `.env.example` para `.env` e configure:
+
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações
+```
+
+## 🔧 Configurações de Produção
+
+### Banco de Dados
+- **Desenvolvimento:** SQLite (local)
+- **Produção:** PostgreSQL (Neon, PlanetScale, Supabase)
+
+### Upload de Arquivos
+- **Desenvolvimento:** Sistema de arquivos local
+- **Produção:** Recomendado usar Cloudinary ou AWS S3
+
+### Monitoramento
+- Logs disponíveis no dashboard da Vercel
+- Analytics integrado da Vercel
+- Headers de segurança configurados
 
 ## 🤝 Contributing
 
