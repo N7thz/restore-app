@@ -6,27 +6,36 @@ import { Notification } from "@prisma/client"
 export async function GET() {
   const notifications: Notification[] = []
 
-  Array.from({ length: 8 }).map(async () => {
-    const notificationObject = {
-      id: faker.string.uuid(),
-      name: faker.lorem.words(3),
-      description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
-      createdAt: faker.date.recent(),
-      read: faker.datatype.boolean(),
-      action: faker.helpers.arrayElement([
+  // Usar Promise.all para executar todas as criações em paralelo
+  await Promise.all(
+    Array.from({ length: 8 }).map(async () => {
+      const action = faker.helpers.arrayElement([
         "CREATE",
         "UPDATE",
         "DELETE",
         "MIN_QUANTITY",
-      ]),
-    }
+      ])
 
-    const notification = await prisma.notification.create({
-      data: notificationObject,
+      // Se action for "MIN_QUANTITY", read sempre será false
+      // Caso contrário, pode ser true ou false aleatoriamente
+      const read = action === "MIN_QUANTITY" ? false : faker.datatype.boolean()
+
+      const notificationObject = {
+        id: faker.string.uuid(),
+        name: faker.lorem.words(3),
+        description: faker.datatype.boolean() ? faker.lorem.sentence() : null,
+        createdAt: faker.date.recent(),
+        read: read, // Aqui aplicamos a regra
+        action: action,
+      }
+
+      const notification = await prisma.notification.create({
+        data: notificationObject,
+      })
+
+      notifications.push(notification)
     })
-
-    notifications.push(notification)
-  })
+  )
 
   return NextResponse.json(notifications)
 }
