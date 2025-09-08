@@ -19,7 +19,6 @@
     "vercele-build": "prisma generate && prisma db push && next build"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.0.0",
     "@formkit/auto-animate": "^0.8.4",
     "@hookform/resolvers": "^5.2.1",
     "@origin-space/image-cropper": "^0.1.9",
