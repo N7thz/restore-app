@@ -39,11 +39,7 @@ export function useDeleteProductExit(
 
       toast({
         title: "A saida de produto foi excluida.",
-        description: (
-          <span className="text-muted-foreground">
-            {notification.description}
-          </span>
-        ),
+        description: `${notification.description}`,
       })
     },
     onError: (err) => {

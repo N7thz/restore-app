@@ -105,7 +105,7 @@ export const useFileUpload = (
             return fileExtension.toLowerCase() === type.toLowerCase()
           }
           if (type.endsWith("/*")) {
-            const baseType = type.split("/")[0]
+            const baseType = type.split("/home")[0]
             return fileType.startsWith(`${baseType}/`)
           }
           return fileType === type

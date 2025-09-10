@@ -27,7 +27,7 @@ export function useCreateManyProducts() {
       toast({
         title: "Produtos cadastrados",
         description: "O cadastro foi feito com sucesso.",
-        onAutoClose: () => push("/"),
+        onAutoClose: () => push("/home"),
       })
     },
     onError: (error) => {

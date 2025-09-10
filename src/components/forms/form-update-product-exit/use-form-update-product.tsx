@@ -73,11 +73,7 @@ export function useFormUpdateProductExit(
 
       toast({
         title: error.message,
-        description: (
-          <span className="text-muted-foreground">
-            Tente passar um intervalo diferente
-          </span>
-        ),
+        description: "Tente passar um intervalo diferente",
         variant: "error",
       })
     },

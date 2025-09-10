@@ -23,11 +23,7 @@ export function useFormUploadUserIcon() {
 
             toast({
                 title: "Imagem atualizada",
-                description: (
-                    <span className="text-muted-foreground">
-                        A imagem foi atualizada com sucesso
-                    </span>
-                ),
+                description: "A imagem foi atualizada com sucesso",
                 onAutoClose: () => refresh(),
             })
         },
@@ -37,11 +33,7 @@ export function useFormUploadUserIcon() {
 
             toast({
                 title: error.message,
-                description: (
-                    <span className="text-muted-foreground">
-                        Tente novamente mais tarde
-                    </span>
-                ),
+                description: "Tente novamente mais tarde",
                 variant: "error",
             })
         },

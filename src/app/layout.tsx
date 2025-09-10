@@ -1,6 +1,4 @@
-import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import type { Metadata } from "next"
@@ -27,12 +25,11 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <head />
       <body className={cn(jetBrains.className, "antialiased")}>
-        <ThemeProvider attribute="class" defaultTheme="system">
-          <Header />
-          <ScrollArea className="h-container flex overflow-y-hidden">
-            <ScrollBar />
-            {children}
-          </ScrollArea>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+        >
+          {children}
         </ThemeProvider>
         <Toaster />
       </body>

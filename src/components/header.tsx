@@ -13,16 +13,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { getCookie } from "cookies-next/client"
-import { Camera, Ellipsis, Info, Settings } from "lucide-react"
-import Link from "next/link"
+import { Ellipsis, Info, LogOut, Settings, UserCircle, UserCircle2 } from "lucide-react"
 import { useEffect, useState } from "react"
-import { FormUploadUserIcon } from "./forms/form-upload-user-icon"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 import { Button } from "./ui/button"
-import { ChooseATheme } from "./choose-theme"
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip"
+import Link from "next/link"
+import { useQuery } from "@tanstack/react-query"
+import { authenticate } from "@/actions/autheticate/autheticate"
+import { deleteCookie } from "cookies-next"
+import { redirect } from "next/navigation"
 
 export const Header = () => {
+
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -38,54 +40,99 @@ export const Header = () => {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
-  const userIcon = getCookie("user-icon")
+  const token = getCookie("token")
 
-  const defaultUrl = userIcon
-    ? `/uploads/${userIcon}`
-    : "https://github.com/shadcn.png"
+  const { data, isLoading } = useQuery({
+    queryKey: ["authenticate-user"],
+    queryFn: () => authenticate(token)
+  })
+
+  if (isLoading || !data) {
+    return (
+      <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
+        <Avatar className="size-8">
+          <AvatarImage />
+          <AvatarFallback>
+            <Ellipsis />
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex gap-2">
+          <AnimatedThemeToggler />
+          <Notifications />
+        </div>
+      </header>
+    )
+  }
+
+  const { imageUrl, username } = data
 
   return (
     <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger>
           <Avatar className="size-8">
-            <AvatarImage src={defaultUrl} />
+            <AvatarImage src={imageUrl ?? undefined} />
             <AvatarFallback>
-              <Ellipsis />
+              <UserCircle2 />
             </AvatarFallback>
           </Avatar>
         </SheetTrigger>
         <SheetContent side="left" className="px-6 border-primary">
           <SheetHeader>
-            <SheetTitle>Opções</SheetTitle>
-            <SheetDescription>Opções do app e preferências</SheetDescription>
+            <SheetTitle>
+              {`Olá ${username}`}
+            </SheetTitle>
+            <SheetDescription>
+              Veja as opções do app e preferências
+            </SheetDescription>
           </SheetHeader>
           <Avatar className="size-50 mx-auto">
-            <AvatarImage src={defaultUrl} />
+            <AvatarImage src={imageUrl ?? undefined} />
             <AvatarFallback>
-              <Ellipsis />
+              <UserCircle2
+                strokeWidth={0.2}
+                className="size-48"
+              />
             </AvatarFallback>
           </Avatar>
-          <SheetFooter className="w-full grid grid-cols-2 p-0 pb-4">
-            <Button asChild>
-              <Link
-                href={"/appearance"}
-                onNavigate={() => {
-                  setTimeout(() => setOpen(false), 800)
-                }}
+          <SheetFooter className="w-full flex p-0 pb-4">
+            <div className="grid grid-cols-2 gap-2">
+              <Button
+                asChild
+                variant={"secondary"}
               >
-                <Settings className="group-hover:rotate-180 duration-200" />
-              </Link>
-            </Button>
-            <Button asChild>
-              <Link
-                href={"/help"}
-                onNavigate={() => {
-                  setTimeout(() => setOpen(false), 800)
-                }}
+                <Link
+                  href={"/appearance"}
+                  onNavigate={() => {
+                    setTimeout(() => setOpen(false), 800)
+                  }}
+                >
+                  <Settings className="group-hover:rotate-180 duration-200" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant={"secondary"}
               >
-                <Info />
-              </Link>
+                <Link
+                  href={"/help"}
+                  onNavigate={() => {
+                    setTimeout(() => setOpen(false), 800)
+                  }}
+                >
+                  <Info />
+                </Link>
+              </Button>
+            </div>
+            <Button
+              className="w-full"
+              onClick={() => {
+                deleteCookie("token")
+                redirect("/sign-in")
+              }}
+            >
+              Sair
+              <LogOut />
             </Button>
           </SheetFooter>
         </SheetContent>

@@ -15,6 +15,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 export default function NotFound() {
+  
   const { back } = useRouter()
 
   return (
@@ -37,14 +38,14 @@ export default function NotFound() {
           <CardTitle>A pagina não foi encontrada :/</CardTitle>
         </CardHeader>
         <Separator />
-        <CardContent className="overflow-hidden">
+        <CardContent>
           <Image
-            loading="lazy"
-            src={"/sonic.gif"}
+            src={"/ui-dark.png"}
             width={300}
             height={300}
             alt="sonic.gif"
             className="h-[200px] rounded-lg mx-auto"
+            onError={(err) => console.log(err)}
           />
         </CardContent>
         <Separator />

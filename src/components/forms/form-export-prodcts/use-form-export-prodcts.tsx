@@ -50,11 +50,7 @@ export function useFormExportProdcts(setOpen: (open: boolean) => void) {
 
       toast({
         title: "Os dados foram exportados com sucesso.",
-        description: (
-          <span className="text-muted-foreground">
-            {`${data.length} itens foram exportados.`}
-          </span>
-        ),
+        description: `${data.length} itens foram exportados.`,
         duration: 3000,
         icon: <Sheet className="size-4 text-primary" />,
         onAutoClose: () => setOpen(false),
@@ -65,11 +61,7 @@ export function useFormExportProdcts(setOpen: (open: boolean) => void) {
 
       toast({
         title: error.message,
-        description: (
-          <span className="text-muted-foreground">
-            Tente passar um intervalo diferente
-          </span>
-        ),
+        description: "Tente passar um intervalo diferente",
         variant: "error",
       })
     },

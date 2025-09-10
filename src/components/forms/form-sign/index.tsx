@@ -1,15 +1,17 @@
 "use client"
 
-import { signIn } from "@/actions/sign-in"
+import { signIn } from "@/actions/autheticate/sign-in"
 import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
-import { signSchema, type FormSignData } from "@/schemas/login-schema"
+import { signInSchema, type FormSignProps } from "@/schemas/sign-in-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Info } from "lucide-react"
+import { Prisma } from "@prisma/client"
+import { useMutation } from "@tanstack/react-query"
+import { Info, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -19,10 +21,10 @@ export const FormSign = () => {
 
 	const [visible, setVisible] = useState(false)
 
-	const form = useForm<FormSignData>({
+	const form = useForm<FormSignProps>({
 		mode: "onSubmit",
 		reValidateMode: "onChange",
-		resolver: zodResolver(signSchema),
+		resolver: zodResolver(signInSchema),
 	})
 
 	const {
@@ -33,16 +35,21 @@ export const FormSign = () => {
 
 	const { push } = useRouter()
 
-	async function onSignInSubmit(data: FormSignData) {
-		await signIn(data)
-			.then(() => push("/home"))
-			.catch((err) =>
-				toast({
-					title: "Error",
-					description: err.message,
-					variant: "error",
-				}),
-			)
+	const { mutate, isPending, isSuccess } = useMutation({
+		mutationKey: ["sign-in"],
+		mutationFn: (data: FormSignProps) => signIn(data),
+		onSuccess: () => push("/home"),
+		onError: (err) => toast({
+			title: "Error",
+			description: err.message,
+			variant: "error",
+		}),
+	})
+
+	const isLoading = isPending || isSuccess
+
+	async function onSignInSubmit(data: FormSignProps) {
+		mutate(data)
 	}
 
 	return (
@@ -100,7 +107,7 @@ export const FormSign = () => {
 					asChild
 					type="button"
 					variant={"link"}
-					className="w-full capitalize"
+					className="w-full"
 				>
 					<Link href="/sign-up">
 						Criar uma conta
@@ -110,8 +117,13 @@ export const FormSign = () => {
 				<Button
 					type="submit"
 					className="w-1/2 self-end"
+					disabled={isLoading}
 				>
-					Confirmar
+					{
+						isLoading
+							? <Loader2 className="animate-spin" />
+							: "Confirmar"
+					}
 				</Button>
 			</form>
 		</Form>

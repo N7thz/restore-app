@@ -16,7 +16,7 @@ export const SpanErrorMessage = ({
   return (
     <div
       className={cn(
-        "text-destructive text-sm flex gap-2 items-center pt-1.5",
+        "text-destructive text-xs flex gap-2 items-center pt-1.5",
         className
       )}
       {...props}

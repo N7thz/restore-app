@@ -64,7 +64,7 @@ export default function Error({
         <CardFooter className="justify-end">
           <Button
             className={cn("w-1/2", "max-sm:w-full")}
-            onClick={() => replace("/")}
+            onClick={() => replace("/home")}
           >
             Voltar a pagina inicial
           </Button>

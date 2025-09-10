@@ -39,9 +39,7 @@ export const ButtonReadAllNotifications = (
 
       toast({
         title: "Não foi possivel excluir as notificações",
-        description: (
-          <span className="text-muted-foreground">{err.message}</span>
-        ),
+        description: `${err.message}`,
       })
     }
   })

@@ -45,7 +45,7 @@ export function useFormCreateProductExit() {
       toast({
         title: "Saída de produtos cadastradas",
         description: "A saída de produtos foi efetuada com sucesso.",
-        onAutoClose: () => push("/"),
+        onAutoClose: () => push("/home"),
       })
     },
     onError: (err) => {

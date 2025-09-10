@@ -1,5 +1,15 @@
-import { ColumnDefinition } from "@/lib/advanced-excel-export"
 import { Product } from "@prisma/client"
+
+export type Payload = {
+  exp: number
+  expires: string
+  iat: number
+  sub: {
+    id: string
+    email: string
+    imageUrl: string | null
+  }
+}
 
 export type ResponseProducts<T> = Promise<{
   products: T[]
