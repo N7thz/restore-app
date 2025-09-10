@@ -16,7 +16,6 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate:deploy": "prisma migrate deploy",
-    "vercele-build": "prisma generate && prisma db push && next build"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.4",
