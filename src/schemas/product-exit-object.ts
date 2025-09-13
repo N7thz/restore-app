@@ -5,7 +5,7 @@ export const inputProductExitObject = z.object({
   region: z.string().min(1, "O nome é obrigatório"),
   quantity: z.string().min(1, "A quantidade é obrigatória"),
   description: z.string().nullable(),
-  username: z.string().min(1, "A quem foi entrege é obrigatório"),
+  name: z.string().min(1, "A quem foi entrege é obrigatório"),
   productId: z.string().min(1, "O nome do produto é obrigatório"),
 })
 
@@ -14,7 +14,7 @@ export const outputProductExitObject = z.object({
   region: z.string().min(1, "O nome é obrigatório").toLowerCase(),
   quantity: z.number().positive("A quantidade deve ser positiva."),
   description: z.string().toLowerCase().nullable(),
-  username: z.string().toLowerCase(),
+  name: z.string().toLowerCase(),
   productId: z.uuid().min(1, "O nome do produto é obrigatório"),
 })
 

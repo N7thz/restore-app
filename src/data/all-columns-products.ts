@@ -34,7 +34,7 @@ export const allColumns: readonly ColumnDefinition[] = [
 export const allColumnsProductExit: readonly ColumnDefinition[] = [
   {
     header: "Entrege a",
-    key: "username",
+    key: "name",
   },
   ...allColumns,
 ]

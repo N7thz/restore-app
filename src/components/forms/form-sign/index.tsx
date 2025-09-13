@@ -1,21 +1,20 @@
 "use client"
 
-import { signIn } from "@/actions/autheticate/sign-in"
 import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import { signInSchema, type FormSignProps } from "@/schemas/sign-in-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Prisma } from "@prisma/client"
-import { useMutation } from "@tanstack/react-query"
 import { Info, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import Image from "next/image"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { SpanErrorMessage } from "@/components/span-error"
 
 export const FormSign = () => {
 
@@ -33,23 +32,33 @@ export const FormSign = () => {
 		formState: { errors },
 	} = form
 
-	const { push } = useRouter()
+	const isLoading = false
 
-	const { mutate, isPending, isSuccess } = useMutation({
-		mutationKey: ["sign-in"],
-		mutationFn: (data: FormSignProps) => signIn(data),
-		onSuccess: () => push("/home"),
-		onError: (err) => toast({
-			title: "Error",
-			description: err.message,
-			variant: "error",
-		}),
-	})
+	async function onSignInSubmit({ email, password }: FormSignProps) {
 
-	const isLoading = isPending || isSuccess
+		await authClient.signIn.email({
+			email,
+			password,
+			callbackURL: "/home"
+		}, {
+			onError: (ctx) => {
 
-	async function onSignInSubmit(data: FormSignProps) {
-		mutate(data)
+				console.log(ctx.error.message)
+
+				toast({
+					title: "Error",
+					description: ctx.error.message,
+					variant: "error",
+				})
+			}
+		})
+	}
+
+	const signIn = async () => {
+		await authClient.signIn.social({
+			callbackURL: "/home",
+			provider: "google",
+		})
 	}
 
 	return (
@@ -70,10 +79,7 @@ export const FormSign = () => {
 						)}
 					/>
 					{errors.email && (
-						<div className="text-destructive text-sm flex gap-2 items-center pt-1.5">
-							<Info className="size-4" />
-							<span>{errors.email.message}</span>
-						</div>
+						<SpanErrorMessage message={errors.email.message} />
 					)}
 				</div>
 				<div className="space-y-2">
@@ -89,10 +95,7 @@ export const FormSign = () => {
 						)}
 					/>
 					{errors.password && (
-						<div className="text-destructive text-sm flex gap-2 items-center pt-1.5">
-							<Info className="size-4" />
-							<span>{errors.password.message}</span>
-						</div>
+						<SpanErrorMessage message={errors.password.message} />
 					)}
 					<Button
 						type="button"
@@ -100,7 +103,9 @@ export const FormSign = () => {
 						className="p-0"
 						onClick={() => setVisible((visible) => !visible)}
 					>
-						show password
+						{
+							visible ? "esconder senha" : "mostrar senha"
+						}
 					</Button>
 				</div>
 				<Button
@@ -113,10 +118,31 @@ export const FormSign = () => {
 						Criar uma conta
 					</Link>
 				</Button>
-				<Separator />
+				<div className="w-full text-sm flex items-center justify-center gap-4 overflow-hidden">
+					<Separator />
+					ou
+					<Separator />
+				</div>
+				<Button
+					type="button"
+					variant={"ghost"}
+					className="self-center hover:text-primary"
+					size={"lg"}
+					onClick={signIn}
+					disabled={isLoading}
+				>
+					<Image
+						src={"/google-color.svg"}
+						width={16}
+						height={16}
+						alt="google-icon-image"
+						className="group-hover:scale-80 transition-all"
+					/>
+					Login com o google
+				</Button>
 				<Button
 					type="submit"
-					className="w-1/2 self-end"
+					className="w-1/2 self-end mt-4"
 					disabled={isLoading}
 				>
 					{

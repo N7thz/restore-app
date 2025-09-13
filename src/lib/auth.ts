@@ -1,24 +1,20 @@
-import { SignJWT, jwtVerify } from "jose"
+import { betterAuth } from "better-auth"
+import { prismaAdapter } from "better-auth/adapters/prisma"
+import { prisma } from "./prisma"
 
-const secretKey = process.env.JWT_SECRET
-const encodedKey = new TextEncoder().encode(secretKey)
-
-export async function encrypt(payload: any) {
-	return new SignJWT(payload)
-		.setProtectedHeader({ alg: "HS256" })
-		.setIssuedAt()
-		.setExpirationTime("24h")
-		.sign(encodedKey)
-}
-
-export async function decrypt(input: string) {
-	try {
-		const { payload } = await jwtVerify(input, encodedKey, {
-			algorithms: ["HS256"],
-		})
-		return payload
-	} catch (error) {
-		console.error("Failed to verify JWT:", error)
-		return null
-	}
-}
+export const auth = betterAuth({
+    database: prismaAdapter(prisma, {
+        provider: "postgresql"
+    }),
+    emailAndPassword: {
+        enabled: true,
+        requireEmailVerification: false,
+    },
+    socialProviders: {
+        google: {
+            prompt: "select_account",
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        },
+    },
+})

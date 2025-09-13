@@ -9,7 +9,7 @@ export const inputExportProdctsExitSchema = z
     description: z.boolean(),
     quantity: z.boolean(),
     createdAt: z.boolean(),
-    username: z.boolean(),
+    name: z.boolean(),
     region: z.boolean(),
     itemsLimit: z.enum(itemsLimit, {
       error: "selecione um valor válido",
@@ -20,8 +20,8 @@ export const inputExportProdctsExitSchema = z
     path: ["dateStart"],
   })
   .refine(
-    ({ id, region, description, username, quantity, createdAt }) => {
-      return id || region || description || username || quantity || createdAt
+    ({ id, region, description, name, quantity, createdAt }) => {
+      return id || region || description || name || quantity || createdAt
     },
     {
       error: "selecione pelo menos um campo para exportar",
@@ -44,7 +44,7 @@ export const ouputExportProdctsExitSchema = z.object({
   description: z.boolean(),
   quantity: z.boolean(),
   createdAt: z.boolean(),
-  username: z.boolean(),
+  name: z.boolean(),
   region: z.boolean(),
   itemsLimit: z.enum(itemsLimit, {
     error: "selecione um valor válido",

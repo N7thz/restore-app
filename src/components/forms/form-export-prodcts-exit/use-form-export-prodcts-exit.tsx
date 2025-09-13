@@ -82,7 +82,7 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
     defaultValues: {
       id: true,
       region: true,
-      username: true,
+      name: true,
       description: true,
       quantity: true,
       createdAt: true,

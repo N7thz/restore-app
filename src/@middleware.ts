@@ -1,4 +1,4 @@
-import { decrypt } from "@/lib/auth"
+import { decrypt } from "@/lib/jwt-auth"
 import type { MiddlewareConfig, NextRequest } from "next/server"
 import { NextResponse } from "next/server"
 
@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
 	}
 
 	try {
-		
+
 		const payload = await decrypt(token)
 
 		if (!payload) {

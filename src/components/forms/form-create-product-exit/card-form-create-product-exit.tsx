@@ -6,7 +6,7 @@ import { X } from "lucide-react"
 import { DescriptionLabel } from "./description"
 import { QuantityLabel } from "./quantity"
 import { RegionLabel } from "./region"
-import { UsernameLabel } from "./user-name"
+import { nameLabel } from "./user-name"
 import { cn } from "@/lib/utils"
 
 type CardFormCreateProductProps = {
@@ -45,7 +45,7 @@ export const CardFormCreateProductExit = ({
       </CardHeader>
       <CardContent className="space-y-5">
         <DatePicker index={index} />
-        <UsernameLabel index={index} />
+        <nameLabel index={index} />
         <SelectProduct index={index} />
         <QuantityLabel index={index} />
         <RegionLabel index={index} />

@@ -1,6 +1,6 @@
 "use server"
 
-import { encrypt } from "@/lib/auth"
+import { encrypt } from "@/lib/jwt-auth"
 import { prisma } from "@/lib/prisma"
 import { FormSignProps } from "@/schemas/sign-in-schema"
 import { compare } from "bcryptjs"
@@ -22,7 +22,7 @@ export async function signIn({ email, password }: FormSignProps) {
 
 	if (!passwordIsValid) throw new Error("Invalid password or email")
 
-	const { id, imageUrl, username } = user
+	const { id, imageUrl, name } = user
 
 	const expires = new Date(Date.now() + 24 * 60 * 60 * 1000)
 
@@ -30,7 +30,7 @@ export async function signIn({ email, password }: FormSignProps) {
 		sub: {
 			id,
 			email,
-			username,
+			name,
 			imageUrl
 		},
 		expires,

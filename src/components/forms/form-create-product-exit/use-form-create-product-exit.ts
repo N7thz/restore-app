@@ -128,7 +128,7 @@ export function useFormCreateProductExit() {
     append({
       createdAt: new Date(),
       description: null,
-      username: "",
+      name: "",
       productId: "",
       quantity: "0",
       region: "",

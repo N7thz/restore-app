@@ -21,7 +21,7 @@ export function useFormUpdateProductExit(
     createdAt,
     description,
     region,
-    username,
+    name,
     productId,
     quantity,
     product,
@@ -33,7 +33,7 @@ export function useFormUpdateProductExit(
       createdAt,
       description,
       region,
-      username,
+      name,
       productId,
       quantity: quantity.toString(),
     },
@@ -82,9 +82,9 @@ export function useFormUpdateProductExit(
   const isLoading = isPending || isSubmitting
 
   function validateQuantity(quantity: number) {
-    
+
     if (quantity > product.quantity) {
-      
+
       setError("quantity", {
         message: `Quantidade de saída excede o estoque disponível que é ${product.quantity}`,
       })

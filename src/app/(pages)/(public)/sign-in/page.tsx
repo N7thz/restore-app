@@ -1,15 +1,24 @@
 import { FormSign } from "@/components/forms/form-sign"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
+} from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+
+export const metadata = {
+	title: "Stock App | Login"
+}
 
 export default async function SignInPage() {
 	return (
 		<main className="h-dvh flex items-center justify-center">
 			<Card className={cn(
 				"w-full justify-between border-primary",
-				"lg:w-full",
 				"xl:w-1/3",
-				"lg:w-2/3"
+				"lg:w-1/2"
 			)}>
 				<CardHeader>
 					<CardTitle>

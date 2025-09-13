@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import { signUpSchema, type FormSignUpProps } from "@/schemas/sign-up-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -51,9 +52,37 @@ export const FormSignUp = () => {
 	})
 
 	async function onSubmit({
-		email, username, password
+		email, name, password
 	}: FormSignUpProps) {
-		mutate({ email, username, password })
+
+		console.log({
+			email, name, password
+		})
+
+		await authClient.signUp.email({
+			email,
+			name,
+			password
+		}, {
+			onSuccess: () => {
+				toast({
+					title: "Usuario criado com sucesso",
+					onAutoClose: () => push("/sign-in"),
+				})
+			},
+			onError: (ctx) => {
+
+				console.log(ctx.error.message)
+
+				toast({
+					title: "Error",
+					description: ctx.error.message,
+					variant: "error",
+				})
+			}
+		})
+
+		// mutate({ email, name, password })
 	}
 
 	const isLoading = isPending || isSuccess
@@ -84,17 +113,17 @@ export const FormSignUp = () => {
 				<div className="space-y-2">
 					<Input
 						placeholder="user name"
-						{...register("username")}
+						{...register("name")}
 						className={cn(
-							errors.username && [
+							errors.name && [
 								"focus-visible:ring-destructive",
 								"not-focus-visible:border-destructive",
 							],
 						)}
 					/>
-					{errors.username && (
+					{errors.name && (
 						<SpanErrorMessage
-							message={errors.username.message}
+							message={errors.name.message}
 						/>
 					)}
 				</div>
@@ -138,8 +167,10 @@ export const FormSignUp = () => {
 						variant={"link"}
 						className="p-0"
 						onClick={() => setVisible((visible) => !visible)}
-					>
-						show password
+					> 
+					{
+						visible ? "esconder senha" : "mostrar senha"
+					}
 					</Button>
 				</div>
 				<Button
@@ -148,7 +179,10 @@ export const FormSignUp = () => {
 					variant={"link"}
 					className="w-full"
 				>
-					<Link href="/sign-in">
+					<Link
+						href="/sign-in"
+						prefetch={false}
+					>
 						Já tenho conta
 					</Link>
 				</Button>

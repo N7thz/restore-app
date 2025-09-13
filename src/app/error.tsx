@@ -52,6 +52,7 @@ export default function Error({
         <Separator />
         <CardContent className="overflow-hidden">
           <Image
+            unoptimized
             loading="lazy"
             src={"/sonic.gif"}
             width={300}

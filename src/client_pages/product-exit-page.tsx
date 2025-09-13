@@ -61,7 +61,7 @@ export const ProductPageExit = ({ id }: { id: string }) => {
     return <div>Error</div>
   }
 
-  const { username, description, quantity, createdAt, region, product } =
+  const { name, description, quantity, createdAt, region, product } =
     productExit
 
   const data = formatDate(createdAt, "PPP " as " HH:mm", { locale: ptBR })
@@ -106,7 +106,7 @@ export const ProductPageExit = ({ id }: { id: string }) => {
             </p>
             <p className="flex gap-2 items-center pb-2">
               <span className="font-semibold capitalize">entrege a:</span>
-              {username}
+              {name}
             </p>
             <p className="flex gap-2 items-center pb-2">
               <span className="font-semibold capitalize">Região:</span>

@@ -1,6 +1,6 @@
 "use server"
 
-import { decrypt } from "@/lib/auth"
+import { decrypt } from "@/lib/jwt-auth"
 import type { CookieValueTypes } from "cookies-next"
 
 export async function authenticate(token: CookieValueTypes) {
@@ -16,7 +16,7 @@ export async function authenticate(token: CookieValueTypes) {
     const data = sub as unknown as {
         id: string
         email: string
-        username: string
+        name: string
         imageUrl: string | null
     }
 
