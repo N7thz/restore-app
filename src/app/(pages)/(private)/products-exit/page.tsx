@@ -2,7 +2,7 @@ import { DataTableProductsExit } from "@/client_pages/data-table-products-exit"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-    title: "stock App | Saida de produtos",
+    title: "Saida de produtos | Stock App",
 }
 
 export default function ProductsExit() {

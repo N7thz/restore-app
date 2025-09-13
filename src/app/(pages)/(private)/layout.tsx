@@ -13,8 +13,6 @@ export default async function PrivateLayout({
         headers: await headers()
     })
 
-    console.log(session)
-
     if (!session) redirect("/sign-in")
 
     return (

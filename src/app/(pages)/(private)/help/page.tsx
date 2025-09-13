@@ -1,7 +1,7 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "stock App | Ajuda",
+  title: "Ajuda | Stock App",
 }
 
 export default function Page() {
