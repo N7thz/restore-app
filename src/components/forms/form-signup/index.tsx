@@ -1,6 +1,5 @@
 "use client"
 
-import { createUser } from "@/actions/users/create-user"
 import { SpanErrorMessage } from "@/components/span-error"
 import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
@@ -11,9 +10,7 @@ import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import { signUpSchema, type FormSignUpProps } from "@/schemas/sign-up-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Prisma } from "@prisma/client"
-import { useMutation } from "@tanstack/react-query"
-import { Info, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -22,6 +19,7 @@ import { useForm } from "react-hook-form"
 export const FormSignUp = () => {
 
 	const [visible, setVisible] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const form = useForm<FormSignUpProps>({
 		mode: "onSubmit",
@@ -37,55 +35,34 @@ export const FormSignUp = () => {
 
 	const { push } = useRouter()
 
-	const { mutate, isPending, isSuccess } = useMutation({
-		mutationKey: ["create-user"],
-		mutationFn: (data: Prisma.UserCreateInput) => createUser(data),
-		onSuccess: () => toast({
-			title: "Usuario criado com sucesso",
-			onAutoClose: () => push("/sign-in"),
-		}),
-		onError: (err) => toast({
-			title: "Error",
-			description: err.message,
-			variant: "error",
-		}),
-	})
-
-	async function onSubmit({
-		email, name, password
-	}: FormSignUpProps) {
-
-		console.log({
-			email, name, password
-		})
+	async function onSubmit({ email, name, password }: FormSignUpProps) {
 
 		await authClient.signUp.email({
 			email,
 			name,
 			password
 		}, {
+			onRequest: () => setIsLoading(true),
 			onSuccess: () => {
 				toast({
 					title: "Usuario criado com sucesso",
 					onAutoClose: () => push("/sign-in"),
 				})
 			},
-			onError: (ctx) => {
+			onError: ({ error }) => {
 
-				console.log(ctx.error.message)
+				console.log(error.message)
+				
+				setIsLoading(false)
 
 				toast({
 					title: "Error",
-					description: ctx.error.message,
+					description: error.message,
 					variant: "error",
 				})
 			}
 		})
-
-		// mutate({ email, name, password })
 	}
-
-	const isLoading = isPending || isSuccess
 
 	return (
 		<Form {...form}>
@@ -167,10 +144,10 @@ export const FormSignUp = () => {
 						variant={"link"}
 						className="p-0"
 						onClick={() => setVisible((visible) => !visible)}
-					> 
-					{
-						visible ? "esconder senha" : "mostrar senha"
-					}
+					>
+						{
+							visible ? "esconder senha" : "mostrar senha"
+						}
 					</Button>
 				</div>
 				<Button

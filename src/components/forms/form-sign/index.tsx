@@ -19,6 +19,7 @@ import { SpanErrorMessage } from "@/components/span-error"
 export const FormSign = () => {
 
 	const [visible, setVisible] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 
 	const form = useForm<FormSignProps>({
 		mode: "onSubmit",
@@ -32,8 +33,6 @@ export const FormSign = () => {
 		formState: { errors },
 	} = form
 
-	const isLoading = false
-
 	async function onSignInSubmit({ email, password }: FormSignProps) {
 
 		await authClient.signIn.email({
@@ -41,16 +40,19 @@ export const FormSign = () => {
 			password,
 			callbackURL: "/home"
 		}, {
-			onError: (ctx) => {
+			onRequest: () => setIsLoading(true),
+			onError: ({ error }) => {
 
-				console.log(ctx.error.message)
+				console.log(error)
+
+				setIsLoading(false)
 
 				toast({
-					title: "Error",
-					description: ctx.error.message,
+					title: "Error no login",
+					description: "Senha ou email inválidos.",
 					variant: "error",
 				})
-			}
+			},
 		})
 	}
 
