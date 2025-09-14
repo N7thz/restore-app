@@ -12,20 +12,20 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { getCookie } from "cookies-next/client"
-import { Ellipsis, Info, LogOut, Settings, UserCircle, UserCircle2 } from "lucide-react"
+import { authClient } from "@/lib/auth-client"
+import { Ellipsis, Info, LogOut, Settings, UserCircle2 } from "lucide-react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 import { Button } from "./ui/button"
-import Link from "next/link"
-import { useQuery } from "@tanstack/react-query"
-import { authenticate } from "@/actions/autheticate/autheticate"
-import { deleteCookie } from "cookies-next"
-import { redirect } from "next/navigation"
+import { supabase } from "@/lib/supabase"
 
 export const Header = () => {
 
   const [open, setOpen] = useState(false)
+
+  const { replace } = useRouter()
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -40,14 +40,9 @@ export const Header = () => {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
-  const token = getCookie("token")
+  const { data, error } = authClient.useSession()
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["authenticate-user"],
-    queryFn: () => authenticate(token)
-  })
-
-  if (isLoading || !data) {
+  if (error || !data) {
     return (
       <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
         <Avatar className="size-8">
@@ -64,14 +59,19 @@ export const Header = () => {
     )
   }
 
-  const { imageUrl, username } = data
+  const {
+    user: {
+      image,
+      name
+    }
+  } = data
 
   return (
     <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger>
           <Avatar className="size-8">
-            <AvatarImage src={imageUrl ?? undefined} />
+            <AvatarImage src={image ?? undefined} />
             <AvatarFallback>
               <UserCircle2 />
             </AvatarFallback>
@@ -80,14 +80,14 @@ export const Header = () => {
         <SheetContent side="left" className="px-6 border-primary">
           <SheetHeader>
             <SheetTitle>
-              {`Olá ${username}`}
+              {`Olá ${name}`}
             </SheetTitle>
             <SheetDescription>
               Veja as opções do app e preferências
             </SheetDescription>
           </SheetHeader>
           <Avatar className="size-50 mx-auto">
-            <AvatarImage src={imageUrl ?? undefined} />
+            <AvatarImage src={image ?? undefined} />
             <AvatarFallback>
               <UserCircle2
                 strokeWidth={0.2}
@@ -126,9 +126,12 @@ export const Header = () => {
             </div>
             <Button
               className="w-full"
-              onClick={() => {
-                deleteCookie("token")
-                redirect("/sign-in")
+              onClick={async () => {
+                await authClient.signOut({
+                  fetchOptions: {
+                    onSuccess: () => replace("/sign-in")
+                  }
+                })
               }}
             >
               Sair

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { InputProductExitObjectProps } from "@/schemas/product-exit-object"
 import { useFormContext } from "react-hook-form"
 
-export const UsernameLabel = () => {
+export const nameLabel = () => {
   const {
     register,
     formState: { errors },
@@ -13,21 +13,21 @@ export const UsernameLabel = () => {
 
   return (
     <>
-      <Label htmlFor="username" className="flex-col items-start">
+      <Label htmlFor="name" className="flex-col items-start">
         A quem foi entrege:
         <Input
-          id="username"
+          id="name"
           className={cn(
-            errors.username && [
+            errors.name && [
               "focus-visible:ring-destructive",
               "not-focus-visible:border-destructive",
             ]
           )}
-          {...register("username")}
+          {...register("name")}
         />
       </Label>
-      {errors.username && (
-        <SpanErrorMessage message={errors.username.message} />
+      {errors.name && (
+        <SpanErrorMessage message={errors.name.message} />
       )}
     </>
   )

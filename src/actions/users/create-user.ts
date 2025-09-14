@@ -6,7 +6,7 @@ import { hash } from "bcryptjs"
 
 export async function createUser(user: Prisma.UserCreateInput) {
 
-    const { email, username } = user
+    const { email, name } = user
 
     const userAlreadyExists = await prisma.user.findUnique({
         where: {
@@ -21,7 +21,7 @@ export async function createUser(user: Prisma.UserCreateInput) {
     const userCreated = await prisma.user.create({
         data: {
             email,
-            username,
+            name,
             password,
         },
     })

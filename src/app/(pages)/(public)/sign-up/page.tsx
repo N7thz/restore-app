@@ -10,12 +10,15 @@ import { cn } from "@/lib/utils"
 
 export default async function SignUpPage() {
 	return (
-		<main className="h-dvh flex items-center justify-center">
+		<main
+			className={cn(
+				"h-dvh flex items-center justify-center p-8",
+				"max-sm:px-4",
+			)}
+		>
 			<Card className={cn(
 				"w-full justify-between border-primary",
-				"lg:w-full",
-				"xl:w-1/3",
-				"lg:w-2/3"
+				"xl:w-2/5",
 			)}>
 				<CardHeader>
 					<CardTitle className="text-2xl">Sign Up</CardTitle>

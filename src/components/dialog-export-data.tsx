@@ -10,11 +10,10 @@ import {
 } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 import { Download } from "lucide-react"
-import { ComponentProps, ReactNode, useState } from "react"
+import { ComponentProps } from "react"
+import { LayoutProps } from "@/types"
 
-type DialogExportDataProps = ComponentProps<typeof Dialog> & {
-  children: ReactNode
-}
+type DialogExportDataProps = ComponentProps<typeof Dialog> & LayoutProps
 
 export const DialogExportData = ({
   children,

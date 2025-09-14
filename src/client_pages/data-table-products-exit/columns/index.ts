@@ -8,14 +8,14 @@ import { description } from "./description"
 import { region } from "./region"
 import { quantity } from "./quantity"
 import { select } from "./select"
-import { username } from "./username"
+import { name } from "./name"
 import { productId } from "./product"
 
 export const columns: ColumnDef<ProductExit & { product: Product }>[] = [
   select,
   actions,
   productId,
-  username,
+  name,
   region,
   description,
   quantity,

@@ -1,25 +1,29 @@
 import {
-  FileClock,
   FileInput,
   FilePlus2,
-  FileSearch,
   FileSpreadsheet,
   Info,
   LayoutPanelLeft,
   LucideIcon,
-  Wallpaper,
+  Sparkles,
+  Wallpaper
 } from "lucide-react"
-import { Route as Href } from "next"
+import { Route } from "next"
 
-type Routes = {
-  href: Href
+type RouteProps = {
+  href: Route
   text: string
   Icon: LucideIcon
 }
 
-export const routes: readonly Routes[] = [
+export const routes: RouteProps[] = [
   {
-    href: "/",
+    href: "/whats-new",
+    text: "Atualizações e novidades",
+    Icon: Sparkles,
+  },
+  {
+    href: "/home",
     text: "Home",
     Icon: LayoutPanelLeft,
   },
@@ -53,4 +57,4 @@ export const routes: readonly Routes[] = [
     text: "Ajuda",
     Icon: Info,
   },
-]
+] as const

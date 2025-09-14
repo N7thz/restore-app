@@ -16,7 +16,7 @@ export const productExitKeyOfs = [
     label: "data de criação",
   },
   {
-    key: "username",
+    key: "name",
     label: "A que foi entrege",
   },
   {

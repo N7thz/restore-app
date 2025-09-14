@@ -23,6 +23,7 @@ import { NotificationCard } from "./notification-card"
 import { NotificationCardError } from "./notification-card-error"
 
 export const Notifications = () => {
+  
   const {
     data: notifications,
     isLoading,

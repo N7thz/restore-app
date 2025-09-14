@@ -14,7 +14,7 @@ import { Metadata } from "next"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Stoke App | Home",
+  title: "Home | Stoke App",
 }
 
 export default async function Home() {

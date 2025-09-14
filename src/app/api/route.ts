@@ -13,7 +13,7 @@
 //         () => faker.commerce.productDescription(),
 //         { probability: 0.7 }
 //       ),
-//       username: faker.person.firstName(),
+//       name: faker.person.firstName(),
 //       product: {
 //         create: {
 //           name: faker.commerce.productName().toLowerCase(),

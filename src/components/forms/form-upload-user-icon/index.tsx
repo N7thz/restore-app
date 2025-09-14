@@ -30,7 +30,7 @@ export const FormUploadUserIcon = ({
 
   const {
     form,
-    defaultUrl,
+    image,
     errors,
     isLoading,
     isPending,
@@ -60,7 +60,7 @@ export const FormUploadUserIcon = ({
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-4 mx-auto"
           >
-            <InputFile defaultUrl={defaultUrl} />
+            <InputFile defaultUrl={image ?? undefined} />
             {errors.file && <SpanErrorMessage message={errors.file.message} />}
           </form>
         </FormProvider>

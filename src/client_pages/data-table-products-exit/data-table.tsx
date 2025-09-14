@@ -95,8 +95,13 @@ export function DataTableExit<TData, TValue>({
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <div>
-                                    <DialogExportData open={open} onOpenChange={setOpen}>
-                                        <FormExportProdctsExit setOpen={setOpen} />
+                                    <DialogExportData
+                                        open={open}
+                                        onOpenChange={setOpen}
+                                    >
+                                        <FormExportProdctsExit
+                                            setOpen={setOpen}
+                                        />
                                     </DialogExportData>
                                 </div>
                             </TooltipTrigger>

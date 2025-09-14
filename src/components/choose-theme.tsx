@@ -32,6 +32,7 @@ export const ChooseATheme = () => {
             <Image
               src={image}
               alt={label}
+              priority={false}
               width={88}
               height={70}
               className="border-input peer-focus-visible:ring-ring/50 peer-data-[state=checked]:border-ring peer-data-[state=checked]:bg-accent relative cursor-pointer overflow-hidden rounded-md border shadow-xs transition-[color,box-shadow] outline-none peer-focus-visible:ring-[3px] peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50 size-30"

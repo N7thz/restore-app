@@ -8,9 +8,9 @@ export const signUpSchema = z
 				message: "Apenas emails '@chabra.com.br' são permitidos"
 			})
 			.toLowerCase(),
-		username: z
+		name: z
 			.string()
-			.nonempty("O username é obrigatório.")
+			.nonempty("O name é obrigatório.")
 			.toLowerCase(),
 		password: z
 			.string()

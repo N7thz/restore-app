@@ -15,12 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params
 
-  const {
-    product: { name },
-  } = await findProductsExitById(id)
+  const { product: { name }, } = await findProductsExitById(id)
 
   return {
-    title: `Stoke App | ${name}`,
+    title: `${name} | Stoke App`,
   }
 }
 

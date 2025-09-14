@@ -12,7 +12,7 @@ export async function generateMetadata({
   const { name } = await findProductById(id)
 
   return {
-    title: `Stoke App | ${name}`,
+    title: `${name} | Stoke App`,
   }
 }
 

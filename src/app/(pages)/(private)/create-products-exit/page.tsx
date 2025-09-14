@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "stock App | Registrar saida de produto",
+  title: "Registrar saida de produto | Stock App",
 }
 
 export default function CreateProductExit() {

@@ -14,7 +14,7 @@ export async function generateMetadata({
   } = await findProductsExitById(id)
 
   return {
-    title: `Stoke App | ${name}`,
+    title: `${name} | Stoke App`,
   }
 }
 

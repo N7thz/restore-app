@@ -94,7 +94,6 @@ export const ProductPage = ({ id }: { id: string }) => {
           <div className="overflow-hidden size-fit rounded-xl border shadow-2xl">
             <Image
               src={imageUrl}
-              quality={100}
               width={300}
               height={300}
               alt={`imagem ilustrativa do produto${name}`}

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "stock App | Registrar produto",
+  title: "Registrar produto | Stock App",
 }
 
 export default function CreateProduct() {
@@ -28,7 +28,7 @@ export default function CreateProduct() {
       )}>
         <CardHeader>
           <CardTitle>Registre um produto</CardTitle>
-          <CardDescription>Registre um produto ao estoque</CardDescription>
+          <CardDescription>Adicione um produto ao estoque</CardDescription>
         </CardHeader>
         <FormCreateProduct />
       </Card>
