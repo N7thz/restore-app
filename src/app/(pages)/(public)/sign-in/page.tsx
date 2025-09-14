@@ -14,11 +14,15 @@ export const metadata = {
 
 export default async function SignInPage() {
 	return (
-		<main className="h-dvh flex items-center justify-center">
+		<main
+			className={cn(
+				"h-dvh flex items-center justify-center p-8",
+				"max-sm:px-4",
+			)}
+		>
 			<Card className={cn(
 				"w-full justify-between border-primary",
-				"xl:w-1/3",
-				"lg:w-1/2"
+				"xl:w-2/5",
 			)}>
 				<CardHeader>
 					<CardTitle>

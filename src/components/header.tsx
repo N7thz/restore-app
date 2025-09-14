@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 import { Button } from "./ui/button"
+import { supabase } from "@/lib/supabase"
 
 export const Header = () => {
 
@@ -39,9 +40,9 @@ export const Header = () => {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
-  const session = authClient.useSession()
+  const { data, error } = authClient.useSession()
 
-  if (!session || session.error || !session.data) {
+  if (error || !data) {
     return (
       <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">
         <Avatar className="size-8">
@@ -59,15 +60,11 @@ export const Header = () => {
   }
 
   const {
-    data: {
-      user: {
-        image,
-        name
-      }
+    user: {
+      image,
+      name
     }
-  } = session
-
-  console.log(session)
+  } = data
 
   return (
     <header className="bg-card flex items-center justify-between px-4 py-2.5 border border-b-primary">

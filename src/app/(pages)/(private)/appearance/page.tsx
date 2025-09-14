@@ -25,7 +25,9 @@ export default function UploadPage() {
         "lg:w-2/3"
       )}>
         <CardHeader>
-          <CardTitle className="text-lg truncate">Configurações</CardTitle>
+          <CardTitle>
+            Configurações
+          </CardTitle>
           <CardDescription>
             Altere as configurações padrões do sistema
           </CardDescription>

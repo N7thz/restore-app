@@ -28,7 +28,7 @@ export default function CreateProduct() {
       )}>
         <CardHeader>
           <CardTitle>Registre um produto</CardTitle>
-          <CardDescription>Registre um produto ao estoque</CardDescription>
+          <CardDescription>Adicione um produto ao estoque</CardDescription>
         </CardHeader>
         <FormCreateProduct />
       </Card>

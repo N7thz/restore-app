@@ -13,7 +13,7 @@ export default async function PrivateLayout({
         headers: await headers()
     })
 
-    if (!session) redirect("/sign-in")
+    if (!session) redirect("/sign-in") 
 
     return (
         <div className="flex flex-col h-dvh itemce">

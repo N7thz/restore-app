@@ -1,76 +1,71 @@
 "use server"
 
-import { writeFile, unlink, access, mkdir } from "fs/promises"
-import path from "node:path"
-import { revalidatePath } from "next/cache"
-import { generateFilename, validateFile } from "@/lib/multer"
+import { auth } from "@/lib/auth"
+import { supabase } from "@/lib/supabase"
+import { headers } from "next/headers"
+import { updateUser } from "./users/update-user"
+import { createNotification } from "./notifications/create-notification"
 
-async function fileExists(filePath: string): Promise<boolean> {
-  try {
-    await access(filePath)
-    return true
-  } catch {
-    return false
-  }
+function generateNameFile({ id, filename }: { id: string, filename: string }) {
+  return `${id}_${filename}`
 }
 
-export async function uploadImage(formData: FormData) {
-  try {
-    const file = formData.get("file") as File | null
+export async function uploadImage(file: File) {
 
-    if (!file) {
-      return { success: false, error: "Nenhum arquivo enviado" }
-    }
+  const session = await auth.api.getSession({
+    headers: await headers()
+  })
 
-    const validationError = validateFile(file)
+  if (!session) throw new Error("Não foi encontrado o usuário")
 
-    if (validationError) {
-      return { success: false, error: validationError }
-    }
+  const { user: { id, image } } = session
 
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+  if (image) {
 
-    const filename = generateFilename(file.name)
-    const uploadDir = path.join(process.cwd(), "public/uploads")
-    const filePath = path.join(uploadDir, filename)
+    const path = image.slice(74)
 
-    try {
+    const removeFile = await supabase
+      .storage
+      .from('avatars')
+      .remove([path])
 
-      try {
-        await access(uploadDir)
-      } catch {
-        await mkdir(uploadDir, { recursive: true })
-      }
-
-      if (await fileExists(filePath)) {
-        await unlink(filePath)
-      }
-
-      await writeFile(filePath, buffer)
-
-    } catch (error) {
-      console.error("Erro ao processar arquivo:", error)
-      return { success: false, error: "Erro ao salvar o arquivo" }
-    }
-
-    revalidatePath("/upload")
-
-    return {
-      success: true,
-      message: "Upload realizado com sucesso!",
-      data: {
-        filename: filename,
-        originalName: file.name,
-        size: file.size,
-        type: file.type,
-        path: `/uploads/${filename}`,
-        uploadedAt: new Date().toISOString()
-      }
-    }
-
-  } catch (error: any) {
-    console.error("Erro no upload:", error)
-    return { success: false, error: "Erro interno do servidor" }
+    if (removeFile.error) throw new Error("Não foi possivel atualizar a imagem")
   }
+
+  const { type } = file
+
+  const filename = generateNameFile({ id, filename: file.name })
+
+  const uploadFile = await supabase
+    .storage
+    .from("avatars")
+    .upload(filename, file, {
+      cacheControl: '0',
+      upsert: true,
+      contentType: type
+    })
+
+  if (uploadFile.error)
+    throw new Error("Não foi possivel atualizar a imagem")
+
+  const { path } = uploadFile.data
+
+  const { data: { publicUrl } } = supabase
+    .storage
+    .from("avatars")
+    .getPublicUrl(path)
+
+
+  await updateUser(id, {
+    image: publicUrl
+  })
+
+  const notification = await createNotification({
+    action: "UPDATE",
+    name: "Atualização de imagem",
+    description: "Imagem atualizada com sucesso",
+    createdAt: new Date()
+  })
+
+  return { notification }
 }

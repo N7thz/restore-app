@@ -21,6 +21,7 @@ export default function Error({
 }: {
   error: Error & { digest?: string }
 }) {
+  
   useEffect(() => {
     console.error(error)
   }, [error])
