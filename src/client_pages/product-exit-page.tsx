@@ -61,8 +61,14 @@ export const ProductPageExit = ({ id }: { id: string }) => {
     return <div>Error</div>
   }
 
-  const { name, description, quantity, createdAt, region, product } =
-    productExit
+  const {
+    name,
+    description,
+    quantity,
+    createdAt,
+    region,
+    product
+  } = productExit
 
   const data = formatDate(createdAt, "PPP " as " HH:mm", { locale: ptBR })
 
@@ -80,7 +86,6 @@ export const ProductPageExit = ({ id }: { id: string }) => {
           <div className="overflow-hidden size-fit rounded-xl border shadow-2xl">
             <Image
               src={product.imageUrl}
-              quality={100}
               width={300}
               height={300}
               alt={`imagem ilustrativa do produto${product.name}`}

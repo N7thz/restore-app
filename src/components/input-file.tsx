@@ -237,15 +237,10 @@ export const InputFile = ({
                 className="size-full object-cover group-hover:opacity-60"
                 src={imageExist}
                 alt="User avatar"
-                quality={100}
                 width={200}
                 height={200}
                 style={{ objectFit: "cover" }}
                 unoptimized
-                onError={() => {
-                  deleteCookie("user-icon")
-                  imageExist = ""
-                }}
               />
             ) : (
               <div aria-hidden="true">

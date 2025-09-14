@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -48,7 +47,7 @@ model Product {
 model ProductExit {
   id          String   @id @default(uuid())
   description String?
-  username    String
+  name        String
   region      String
   quantity    Float
   createdAt   DateTime @default(now()) @map("created_at")
@@ -121,4 +120,3 @@ model Verification {
 
   @@map("verification")
 }
- 

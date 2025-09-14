@@ -6,8 +6,47 @@ import { headers } from "next/headers"
 import { updateUser } from "./users/update-user"
 import { createNotification } from "./notifications/create-notification"
 
+function getPublicUrl(path: string) {
+
+  const { data: { publicUrl } } = supabase
+    .storage
+    .from("avatars")
+    .getPublicUrl(path)
+
+    return publicUrl
+}
+
 function generateNameFile({ id, filename }: { id: string, filename: string }) {
   return `${id}_${filename}`
+}
+
+async function deleteImage(filename: string) {
+
+  const removeFile = await supabase
+    .storage
+    .from('avatars')
+    .remove([filename])
+
+  if (removeFile.error) throw new Error("Não foi possivel atualizar a imagem")
+}
+
+async function updateImage(id: string, file: File) {
+
+  const filename = generateNameFile({ id, filename: file.name })
+
+  const { data, error } = await supabase
+    .storage
+    .from("avatars")
+    .upload(filename, file, {
+      cacheControl: '0',
+      upsert: true,
+      contentType: file.type
+    })
+
+  if (error)
+    throw new Error("Não foi possivel atualizar a imagem")
+
+  return data
 }
 
 export async function uploadImage(file: File) {
@@ -24,37 +63,12 @@ export async function uploadImage(file: File) {
 
     const path = image.slice(74)
 
-    const removeFile = await supabase
-      .storage
-      .from('avatars')
-      .remove([path])
-
-    if (removeFile.error) throw new Error("Não foi possivel atualizar a imagem")
+    await deleteImage(path)
   }
 
-  const { type } = file
+  const { path } = await updateImage(id, file)
 
-  const filename = generateNameFile({ id, filename: file.name })
-
-  const uploadFile = await supabase
-    .storage
-    .from("avatars")
-    .upload(filename, file, {
-      cacheControl: '0',
-      upsert: true,
-      contentType: type
-    })
-
-  if (uploadFile.error)
-    throw new Error("Não foi possivel atualizar a imagem")
-
-  const { path } = uploadFile.data
-
-  const { data: { publicUrl } } = supabase
-    .storage
-    .from("avatars")
-    .getPublicUrl(path)
-
+  const publicUrl = getPublicUrl(path)
 
   await updateUser(id, {
     image: publicUrl
