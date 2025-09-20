@@ -28,7 +28,9 @@ export const FormExportProdctsExit = ({
 }: {
   setOpen: (open: boolean) => void
 }) => {
+
   const {
+    watch,
     form,
     errors,
     ItemsLimit,
@@ -38,6 +40,8 @@ export const FormExportProdctsExit = ({
     register,
     setValue,
   } = useFormExportExitProdcts(setOpen)
+
+    const itemsLimit = watch("itemsLimit")
 
   return (
     <FormProvider {...form}>

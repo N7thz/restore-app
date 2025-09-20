@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { InputCreateProductProps } from "@/schemas/create-product-exit-schema"
 import { useFormContext } from "react-hook-form"
 
-export const nameLabel = ({ index }: { index: number }) => {
+export const NameLabel = ({ index }: { index: number }) => {
   const {
     register,
     formState: { errors },

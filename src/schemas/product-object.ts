@@ -12,8 +12,8 @@ export const outputProductObject = z
   .object({
     name: z.string().min(1, "O nome é obrigatório").toLowerCase(),
     price: z.number().positive("O preço deve ser positivo"),
-    quantity: z.number().positive("A quantidade deve ser positiva"),
-    minQuantity: z.number().positive("A quantidade minima deve ser positiva"),
+    quantity: z.int().positive("A quantidade deve ser positiva"),
+    minQuantity: z.int().positive("A quantidade minima deve ser positiva"),
     imageUrl: z.url("Url inválida").nullable(),
   })
   .refine(({ quantity, minQuantity }) => quantity >= minQuantity, {

@@ -82,6 +82,7 @@ export function useFormExportProdcts(setOpen: (open: boolean) => void) {
   })
 
   const {
+    watch,
     register,
     setValue,
     setError,
@@ -109,6 +110,7 @@ export function useFormExportProdcts(setOpen: (open: boolean) => void) {
   const ItemsLimit = ["10", "25", "30", "40", "50", "100", "todos"]
 
   return {
+    watch,
     form,
     errors,
     ItemsLimit,
