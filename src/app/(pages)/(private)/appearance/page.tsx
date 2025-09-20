@@ -17,11 +17,9 @@ export const metadata: Metadata = {
 
 export default function UploadPage() {
   return (
-    <main className="h-container flex items-center justify-center p-8">
+    <main className="h-container flex items-center justify-center px-8 py-4">
       <Card className={cn(
-        "w-full justify-between border-primary",
-        "lg:w-full",
-        "xl:w-2/3",
+        "w-full justify-between border-primary mx-auto",
         "lg:w-2/3"
       )}>
         <CardHeader>
