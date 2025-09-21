@@ -23,7 +23,7 @@ import { QuantityLabel } from "./quantity"
 import { RegionLabel } from "./region"
 import { SelectProductUpdate } from "./select-product-update"
 import { useFormUpdateProductExit } from "./use-form-update-product"
-import { nameLabel } from "./user-name"
+import { NameLabel } from "./name"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -147,7 +147,7 @@ export const UpdateProductExit = ({
           <Separator />
           <CardContent className="size-full space-y-4">
             <DatePickerUpdate />
-            <nameLabel />
+            <NameLabel />
             <SelectProductUpdate />
             <QuantityLabel />
             <RegionLabel />

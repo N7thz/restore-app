@@ -8,13 +8,17 @@ import {
   CommandItem,
   CommandList,
   CommandShortcut,
+  CommandSeparator
 } from "@/components/ui/command"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
-import { routes } from "@/data/route"
+import { RouteProps, routes } from "@/data/route"
+import { authClient } from "@/lib/auth-client"
+import { ShieldUser } from "lucide-react"
 import { redirect, RedirectType } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export const Command = () => {
+
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -30,6 +34,10 @@ export const Command = () => {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
+  const { data } = authClient.useSession()
+
+  const role = data?.user.role
+
   return (
     <>
       <CommandDialog
@@ -38,6 +46,23 @@ export const Command = () => {
         className="border-primary"
       >
         <CommandInput placeholder="Pesquise uma opção..." />
+        {
+          role === "ADMIN" &&
+          <>
+            <CommandGroup heading="Administrador">
+              <CommandItem onSelect={() => {
+                setTimeout(() => setOpen(false), 800)
+                redirect("/create-update", RedirectType.push)
+              }}>
+                Criar novidades
+                <CommandShortcut>
+                  <ShieldUser />
+                </CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+          </>
+        }
         <CommandList>
           <CommandEmpty className="text-base text-muted-foreground">
             Não foi encontrado o resultado.

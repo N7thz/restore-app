@@ -90,6 +90,7 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
   })
 
   const {
+    watch,
     register,
     setValue,
     setError,
@@ -123,6 +124,7 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
   const isLoading = isPending || isSuccess
 
   return {
+    watch,
     form,
     errors,
     ItemsLimit,

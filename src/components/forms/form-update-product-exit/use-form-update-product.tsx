@@ -81,9 +81,9 @@ export function useFormUpdateProductExit(
 
   const isLoading = isPending || isSubmitting
 
-  function validateQuantity(quantity: number) {
+  function validateQuantity(newQuantity: number) {
 
-    if (quantity > product.quantity) {
+    if (newQuantity > product.quantity + quantity) {
 
       setError("quantity", {
         message: `Quantidade de saída excede o estoque disponível que é ${product.quantity}`,
@@ -96,6 +96,7 @@ export function useFormUpdateProductExit(
   }
 
   async function onSubmit({ quantity, ...rest }: InputProductExitObjectProps) {
+
     const { data, error } = outputProductExitObject.safeParse({
       quantity: Number(quantity),
       ...rest,

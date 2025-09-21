@@ -28,6 +28,7 @@ export const FormExportProdcts = ({
   setOpen: (open: boolean) => void
 }) => {
   const {
+    watch,
     form,
     errors,
     ItemsLimit,
@@ -36,6 +37,8 @@ export const FormExportProdcts = ({
     register,
     setValue,
   } = useFormExportProdcts(setOpen)
+
+  const itemsLimit = watch("itemsLimit")
 
   return (
     <FormProvider {...form}>
@@ -47,6 +50,7 @@ export const FormExportProdcts = ({
               <Input
                 id="date-start"
                 type="date"
+                disabled={itemsLimit === "all"}
                 className={cn(errors.dateStart && "border border-destructive")}
                 {...register("dateStart")}
               />
@@ -56,6 +60,7 @@ export const FormExportProdcts = ({
               <Input
                 id="date-end"
                 type="date"
+                disabled={itemsLimit === "all"}
                 className={cn(errors.dateEnd && "border border-destructive")}
                 {...register("dateEnd")}
               />

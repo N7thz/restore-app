@@ -6,11 +6,12 @@ import {
   LayoutPanelLeft,
   LucideIcon,
   Sparkles,
-  Wallpaper
+  Wallpaper,
+  ShieldUser
 } from "lucide-react"
 import { Route } from "next"
 
-type RouteProps = {
+export type RouteProps = {
   href: Route
   text: string
   Icon: LucideIcon

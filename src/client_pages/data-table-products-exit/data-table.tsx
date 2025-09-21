@@ -59,12 +59,10 @@ export function DataTableExit<TData, TValue>({
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div
-                    className={cn(
-                        "flex items-center py-4",
-                        "max-sm:flex-col max-sm:gap-4"
-                    )}
-                >
+                <div className={cn(
+                    "flex items-center py-4",
+                    "max-sm:flex-col max-sm:gap-4"
+                )} >
                     <Input
                         placeholder="Pesquise um produto..."
                         value={
@@ -98,6 +96,7 @@ export function DataTableExit<TData, TValue>({
                                     <DialogExportData
                                         open={open}
                                         onOpenChange={setOpen}
+                                        disabled={table.getRowModel().rows?.length === 0}
                                     >
                                         <FormExportProdctsExit
                                             setOpen={setOpen}

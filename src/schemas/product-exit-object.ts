@@ -12,7 +12,7 @@ export const inputProductExitObject = z.object({
 export const outputProductExitObject = z.object({
   createdAt: z.date("A data é obrigatória"),
   region: z.string().min(1, "O nome é obrigatório").toLowerCase(),
-  quantity: z.number().positive("A quantidade deve ser positiva."),
+  quantity: z.int().positive("A quantidade deve ser positiva."),
   description: z.string().toLowerCase().nullable(),
   name: z.string().toLowerCase(),
   productId: z.uuid().min(1, "O nome do produto é obrigatório"),
@@ -20,6 +20,5 @@ export const outputProductExitObject = z.object({
 
 export type InputProductExitObjectProps = z.infer<typeof inputProductExitObject>
 
-export type OutputProductExitObjectProps = z.infer<
-  typeof outputProductExitObject
->
+export type OutputProductExitObjectProps =
+  z.infer<typeof outputProductExitObject>

@@ -23,8 +23,10 @@ export const CardProductStok = ({
   return (
     <Card className="rounded-md size-full justify-between">
       <CardHeader>
-        <Link href={`/products/${id}`} className="hover:text-primary block">
-          <CardTitle className="text-lg">{name}</CardTitle>
+        <Link href={`/products/${id}`} className="hover:text-primary">
+          <CardTitle className="text-lg truncate max-w-40 ">
+            {name}
+          </CardTitle>
           <CardDescription>{data}</CardDescription>
         </Link>
         <CardAction>

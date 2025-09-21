@@ -89,7 +89,11 @@ export function DataTable<TData, TValue>({
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>
-                  <DialogExportData open={open} onOpenChange={setOpen}>
+                  <DialogExportData
+                    open={open}
+                    onOpenChange={setOpen}
+                    disabled={table.getRowModel().rows?.length === 0}
+                  >
                     <FormExportProdcts setOpen={setOpen} />
                   </DialogExportData>
                 </div>

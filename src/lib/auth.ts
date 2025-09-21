@@ -1,12 +1,16 @@
+import { ac } from "@/auth/permissions"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
+import { admin as adminPlugin } from "better-auth/plugins"
+import { defaultRoles } from "better-auth/plugins/admin/access"
 import { prisma } from "./prisma"
+import { admin, user } from "@/auth/permissions"
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql"
     }),
-    account: {        
+    account: {
         accountLinking: {
             enabled: true,
         }
@@ -27,4 +31,10 @@ export const auth = betterAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         },
     },
+    plugins: [
+        adminPlugin({
+            ac,
+            roles: { admin, user }
+        }),
+    ],
 })

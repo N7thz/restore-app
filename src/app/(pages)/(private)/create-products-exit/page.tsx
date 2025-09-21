@@ -1,4 +1,6 @@
-import { FormCreateProductExit } from "@/components/forms/form-create-product-exit"
+import { 
+  FormCreateProductExit 
+} from "@/components/forms/form-create-product-exit"
 import {
   Card,
   CardDescription,
@@ -22,8 +24,10 @@ export default function CreateProductExit() {
         "xl:w-2/5"
       )}>
         <CardHeader>
-          <CardTitle>Registre um produto</CardTitle>
-          <CardDescription>Registre um produto ao estoque</CardDescription>
+          <CardTitle>Saida de Produtos</CardTitle>
+          <CardDescription>
+            Registre a saida de um produto
+          </CardDescription>
         </CardHeader>
         <FormCreateProductExit />
       </Card>

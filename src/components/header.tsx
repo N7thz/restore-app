@@ -19,7 +19,6 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { AnimatedThemeToggler } from "./magicui/animated-theme-toggler"
 import { Button } from "./ui/button"
-import { supabase } from "@/lib/supabase"
 
 export const Header = () => {
 

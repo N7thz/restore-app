@@ -11,17 +11,19 @@ import {
 import { cn } from "@/lib/utils"
 import { Download } from "lucide-react"
 import { ComponentProps } from "react"
-import { LayoutProps } from "@/types"
 
-type DialogExportDataProps = ComponentProps<typeof Dialog> & LayoutProps
+type DialogExportDataProps = ComponentProps<typeof Dialog> & {
+  disabled?: boolean
+}
 
 export const DialogExportData = ({
   children,
+  disabled,
   ...props
 }: DialogExportDataProps) => {
   return (
     <Dialog {...props}>
-      <DialogTrigger asChild>
+      <DialogTrigger disabled={disabled} asChild>
         <Button variant={"outline"} className={cn("dark:hover:bg-emerald-600")}>
           <Download className="group-hover:-translate-y-0.5 duration-200" />
         </Button>
