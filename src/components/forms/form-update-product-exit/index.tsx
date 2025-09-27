@@ -7,6 +7,7 @@ import {
 	Card,
 	CardAction,
 	CardContent,
+	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle,
@@ -32,7 +33,7 @@ export const FormUpdateProductExit = ({ id }: { id: string }) => {
 	const {
 		data: product,
 		isLoading,
-		status,
+		error,
 		refetch,
 	} = useQuery({
 		queryKey: queryKey.findProductExitById(id),
@@ -54,33 +55,24 @@ export const FormUpdateProductExit = ({ id }: { id: string }) => {
 							<ChevronDownIcon />
 						</Button>
 						<Label className="flex-col items-start">
+							Selecione um produto:
+							<Input disabled />
+						</Label>
+						<Label className="flex-col items-start">
 							A quem foi entrege:
-							<Input readOnly />
+							<Input disabled />
 						</Label>
 						<Label className="flex-col items-start">
 							Quantidade:
-							<Input readOnly />
+							<Input disabled />
 						</Label>
 						<Label className="flex-col items-start">
 							Região:
-							<Input readOnly />
-						</Label>
-						<Label className="flex-col items-start">
-							Selecione um produto:
-							<Button
-								type="button"
-								variant="outline"
-								role="combobox"
-								className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]">
-								<span className="truncate text-muted-foreground">
-									Selecione um produto
-								</span>
-								<ChevronDownIcon className="text-muted-foreground/80 shrink-0 size-4" />
-							</Button>
+							<Input disabled />
 						</Label>
 						<Label className="flex-col items-start">
 							Descrição:
-							<Textarea readOnly />
+							<Textarea disabled />
 						</Label>
 					</CardContent>
 					<Separator />
@@ -94,11 +86,16 @@ export const FormUpdateProductExit = ({ id }: { id: string }) => {
 		)
 	}
 
-	if (status === "error" || !product) {
+	if (error || !product) {
 		return (
 			<Card className="border-none shadow-none">
 				<CardHeader>
-					<CardTitle>Não foi possivel carregar o produto</CardTitle>
+					<CardTitle>
+						{error?.message}
+					</CardTitle>
+					<CardDescription>
+						Não foi possivel carregar o produto
+					</CardDescription>
 					<CardAction>
 						<Button
 							variant={"secondary"}
@@ -123,8 +120,15 @@ export const UpdateProductExit = ({
 	id: string
 	product: OutputProductExitObjectProps & { product: Product }
 }) => {
-	const { form, isLoading, isSuccess, isPending, handleSubmit, onSubmit } =
-		useFormUpdateProductExit(id, product)
+
+	const {
+		form,
+		isLoading,
+		isSuccess,
+		isPending,
+		handleSubmit,
+		onSubmit
+	} = useFormUpdateProductExit(id, product)
 
 	return (
 		<>
@@ -136,8 +140,11 @@ export const UpdateProductExit = ({
 					<Separator />
 					<CardContent className="size-full space-y-4">
 						<DatePickerUpdate />
+						<SelectProductUpdate
+							name={product.product.name}
+							quantity={product.product.quantity}
+						/>
 						<NameLabel />
-						<SelectProductUpdate />
 						<QuantityLabel />
 						<RegionLabel />
 						<DescriptionLabel />
