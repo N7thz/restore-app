@@ -7,10 +7,11 @@ import {
   outputCreateProductSchema,
 } from "@/schemas/create-product-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { log, table } from "console"
 import { useFieldArray, useForm } from "react-hook-form"
-import { ZodError } from "zod"
 
 export function useFormCreateProduct() {
+
   const { isPending, isSuccess, mutate } = useCreateManyProducts()
 
   const form = useForm<InputCreateProductProps>({
@@ -21,6 +22,7 @@ export function useFormCreateProduct() {
   })
 
   const {
+    register,
     setError,
     handleSubmit,
     control,
@@ -37,10 +39,8 @@ export function useFormCreateProduct() {
   function appendProduct() {
     append({
       name: "",
-      price: "1",
-      quantity: "1",
       minQuantity: "1",
-      imageUrl: null,
+      imageUrl: "",
     })
   }
 
@@ -53,10 +53,8 @@ export function useFormCreateProduct() {
   function validateFormData({ products }: InputCreateProductProps) {
     const transformedData = {
       products: products.map(
-        ({ name, price, quantity, minQuantity, imageUrl }) => ({
+        ({ name, minQuantity, imageUrl }) => ({
           name,
-          price: Number(price),
-          quantity: Number(quantity),
           minQuantity: Number(minQuantity),
           imageUrl: imageUrl !== "" ? imageUrl : null,
         })
@@ -67,6 +65,7 @@ export function useFormCreateProduct() {
   }
 
   async function onSubmit(data: InputCreateProductProps) {
+
     const { data: products, error } = validateFormData(data)
 
     if (error) return validateErrors<OutputCreateProductProps>(error, setError)
@@ -85,5 +84,6 @@ export function useFormCreateProduct() {
     appendProduct,
     removeAllProducts,
     remove,
+    register,
   }
 }

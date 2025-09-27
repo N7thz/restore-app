@@ -35,14 +35,13 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
       const tableData = data.map(item => {
         const {
           createdAt,
-          product: { name, price },
+          product: { name },
         } = item
 
         return {
           ...item,
           createdAt: formatDate(createdAt, "P", { locale: ptBR }),
           name,
-          price,
         }
       })
 

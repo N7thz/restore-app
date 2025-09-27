@@ -38,11 +38,7 @@ export function useDeleteProduct(id: string) {
 
       toast({
         title: "A produto foi excluido com sucesso",
-        description: (
-          <span className="text-muted-foreground">
-            {notification.description}
-          </span>
-        ),
+        description: notification.description,
         onAutoClose: () => {
           if (pathname.startsWith("/products")) {
             push("/products")
@@ -56,7 +52,7 @@ export function useDeleteProduct(id: string) {
 
       toast({
         title: "Não foi possivel excluir o produto",
-        description: <span>{err.message}</span>,
+        description: err.message,
         variant: "error",
       })
     },

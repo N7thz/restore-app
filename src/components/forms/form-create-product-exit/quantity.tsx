@@ -18,7 +18,6 @@ export const QuantityLabel = ({ index }: { index: number }) => {
         <Input
           id="quantity"
           type="number"
-          step={0.5}
           className={cn(
             errors.products?.[index]?.quantity && [
               "focus-visible:ring-destructive",

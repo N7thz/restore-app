@@ -1,25 +1,16 @@
 import z from "zod"
 
 export const inputProductObject = z.object({
-  name: z.string().min(1, "O nome é obrigatório"),
-  price: z.string(),
-  quantity: z.string(),
+  name: z.string().nonempty("O nome é obrigatório"),
   minQuantity: z.string(),
-  imageUrl: z.string().nullable(),
+  imageUrl: z.string().nonempty("A url da imagem é obrigatória"),
 })
 
-export const outputProductObject = z
-  .object({
-    name: z.string().min(1, "O nome é obrigatório").toLowerCase(),
-    price: z.number().positive("O preço deve ser positivo"),
-    quantity: z.int().positive("A quantidade deve ser positiva"),
-    minQuantity: z.int().positive("A quantidade minima deve ser positiva"),
-    imageUrl: z.url("Url inválida").nullable(),
-  })
-  .refine(({ quantity, minQuantity }) => quantity >= minQuantity, {
-    error: "A quantidade deve ser maior que a quantidade minima",
-    path: ["minQuantity"],
-  })
+export const outputProductObject = z.object({
+  name: z.string().min(1, "O nome é obrigatório").toLowerCase(),
+  minQuantity: z.int().positive("A quantidade minima deve ser positiva"),
+  imageUrl: z.url("Url inválida"),
+})
 
 export type InputProductProps = z.infer<typeof inputProductObject>
 

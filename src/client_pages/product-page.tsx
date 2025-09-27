@@ -66,17 +66,10 @@ export const ProductPage = ({ id }: { id: string }) => {
     quantity,
     createdAt,
     imageUrl,
-    price,
     minQuantity,
   } = product
 
   const data = formatDate(createdAt, "PPP " as " HH:mm", { locale: ptBR })
-
-  const formatted = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(price)
-
   const isValidQuantity = quantity > minQuantity
   const Icon = isValidQuantity ? CheckCircle : XCircle
 
@@ -112,10 +105,6 @@ export const ProductPage = ({ id }: { id: string }) => {
             <p className="pb-2">
               <span className="capitalize font-semibold mr-2">quantidade:</span>
               {quantity} unidades
-            </p>
-            <p className="pb-2">
-              <span className="capitalize font-semibold mr-2">preço:</span>
-              {formatted}
             </p>
             <p className="flex gap-2 items-center pb-2">
               <span className="capitalize font-semibold">quantidade:</span>

@@ -14,7 +14,6 @@ import { OutputProductExitObjectProps } from "@/schemas/product-exit-object"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
-import { CloudHail } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useFieldArray, useForm } from "react-hook-form"
 

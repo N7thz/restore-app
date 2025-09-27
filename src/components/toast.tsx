@@ -3,7 +3,7 @@ import { toast as toastPrimitive, type ExternalToast } from "sonner"
 
 type ToastProps = ExternalToast & {
   title: string
-  description?: string
+  description?: string | null
   variant?: "success" | "error"
 }
 

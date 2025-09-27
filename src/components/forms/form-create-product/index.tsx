@@ -4,24 +4,28 @@ import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { FormProvider } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form"
 import { CardFormCreateProduct } from "./card-form-create-product"
 import { useFormCreateProduct } from "./use-form-create-product"
 import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export const FormCreateProduct = () => {
+
   const {
     form,
     fields,
     isLoading,
     isSuccess,
     handleSubmit,
+    errors,
     onSubmit,
     appendProduct,
     removeAllProducts,
     remove,
   } = useFormCreateProduct()
+
+  console.table(errors.products)
 
   return (
     <>
@@ -54,7 +58,7 @@ export const FormCreateProduct = () => {
             </Button>
           </CardFooter>
           <Separator />
-          <ScrollArea className="h-[400px] overflow-hidden">
+          <ScrollArea className="h-[360px] overflow-hidden">
             <ScrollBar />
             <CardContent className="size-full space-y-4">
               {fields.map((_, index) => (

@@ -1,35 +1,48 @@
 -- CreateEnum
 CREATE TYPE "public"."Action" AS ENUM ('CREATE', 'UPDATE', 'DELETE', 'MIN_QUANTITY');
 
+-- CreateEnum
+CREATE TYPE "public"."Role" AS ENUM ('ADMIN', 'USER');
+
 -- CreateTable
 CREATE TABLE "public"."users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT,
     "name" TEXT NOT NULL,
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
-    "image" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "role" TEXT,
+    "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "password" TEXT,
+    "image" TEXT,
     "banned" BOOLEAN DEFAULT false,
     "banReason" TEXT,
     "banExpires" TIMESTAMP(3),
+    "role" TEXT,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."products_entry" (
+    "id" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "product_id" TEXT NOT NULL,
+
+    CONSTRAINT "products_entry_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "public"."products" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "image_url" TEXT,
-    "description" TEXT,
-    "price" DOUBLE PRECISION NOT NULL,
+    "image_url" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL DEFAULT 1,
+    "min_quantity" INTEGER NOT NULL DEFAULT 1,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "quantity" DOUBLE PRECISION NOT NULL,
-    "min_quantity" DOUBLE PRECISION NOT NULL DEFAULT 0,
+    "description" TEXT,
 
     CONSTRAINT "products_pkey" PRIMARY KEY ("id")
 );
@@ -37,12 +50,12 @@ CREATE TABLE "public"."products" (
 -- CreateTable
 CREATE TABLE "public"."products_exit" (
     "id" TEXT NOT NULL,
-    "description" TEXT,
     "name" TEXT NOT NULL,
     "region" TEXT NOT NULL,
-    "quantity" DOUBLE PRECISION NOT NULL,
+    "quantity" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "description" TEXT,
     "product_id" TEXT NOT NULL,
 
     CONSTRAINT "products_exit_pkey" PRIMARY KEY ("id")
@@ -52,9 +65,9 @@ CREATE TABLE "public"."products_exit" (
 CREATE TABLE "public"."notifications" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "description" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL,
     "read" BOOLEAN NOT NULL DEFAULT false,
+    "description" TEXT,
     "action" "public"."Action" NOT NULL,
 
     CONSTRAINT "notifications_pkey" PRIMARY KEY ("id")
@@ -110,9 +123,9 @@ CREATE TABLE "public"."verification" (
 CREATE TABLE "public"."updates" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "description" TEXT,
     "content" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "description" TEXT,
 
     CONSTRAINT "updates_pkey" PRIMARY KEY ("id")
 );
@@ -125,6 +138,9 @@ CREATE UNIQUE INDEX "users_name_key" ON "public"."users"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "session_token_key" ON "public"."session"("token");
+
+-- AddForeignKey
+ALTER TABLE "public"."products_entry" ADD CONSTRAINT "products_entry_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."products_exit" ADD CONSTRAINT "products_exit_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "public"."products"("id") ON DELETE CASCADE ON UPDATE CASCADE;

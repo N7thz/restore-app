@@ -4,8 +4,6 @@ import { X } from "lucide-react"
 import { ImageLabel } from "./image"
 import { MinQuantityLabel } from "./min-quantity"
 import { ProductLabel } from "./name"
-import { PriceLabel } from "./price"
-import { QuantityLabel } from "./quantity"
 
 type CardFormCreateProductProps = {
   fields: unknown[]
@@ -34,8 +32,6 @@ export const CardFormCreateProduct = ({
       </CardHeader>
       <CardContent className="space-y-3">
         <ProductLabel index={index}/>
-        <PriceLabel index={index}/>
-        <QuantityLabel index={index}/>
         <MinQuantityLabel index={index}/>
         <ImageLabel index={index}/>
       </CardContent>

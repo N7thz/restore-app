@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form"
 
 export function useFormUpdateProduct(
   id: string,
-  { name, price, imageUrl, quantity, minQuantity }: OutputProductProps
+  { name, imageUrl, quantity, minQuantity }: OutputProductProps
 ) {
   const { push } = useRouter()
 
@@ -52,7 +52,6 @@ export function useFormUpdateProduct(
       imageUrl,
       quantity: quantity.toString(),
       minQuantity: minQuantity.toString(),
-      price: price.toString(),
     },
   })
 
@@ -66,14 +65,12 @@ export function useFormUpdateProduct(
 
   function onSubmit({
     name,
-    price,
     imageUrl,
     quantity,
     minQuantity,
   }: InputProductProps) {
     const { data, error } = outputProductObject.safeParse({
       name,
-      price: Number(price),
       quantity: Number(quantity),
       minQuantity: Number(minQuantity),
       imageUrl: imageUrl !== "" ? imageUrl : null,
