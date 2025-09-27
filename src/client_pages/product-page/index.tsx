@@ -3,6 +3,12 @@
 import { findProductById } from "@/actions/products/find-product-by-id"
 import { CardProductStokMenu } from "@/components/card-product-stok/card-product-stok-menu"
 import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
 	Card,
 	CardAction,
 	CardContent,
@@ -22,6 +28,7 @@ import { ActivityProductEntry } from "./activity-product-entry"
 import { ActivityProductExit } from "./activity-product-exit"
 import { ProductPageError } from "./product-page-error"
 import { ProductPageLoading } from "./product-page-loading"
+import { CardAccordionActivity } from "./card-accordion-activity"
 
 export const ProductPage = ({ id }: { id: string }) => {
 	const {
@@ -39,7 +46,12 @@ export const ProductPage = ({ id }: { id: string }) => {
 	}
 
 	if (error || !product) {
-		return <ProductPageError error={error} refetch={refetch} />
+		return (
+			<ProductPageError
+				error={error}
+				refetch={refetch}
+			/>
+		)
 	}
 
 	const {
@@ -59,7 +71,8 @@ export const ProductPage = ({ id }: { id: string }) => {
 
 	const activityProducts = [...productEntry, ...productExit]
 
-	activityProducts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+	activityProducts.sort((a, b) =>
+		b.createdAt.getTime() - a.createdAt.getTime())
 
 	return (
 		<Card className="rounded-md justify-between border-primary">
@@ -70,7 +83,7 @@ export const ProductPage = ({ id }: { id: string }) => {
 					<CardProductStokMenu id={id} />
 				</CardAction>
 			</CardHeader>
-			<CardContent className="flex size-full gap-2">
+			<CardContent className="flex size-full gap-4">
 				<Image
 					src={imageUrl}
 					width={300}
@@ -79,22 +92,27 @@ export const ProductPage = ({ id }: { id: string }) => {
 					className="rounded-xl size-100"
 				/>
 				<Card className="h-full shadow-2xl">
-					<ScrollArea className="h-88 w-full">
+					<ScrollArea className="h-88">
 						<ScrollBar />
 						<CardContent className="flex size-full flex-col gap-2 divide-y-2">
 							{description && (
 								<p className="mb-2">
-									<span className="capitalize">descrição:</span>
+									<span className="capitalize">
+										descrição:
+									</span>
 									{description}
 								</p>
 							)}
 							<p className="flex gap-2 items-center pb-2">
-								<span className="capitalize font-extrabold">quantidade:</span>
-								<span className="font-extralight">{quantity} unidades</span>
-								<span
-									className={cn(
-										isValidQuantity ? "text-emerald-600" : "text-destructive"
-									)}>
+								<span className="capitalize font-extrabold">
+									quantidade:
+								</span>
+								<span className="font-extralight">
+									{quantity} unidades
+								</span>
+								<span className={cn(
+									isValidQuantity ? "text-emerald-600" : "text-destructive"
+								)}>
 									<Icon className="size-4" />
 								</span>
 							</p>
@@ -102,46 +120,18 @@ export const ProductPage = ({ id }: { id: string }) => {
 								<span className="capitalize font-extrabold mr-2">
 									quantidade minima:
 								</span>
-								<span className="font-extralight">{minQuantity}</span>
+								<span className="font-extralight">
+									{minQuantity}
+								</span>
 							</p>
-							<Card>
-								<CardHeader>
-									<CardTitle className="text-lg">Atividade:</CardTitle>
-									<CardDescription>
-										Acompanhe as entradas e saídas deste produto
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="space-y-4">
-									{activityProducts.length === 0 ? (
-										<p className="text-center italic">
-											Nenhuma atividade encontrada para este produto
-										</p>
-									) : (
-										activityProducts.map(activityProduct => {
-											if ("price" in activityProduct) {
-												return (
-													<ActivityProductEntry
-														key={activityProduct.id}
-														name={name}
-														activityProduct={activityProduct}
-													/>
-												)
-											}
-
-											return (
-												<ActivityProductExit
-													key={activityProduct.id}
-													activityProduct={activityProduct}
-												/>
-											)
-										})
-									)}
-								</CardContent>
-							</Card>
+							<CardAccordionActivity
+								name={name}
+								activityProducts={activityProducts}
+							/>
 						</CardContent>
 					</ScrollArea>
 				</Card>
-			</CardContent>
-		</Card>
+			</CardContent >
+		</Card >
 	)
 }

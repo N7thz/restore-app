@@ -69,7 +69,7 @@ export const ActivityProductExit = ({
 				</CardAction>
 			</CardHeader>
 			<CardContent>
-				<p className="font-extralight text-sm flex gap-2 items-start  whitespace-nowrap">
+				<p className="font-extralight text-sm flex gap-2 items-start truncate">
 					{quantity} unidade(s) entrege para
 					<span className="font-extrabold capitalize">{name}</span>
 					da região

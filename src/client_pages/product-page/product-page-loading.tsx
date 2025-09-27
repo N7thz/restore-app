@@ -11,7 +11,7 @@ import { Ellipsis } from "lucide-react"
 
 export const ProductPageLoading = () => {
 	return (
-		<Card className="rounded-md w-2/3 justify-between border-primary">
+		<Card className="rounded-md justify-between border-primary">
 			<CardHeader>
 				<CardTitle className="text-lg truncate">
 					<Skeleton className="w-2/3" />
@@ -24,10 +24,10 @@ export const ProductPageLoading = () => {
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex size-full gap-2">
-				<Skeleton className="w-1/3 h-72" />
-				<Card className="w-2/3 h-72 shadow-none">
+				<Skeleton className="size-88" />
+				<Card className="w-2/3 h-88 shadow-none">
 					<CardContent className="flex flex-col gap-2">
-						<Skeleton className="w-full" />
+						<Skeleton className="w-150" />
 						<Skeleton className="w-3/5 opacity-45" />
 						<Skeleton className="w-1/4 opacity-20" />
 					</CardContent>
