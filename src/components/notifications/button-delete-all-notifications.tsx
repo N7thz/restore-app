@@ -2,9 +2,9 @@ import { deleteAllNotification } from "@/actions/notifications/delete-all-notifi
 import { queryClient } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { queryKey } from "@/lib/query-keys"
 import { useMutation } from "@tanstack/react-query"
@@ -14,44 +14,43 @@ import { toast } from "../toast"
 import { ComponentProps } from "react"
 
 export const ButtonDeleteAllNotifications = (
-  props: ComponentProps<typeof Button>
+	props: ComponentProps<typeof Button>
 ) => {
-  const { mutate } = useMutation({
-    mutationKey: queryKey.buttonDeleteAllNotifications(),
-    mutationFn: () => deleteAllNotification(),
-    onSuccess: () => {
-      queryClient.setQueryData<Notification[]>(
-        queryKey.findAllNotifications(),
-        oldData => {
-          if (!oldData) return []
+	const { mutate } = useMutation({
+		mutationKey: queryKey.buttonDeleteAllNotifications(),
+		mutationFn: () => deleteAllNotification(),
+		onSuccess: () => {
+			queryClient.setQueryData<Notification[]>(
+				queryKey.findAllNotifications(),
+				oldData => {
+					if (!oldData) return []
 
-          return oldData.filter(
-            notification => notification.action === "MIN_QUANTITY"
-          )
-        }
-      )
-    },
-    onError: (err) => {
+					return oldData.filter(
+						notification => notification.action === "MIN_QUANTITY"
+					)
+				}
+			)
+		},
+		onError: err => {
+			console.log(err)
 
-      console.log(err)
+			toast({
+				title: "Não foi possivel excluir as notificações",
+				description: `${err.message}`,
+			})
+		},
+	})
 
-      toast({
-        title: "Não foi possivel excluir as notificações",
-        description: `${err.message}`,
-      })
-    }
-  })
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button onClick={() => mutate()} variant={"destructive"} {...props}>
-          <BellOff className="group-hover:-translate-y-0.5 duration-200" />
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent className="bg-destructive">
-        <p>Excluir notificações</p>
-      </TooltipContent>
-    </Tooltip>
-  )
+	return (
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<Button onClick={() => mutate()} variant={"destructive"} {...props}>
+					<BellOff className="group-hover:-translate-y-0.5 duration-200" />
+				</Button>
+			</TooltipTrigger>
+			<TooltipContent className="bg-destructive">
+				<p>Excluir notificações</p>
+			</TooltipContent>
+		</Tooltip>
+	)
 }

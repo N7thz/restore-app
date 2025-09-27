@@ -11,68 +11,64 @@ import { useMutation } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 
 export function useFormUploadUserIcon() {
+	const refresh = () => window.location.reload()
 
-    const refresh = () => window.location.reload()
+	const { data } = authClient.useSession()
 
-    const { data } = authClient.useSession()
+	const image = data?.user.image
 
-    const image = data?.user.image
+	const { mutate, isPending } = useMutation({
+		mutationKey: ["upload-user-icon"],
+		mutationFn: async (file: File) => await uploadImage(file),
+		onSuccess: ({ notification }) => {
+			queryClient.setQueryData<Notification[]>(
+				queryKey.findAllNotifications(),
+				oldData => {
+					if (!oldData) return [notification]
 
-    const { mutate, isPending } = useMutation({
-        mutationKey: ["upload-user-icon"],
-        mutationFn: async (file: File) => await uploadImage(file),
-        onSuccess: ({ notification }) => {
+					return [...oldData, notification]
+				}
+			)
 
-            queryClient.setQueryData<Notification[]>(
-                queryKey.findAllNotifications(),
-                oldData => {
+			toast({
+				title: "Imagem atualizada",
+				description: "A imagem foi atualizada com sucesso",
+				onAutoClose: () => refresh(),
+			})
+		},
+		onError: error => {
+			console.log(error)
 
-                    if (!oldData) return [notification]
+			toast({
+				title: error.message,
+				description: "Tente novamente mais tarde",
+				variant: "error",
+			})
+		},
+	})
 
-                    return [...oldData, notification]
-                }
-            )
+	const form = useForm<UploadImageProps>({
+		resolver: zodResolver(imageFileSchema),
+	})
 
-            toast({
-                title: "Imagem atualizada",
-                description: "A imagem foi atualizada com sucesso",
-                onAutoClose: () => refresh(),
-            })
-        },
-        onError: error => {
+	const {
+		handleSubmit,
+		formState: { errors },
+	} = form
 
-            console.log(error)
+	const isLoading = isPending
 
-            toast({
-                title: error.message,
-                description: "Tente novamente mais tarde",
-                variant: "error",
-            })
-        },
-    })
+	async function onSubmit({ file }: UploadImageProps) {
+		mutate(file)
+	}
 
-    const form = useForm<UploadImageProps>({
-        resolver: zodResolver(imageFileSchema),
-    })
-
-    const {
-        handleSubmit,
-        formState: { errors },
-    } = form
-
-    const isLoading = isPending
-
-    async function onSubmit({ file }: UploadImageProps) {
-        mutate(file)
-    }
-
-    return {
-        form,
-        image,
-        errors,
-        isLoading,
-        isPending,
-        handleSubmit,
-        onSubmit,
-    }
+	return {
+		form,
+		image,
+		errors,
+		isLoading,
+		isPending,
+		handleSubmit,
+		onSubmit,
+	}
 }

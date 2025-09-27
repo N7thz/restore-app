@@ -5,15 +5,15 @@ import { Prisma } from "@prisma/client"
 import { findUpdateById } from "./find-update-by-id"
 
 export async function updateUpdate(
-    id: string, update: Prisma.UpdateUpdateInput
+	id: string,
+	update: Prisma.UpdateUpdateInput
 ) {
+	await findUpdateById(id)
 
-    await findUpdateById(id)
-
-    return await prisma.update.update({
-        where: {
-            id
-        },
-        data: update
-    })
+	return await prisma.update.update({
+		where: {
+			id,
+		},
+		data: update,
+	})
 }

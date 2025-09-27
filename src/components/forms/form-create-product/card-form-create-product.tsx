@@ -6,35 +6,34 @@ import { MinQuantityLabel } from "./min-quantity"
 import { ProductLabel } from "./name"
 
 type CardFormCreateProductProps = {
-  fields: unknown[]
-  index: number
-  remove: (index: number) => void
+	fields: unknown[]
+	index: number
+	remove: (index: number) => void
 }
 
 export const CardFormCreateProduct = ({
-  fields,
-  index,
-  remove,
+	fields,
+	index,
+	remove,
 }: CardFormCreateProductProps) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardAction>
-          <Button
-            type="button"
-            variant={"outline"}
-            disabled={fields.length === 1}
-            onClick={() => remove(index)}
-          >
-            <X />
-          </Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <ProductLabel index={index}/>
-        <MinQuantityLabel index={index}/>
-        <ImageLabel index={index}/>
-      </CardContent>
-    </Card>
-  )
+	return (
+		<Card>
+			<CardHeader>
+				<CardAction>
+					<Button
+						type="button"
+						variant={"outline"}
+						disabled={fields.length === 1}
+						onClick={() => remove(index)}>
+						<X />
+					</Button>
+				</CardAction>
+			</CardHeader>
+			<CardContent className="space-y-3">
+				<ProductLabel index={index} />
+				<MinQuantityLabel index={index} />
+				<ImageLabel index={index} />
+			</CardContent>
+		</Card>
+	)
 }

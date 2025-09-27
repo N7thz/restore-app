@@ -11,79 +11,71 @@ import { Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export const FormCreateProduct = () => {
+	const {
+		form,
+		fields,
+		isLoading,
+		isSuccess,
+		handleSubmit,
+		errors,
+		onSubmit,
+		appendProduct,
+		removeAllProducts,
+		remove,
+	} = useFormCreateProduct()
 
-  const {
-    form,
-    fields,
-    isLoading,
-    isSuccess,
-    handleSubmit,
-    errors,
-    onSubmit,
-    appendProduct,
-    removeAllProducts,
-    remove,
-  } = useFormCreateProduct()
+	console.table(errors.products)
 
-  console.table(errors.products)
-
-  return (
-    <>
-      <FormProvider {...form}>
-        <form
-          id="form-create-products"
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4"
-        >
-          <CardFooter className={cn(
-            "justify-end gap-4",
-            "max-sm:flex-col",
-          )}>
-            <Button
-              type="button"
-              variant={"outline"}
-              className={cn("w-1/2", "max-sm:w-full")}
-              onClick={appendProduct}
-            >
-              Adicionar Produto
-            </Button>
-            <Button
-              type="button"
-              variant={"destructive"}
-              className={cn("w-1/2", "max-sm:w-full")}
-              disabled={fields.length === 1}
-              onClick={removeAllProducts}
-            >
-              Remover todos
-            </Button>
-          </CardFooter>
-          <Separator />
-          <ScrollArea className="h-[360px] overflow-hidden">
-            <ScrollBar />
-            <CardContent className="size-full space-y-4">
-              {fields.map((_, index) => (
-                <CardFormCreateProduct
-                  key={index}
-                  index={index}
-                  remove={remove}
-                  fields={fields}
-                />
-              ))}
-            </CardContent>
-          </ScrollArea>
-          <Separator />
-        </form>
-      </FormProvider>
-      <CardFooter className="justify-end">
-        <Button
-          type="submit"
-          form="form-create-products"
-          className={cn("w-1/2", "max-sm:w-full")}
-          disabled={isLoading || isSuccess}
-        >
-          {isLoading ? <Loader2 className="animate-spin" /> : "Confirmar"}
-        </Button>
-      </CardFooter>
-    </>
-  )
+	return (
+		<>
+			<FormProvider {...form}>
+				<form
+					id="form-create-products"
+					onSubmit={handleSubmit(onSubmit)}
+					className="space-y-4">
+					<CardFooter className={cn("justify-end gap-4", "max-sm:flex-col")}>
+						<Button
+							type="button"
+							variant={"outline"}
+							className={cn("w-1/2", "max-sm:w-full")}
+							onClick={appendProduct}>
+							Adicionar Produto
+						</Button>
+						<Button
+							type="button"
+							variant={"destructive"}
+							className={cn("w-1/2", "max-sm:w-full")}
+							disabled={fields.length === 1}
+							onClick={removeAllProducts}>
+							Remover todos
+						</Button>
+					</CardFooter>
+					<Separator />
+					<ScrollArea className="h-[360px] overflow-hidden">
+						<ScrollBar />
+						<CardContent className="size-full space-y-4">
+							{fields.map((_, index) => (
+								<CardFormCreateProduct
+									key={index}
+									index={index}
+									remove={remove}
+									fields={fields}
+								/>
+							))}
+						</CardContent>
+					</ScrollArea>
+					<Separator />
+				</form>
+			</FormProvider>
+			<CardFooter className="justify-end">
+				<Button
+					type="submit"
+					form="form-create-products"
+					className={cn("w-1/2", "max-sm:w-full")}
+					disabled={isLoading || isSuccess}>
+					{isLoading ? <Loader2 className="animate-spin" /> : "Confirmar"}
+				</Button>
+			</CardFooter>
+		</>
+	)
 }

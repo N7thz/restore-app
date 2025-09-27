@@ -4,7 +4,7 @@ import {
 	CardContent,
 	CardDescription,
 	CardHeader,
-	CardTitle
+	CardTitle,
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
@@ -13,18 +13,12 @@ export default async function SignUpPage() {
 		<main
 			className={cn(
 				"h-dvh flex items-center justify-center p-8",
-				"max-sm:px-4",
-			)}
-		>
-			<Card className={cn(
-				"w-full justify-between border-primary",
-				"xl:w-2/5",
+				"max-sm:px-4"
 			)}>
+			<Card className={cn("w-full justify-between border-primary", "xl:w-2/5")}>
 				<CardHeader>
 					<CardTitle className="text-2xl">Sign Up</CardTitle>
-					<CardDescription>
-						Cadastre-se no sistema
-					</CardDescription>
+					<CardDescription>Cadastre-se no sistema</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<FormSignUp />

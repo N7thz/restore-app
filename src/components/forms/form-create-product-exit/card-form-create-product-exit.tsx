@@ -11,47 +11,46 @@ import { cn } from "@/lib/utils"
 import { NameLabel } from "./name"
 
 type CardFormCreateProductProps = {
-  fields: unknown[]
-  index: number
-  isLoading: boolean
-  isSuccess: boolean
-  remove: (index: number) => void
+	fields: unknown[]
+	index: number
+	isLoading: boolean
+	isSuccess: boolean
+	remove: (index: number) => void
 }
 
 export const CardFormCreateProductExit = ({
-  fields,
-  index,
-  isLoading,
-  isSuccess,
-  remove,
+	fields,
+	index,
+	isLoading,
+	isSuccess,
+	remove,
 }: CardFormCreateProductProps) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardAction>
-          <Button
-            type="button"
-            variant={"outline"}
-            disabled={fields.length === 1 || isLoading || isSuccess}
-            onClick={() => remove(index)}
-            className={cn([
-              "duration-200",
-              "hover:scale-95",
-              "dark:hover:bg-red-500 dark:hover:text-foreground",
-            ])}
-          >
-            <X />
-          </Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent className="space-y-5">
-        <DatePicker index={index} />
-        <NameLabel index={index} />
-        <SelectProduct index={index} />
-        <QuantityLabel index={index} />
-        <RegionLabel index={index} />
-        <DescriptionLabel index={index} />
-      </CardContent>
-    </Card>
-  )
+	return (
+		<Card>
+			<CardHeader>
+				<CardAction>
+					<Button
+						type="button"
+						variant={"outline"}
+						disabled={fields.length === 1 || isLoading || isSuccess}
+						onClick={() => remove(index)}
+						className={cn([
+							"duration-200",
+							"hover:scale-95",
+							"dark:hover:bg-red-500 dark:hover:text-foreground",
+						])}>
+						<X />
+					</Button>
+				</CardAction>
+			</CardHeader>
+			<CardContent className="space-y-5">
+				<DatePicker index={index} />
+				<NameLabel index={index} />
+				<SelectProduct index={index} />
+				<QuantityLabel index={index} />
+				<RegionLabel index={index} />
+				<DescriptionLabel index={index} />
+			</CardContent>
+		</Card>
+	)
 }

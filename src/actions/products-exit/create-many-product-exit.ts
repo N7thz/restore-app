@@ -7,66 +7,63 @@ import { createNotification } from "../notifications/create-notification"
 import { updateProduct } from "../products/update-product"
 
 export async function createManyProductsExit({
-  products,
+	products,
 }: OutputCreateProductProps) {
+	const notifications: Notification[] = []
 
-  const notifications: Notification[] = []
+	for (const data of products) {
+		const { product, createdAt } = await prisma.productExit.create({
+			data,
+			include: {
+				product: true,
+			},
+		})
 
-  for (const data of products) {
+		const notification = await createNotification({
+			action: "CREATE",
+			name: product.name,
+			description: `A saida do produto ${product.name} foi registrada com sucesso.`,
+			createdAt: product.createdAt,
+		})
 
-    const { product, createdAt } = await prisma.productExit.create({
-      data,
-      include: {
-        product: true,
-      },
-    })
+		const {
+			productUpdated: { quantity },
+		} = await updateProduct(
+			product.id,
+			{
+				quantity: {
+					decrement: data.quantity,
+				},
+			},
+			{
+				includeNotifications: false,
+			}
+		)
 
-    const notification = await createNotification({
-      action: "CREATE",
-      name: product.name,
-      description: `A saida do produto ${product.name} foi registrada com sucesso.`,
-      createdAt: product.createdAt,
-    })
+		if (quantity === 0) {
+			const notification = await createNotification({
+				action: "MIN_QUANTITY",
+				name: product.name,
+				description: `O produto ${product.name} está zerado.`,
+				createdAt,
+			})
 
-    const { productUpdated: { quantity } } = await updateProduct(
-      product.id,
-      {
-        quantity: {
-          decrement: data.quantity
-        }
-      },
-      {
-        includeNotifications: false,
-      }
-    )
+			notifications.push(notification)
+		} else if (quantity < data.quantity) {
+			const notification = await createNotification({
+				action: "MIN_QUANTITY",
+				name: product.name,
+				description: `O produto ${product.name} entrou na quantidade miníma.`,
+				createdAt,
+			})
 
-    if (quantity === 0) {
+			notifications.push(notification)
+		}
 
-      const notification = await createNotification({
-        action: "MIN_QUANTITY",
-        name: product.name,
-        description: `O produto ${product.name} está zerado.`,
-        createdAt,
-      })
+		notifications.push(notification)
+	}
 
-      notifications.push(notification)
-
-    } else if (quantity < data.quantity) {
-
-      const notification = await createNotification({
-        action: "MIN_QUANTITY",
-        name: product.name,
-        description: `O produto ${product.name} entrou na quantidade miníma.`,
-        createdAt,
-      })
-
-      notifications.push(notification)
-    }
-
-    notifications.push(notification)
-  }
-
-  return {
-    notifications,
-  }
+	return {
+		notifications,
+	}
 }

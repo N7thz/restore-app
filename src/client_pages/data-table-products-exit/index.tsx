@@ -9,42 +9,43 @@ import { cn } from "@/lib/utils"
 import { ProductExit, Product } from "@prisma/client"
 
 export const DataTableProductsExit = () => {
-    const {
-        data: products,
-        isLoading,
-        status,
-    } = useQuery({
-        queryKey: queryKey.findAllProductsExit(),
-        queryFn: () =>
-            findProductsExit<ProductExit & { product: Product }>({
-                include: {
-                    product: true,
-                },
-            }),
-    })
+	const {
+		data: products,
+		isLoading,
+		status,
+	} = useQuery({
+		queryKey: queryKey.findAllProductsExit(),
+		queryFn: () =>
+			findProductsExit<ProductExit & { product: Product }>({
+				include: {
+					product: true,
+				},
+			}),
+	})
 
-    if (isLoading) {
-        return (
-            <main className="h-container flex items-center justify-center p-8">
-                <DataTableExit columns={columns} data={[]} isLoading={isLoading} />
-            </main>
-        )
-    }
+	if (isLoading) {
+		return (
+			<main className="h-container flex items-center justify-center p-8">
+				<DataTableExit columns={columns} data={[]} isLoading={isLoading} />
+			</main>
+		)
+	}
 
-    if (status === "error" || !products) {
-        return (
-            <main className="h-container flex items-center justify-center p-8">
-                <DataTableExit columns={columns} data={[]} />
-            </main>
-        )
-    }
+	if (status === "error" || !products) {
+		return (
+			<main className="h-container flex items-center justify-center p-8">
+				<DataTableExit columns={columns} data={[]} />
+			</main>
+		)
+	}
 
-    return (
-        <main className={cn(
-            "h-container flex items-center justify-center p-8",
-            "max-sm:px-4"
-        )} >
-            <DataTableExit columns={columns} data={products} />
-        </main>
-    )
+	return (
+		<main
+			className={cn(
+				"h-container flex items-center justify-center p-8",
+				"max-sm:px-4"
+			)}>
+			<DataTableExit columns={columns} data={products} />
+		</main>
+	)
 }

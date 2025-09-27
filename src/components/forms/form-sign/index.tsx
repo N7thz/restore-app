@@ -17,7 +17,6 @@ import { useForm } from "react-hook-form"
 import { SpanErrorMessage } from "@/components/span-error"
 
 export const FormSign = () => {
-
 	const [visible, setVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -34,26 +33,27 @@ export const FormSign = () => {
 	} = form
 
 	async function onSignInSubmit({ email, password }: FormSignProps) {
-
-		await authClient.signIn.email({
-			email,
-			password,
-			callbackURL: "/home"
-		}, {
-			onRequest: () => setIsLoading(true),
-			onError: ({ error }) => {
-
-				console.log(error)
-
-				setIsLoading(false)
-
-				toast({
-					title: "Error no login",
-					description: "Senha ou email inválidos.",
-					variant: "error",
-				})
+		await authClient.signIn.email(
+			{
+				email,
+				password,
+				callbackURL: "/home",
 			},
-		})
+			{
+				onRequest: () => setIsLoading(true),
+				onError: ({ error }) => {
+					console.log(error)
+
+					setIsLoading(false)
+
+					toast({
+						title: "Error no login",
+						description: "Senha ou email inválidos.",
+						variant: "error",
+					})
+				},
+			}
+		)
 	}
 
 	const signIn = async () => {
@@ -67,8 +67,7 @@ export const FormSign = () => {
 		<Form {...form}>
 			<form
 				onSubmit={handleSubmit(onSignInSubmit)}
-				className="space-y-4 flex flex-col"
-			>
+				className="space-y-4 flex flex-col">
 				<div className="space-y-2">
 					<Input
 						placeholder="name@email.com"
@@ -77,12 +76,10 @@ export const FormSign = () => {
 							errors.email && [
 								"focus-visible:ring-destructive",
 								"not-focus-visible:border-destructive",
-							],
+							]
 						)}
 					/>
-					{errors.email && (
-						<SpanErrorMessage message={errors.email.message} />
-					)}
+					{errors.email && <SpanErrorMessage message={errors.email.message} />}
 				</div>
 				<div className="space-y-2">
 					<Input
@@ -93,7 +90,7 @@ export const FormSign = () => {
 							errors.password && [
 								"focus-visible:ring-destructive",
 								"not-focus-visible:border-destructive",
-							],
+							]
 						)}
 					/>
 					{errors.password && (
@@ -103,22 +100,12 @@ export const FormSign = () => {
 						type="button"
 						variant={"link"}
 						className="p-0"
-						onClick={() => setVisible((visible) => !visible)}
-					>
-						{
-							visible ? "esconder senha" : "mostrar senha"
-						}
+						onClick={() => setVisible(visible => !visible)}>
+						{visible ? "esconder senha" : "mostrar senha"}
 					</Button>
 				</div>
-				<Button
-					asChild
-					type="button"
-					variant={"link"}
-					className="w-full"
-				>
-					<Link href="/sign-up">
-						Criar uma conta
-					</Link>
+				<Button asChild type="button" variant={"link"} className="w-full">
+					<Link href="/sign-up">Criar uma conta</Link>
 				</Button>
 				<div className="w-full text-sm flex items-center justify-center gap-4 overflow-hidden">
 					<Separator />
@@ -131,8 +118,7 @@ export const FormSign = () => {
 					className="self-center hover:text-primary"
 					size={"lg"}
 					onClick={signIn}
-					disabled={isLoading}
-				>
+					disabled={isLoading}>
 					<Image
 						src={"/google-color.svg"}
 						width={16}
@@ -145,13 +131,8 @@ export const FormSign = () => {
 				<Button
 					type="submit"
 					className="w-1/2 self-end mt-4"
-					disabled={isLoading}
-				>
-					{
-						isLoading
-							? <Loader2 className="animate-spin" />
-							: "Confirmar"
-					}
+					disabled={isLoading}>
+					{isLoading ? <Loader2 className="animate-spin" /> : "Confirmar"}
 				</Button>
 			</form>
 		</Form>

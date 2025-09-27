@@ -4,10 +4,10 @@ import { toast } from "@/components/toast"
 import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
 import {
-  InputProductExitObjectProps,
-  OutputProductExitObjectProps,
-  inputProductExitObject,
-  outputProductExitObject,
+	InputProductExitObjectProps,
+	OutputProductExitObjectProps,
+	inputProductExitObject,
+	outputProductExitObject,
 } from "@/schemas/product-exit-object"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification, Product } from "@prisma/client"
@@ -16,108 +16,104 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
 export function useFormUpdateProductExit(
-  id: string,
-  {
-    createdAt,
-    description,
-    region,
-    name,
-    productId,
-    quantity,
-    product,
-  }: OutputProductExitObjectProps & { product: Product }
+	id: string,
+	{
+		createdAt,
+		description,
+		region,
+		name,
+		productId,
+		quantity,
+		product,
+	}: OutputProductExitObjectProps & { product: Product }
 ) {
-  const form = useForm({
-    resolver: zodResolver(inputProductExitObject),
-    defaultValues: {
-      createdAt,
-      description,
-      region,
-      name,
-      productId,
-      quantity: quantity.toString(),
-    },
-  })
+	const form = useForm({
+		resolver: zodResolver(inputProductExitObject),
+		defaultValues: {
+			createdAt,
+			description,
+			region,
+			name,
+			productId,
+			quantity: quantity.toString(),
+		},
+	})
 
-  const {
-    setError,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = form
+	const {
+		setError,
+		handleSubmit,
+		formState: { isSubmitting },
+	} = form
 
-  const { push } = useRouter()
+	const { push } = useRouter()
 
-  const { mutate, isPending, isSuccess } = useMutation({
-    mutationKey: ["update-product-exit"],
-    mutationFn: (formData: OutputProductExitObjectProps) =>
-      updateProductExit(id, formData),
-    onSuccess: ({ notifications }) => {
+	const { mutate, isPending, isSuccess } = useMutation({
+		mutationKey: ["update-product-exit"],
+		mutationFn: (formData: OutputProductExitObjectProps) =>
+			updateProductExit(id, formData),
+		onSuccess: ({ notifications }) => {
+			queryClient.setQueryData<Notification[]>(
+				queryKey.findAllNotifications(),
+				oldData => {
+					if (!oldData) return notifications
 
-      queryClient.setQueryData<Notification[]>(
-        queryKey.findAllNotifications(),
-        oldData => {
-          if (!oldData) return notifications
+					return [...oldData, ...notifications]
+				}
+			)
 
-          return [...oldData, ...notifications]
-        }
-      )
+			toast({
+				title: "Produto atualizado",
+				description: "O produto foi atualizado com sucesso.",
+				onAutoClose: () => push("/products-exit"),
+			})
+		},
+		onError: error => {
+			console.log(error)
 
-      toast({
-        title: "Produto atualizado",
-        description: "O produto foi atualizado com sucesso.",
-        onAutoClose: () => push("/products-exit"),
-      })
-    },
-    onError: error => {
-      console.log(error)
+			toast({
+				title: error.message,
+				description: "Tente passar um intervalo diferente",
+				variant: "error",
+			})
+		},
+	})
 
-      toast({
-        title: error.message,
-        description: "Tente passar um intervalo diferente",
-        variant: "error",
-      })
-    },
-  })
+	const isLoading = isPending || isSubmitting
 
-  const isLoading = isPending || isSubmitting
+	function validateQuantity(newQuantity: number) {
+		if (newQuantity > product.quantity + quantity) {
+			setError("quantity", {
+				message: `Quantidade de saída excede o estoque disponível que é ${product.quantity}`,
+			})
 
-  function validateQuantity(newQuantity: number) {
+			return false
+		}
 
-    if (newQuantity > product.quantity + quantity) {
+		return true
+	}
 
-      setError("quantity", {
-        message: `Quantidade de saída excede o estoque disponível que é ${product.quantity}`,
-      })
+	async function onSubmit({ quantity, ...rest }: InputProductExitObjectProps) {
+		const { data, error } = outputProductExitObject.safeParse({
+			quantity: Number(quantity),
+			...rest,
+		})
 
-      return false
-    }
+		if (error)
+			return validateErrors<OutputProductExitObjectProps>(error, setError)
 
-    return true
-  }
+		const formIsValid = validateQuantity(data.quantity)
 
-  async function onSubmit({ quantity, ...rest }: InputProductExitObjectProps) {
+		if (!formIsValid) return
 
-    const { data, error } = outputProductExitObject.safeParse({
-      quantity: Number(quantity),
-      ...rest,
-    })
+		mutate(data)
+	}
 
-    if (error)
-      return validateErrors<OutputProductExitObjectProps>(error, setError)
-
-    const formIsValid = validateQuantity(data.quantity)
-
-    if (!formIsValid) return
-
-    mutate(data)
-  }
-
-  return {
-    form,
-    isLoading,
-    isSuccess,
-    isPending,
-    handleSubmit,
-    onSubmit,
-  }
+	return {
+		form,
+		isLoading,
+		isSuccess,
+		isPending,
+		handleSubmit,
+		onSubmit,
+	}
 }

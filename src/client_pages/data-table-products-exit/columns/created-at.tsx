@@ -5,13 +5,13 @@ import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 
 export const createdAt: ColumnDef<ProductExit & { product: Product }> = {
-  accessorKey: "createdAt",
-  header: ({ column }) => (
-    <DataTableColumnHeader title="Data de saída" column={column} />
-  ),
-  cell: ({ row }) => (
-    <div className="text-center">
-      {formatDate(row.getValue("createdAt"), "PPP", { locale: ptBR })}
-    </div>
-  ),
+	accessorKey: "createdAt",
+	header: ({ column }) => (
+		<DataTableColumnHeader title="Data de saída" column={column} />
+	),
+	cell: ({ row }) => (
+		<div className="text-center">
+			{formatDate(row.getValue("createdAt"), "PPP", { locale: ptBR })}
+		</div>
+	),
 }

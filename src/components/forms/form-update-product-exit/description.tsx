@@ -6,29 +6,29 @@ import { InputProductExitObjectProps } from "@/schemas/product-exit-object"
 import { useFormContext } from "react-hook-form"
 
 export const DescriptionLabel = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<InputProductExitObjectProps>()
+	const {
+		register,
+		formState: { errors },
+	} = useFormContext<InputProductExitObjectProps>()
 
-  return (
-    <>
-      <Label htmlFor="description" className="flex-col items-start">
-        Descrição:
-        <Textarea
-          id="description"
-          className={cn(
-            errors.description && [
-              "focus-visible:ring-destructive",
-              "not-focus-visible:border-destructive",
-            ]
-          )}
-          {...register("description")}
-        />
-      </Label>
-      {errors.description && (
-        <SpanErrorMessage message={errors.description.message} />
-      )}
-    </>
-  )
+	return (
+		<>
+			<Label htmlFor="description" className="flex-col items-start">
+				Descrição:
+				<Textarea
+					id="description"
+					className={cn(
+						errors.description && [
+							"focus-visible:ring-destructive",
+							"not-focus-visible:border-destructive",
+						]
+					)}
+					{...register("description")}
+				/>
+			</Label>
+			{errors.description && (
+				<SpanErrorMessage message={errors.description.message} />
+			)}
+		</>
+	)
 }
