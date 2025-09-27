@@ -28,10 +28,10 @@ import { cn } from "@/lib/utils"
 import { InputCreateProductEntryProps } from "@/schemas/create-product-entry"
 import { useQuery } from "@tanstack/react-query"
 import { CheckIcon, ChevronDownIcon, RotateCcw } from "lucide-react"
-import { useEffect, useState } from "react"
+import { ComponentProps, useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 
-export const SelectProduct = () => {
+export const SelectProduct = (props: ComponentProps<typeof Popover>) => {
 
   const [searchValue, setSearchValue] = useState<string>("")
   const [open, setOpen] = useState<boolean>(false)

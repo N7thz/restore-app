@@ -76,17 +76,11 @@ export const NotificationCard = ({ notification }: NotificationCardProps) => {
           </CardAction>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
-              <DropdownMenuItem
-                disabled={read || action === "MIN_QUANTITY"}
-                onClick={readNotification}
-              >
+              <DropdownMenuItem onClick={readNotification}>
                 <BellMinus />
                 Marcar com lida
               </DropdownMenuItem>
-              <DropdownMenuItem
-                disabled={action === "MIN_QUANTITY"}
-                onClick={deleteNotification}
-              >
+              <DropdownMenuItem onClick={deleteNotification}>
                 <BellOff />
                 Exclur
               </DropdownMenuItem>

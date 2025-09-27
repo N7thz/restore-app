@@ -7,54 +7,5 @@ import { useMutation } from "@tanstack/react-query"
 import { usePathname, useRouter } from "next/navigation"
 
 export function useDeleteProduct(id: string) {
-  const pathname = usePathname()
-  const { push } = useRouter()
-
-  return useMutation({
-    mutationKey: queryKey.deleteProduct(),
-    mutationFn: () => deleteProduct(id),
-    onSuccess: ({ notification, productDeleted }) => {
-      queryClient.setQueryData<Notification[]>(
-        queryKey.findAllNotifications(),
-        oldData => {
-          if (!oldData) return [notification]
-
-          return [...oldData, notification]
-        }
-      )
-
-      queryClient.setQueryData<Product[]>(
-        queryKey.findAllProducts(),
-        oldData => {
-          if (!oldData) return [productDeleted]
-
-          const productsFilterd = oldData.filter(
-            ({ id }) => id !== productDeleted.id
-          )
-
-          return productsFilterd
-        }
-      )
-
-      toast({
-        title: "A produto foi excluido com sucesso",
-        description: notification.description,
-        onAutoClose: () => {
-          if (pathname.startsWith("/products")) {
-            push("/products")
-          }
-        },
-      })
-    },
-    onError: (err) => {
-
-      console.error(err)
-
-      toast({
-        title: "Não foi possivel excluir o produto",
-        description: err.message,
-        variant: "error",
-      })
-    },
-  })
+  
 }

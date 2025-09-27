@@ -1,3 +1,4 @@
+import { deleteProductEntry } from "@/actions/product-entry/delete-product-entry"
 import { deleteProduct } from "@/actions/products/delete-product"
 import { queryClient } from "@/components/theme-provider"
 import { toast } from "@/components/toast"
@@ -14,20 +15,20 @@ import {
 } from "@/components/ui/alert-dialog"
 import { queryKey } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"
-import { Notification, Product } from "@prisma/client"
+import { Notification, Product, ProductEntry } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
 
-export const DialogDeleteProduct = ({ id }: { id: string }) => {
+export const DialogDeleteProductEntry = ({ id }: { id: string }) => {
 
   const pathname = usePathname()
   const { push } = useRouter()
 
   const { mutate, isPending } = useMutation({
-    mutationKey: queryKey.deleteProduct(),
-    mutationFn: () => deleteProduct(id),
-    onSuccess: ({ notification, productDeleted }) => {
+    mutationKey: ["delete-product-entry"],
+    mutationFn: () => deleteProductEntry(id),
+    onSuccess: ({ notification, product }) => {
       queryClient.setQueryData<Notification[]>(
         queryKey.findAllNotifications(),
         oldData => {
@@ -37,27 +38,14 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
         }
       )
 
-      queryClient.setQueryData<Product[]>(
-        queryKey.findAllProducts(),
-        oldData => {
-          if (!oldData) return [productDeleted]
-
-          const productsFilterd = oldData.filter(
-            ({ id }) => id !== productDeleted.id
-          )
-
-          return productsFilterd
-        }
+      queryClient.setQueryData<Product>( 
+        queryKey.findProductById(product.id), 
+        product
       )
 
       toast({
-        title: "A produto foi excluido com sucesso",
+        title: "A entrada de produto foi excluido com sucesso",
         description: notification.description,
-        onAutoClose: () => {
-          if (pathname.startsWith("/products")) {
-            push("/products")
-          }
-        },
       })
     },
     onError: (err) => {
@@ -65,7 +53,7 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
       console.error(err)
 
       toast({
-        title: "Não foi possivel excluir o produto",
+        title: "Não foi possivel excluir a entrada de produto",
         description: err.message,
         variant: "error",
       })
@@ -89,11 +77,13 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
           <AlertDialogDescription>
-            A exclusão de um produto também ira acarretar na exclusão de suas saidas.Essa ação não pode ser desfeita.
+            Tem certeza que deseja excluir uma entrada de produto?.Essa ação não pode ser desfeita.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel>
+            Cancelar
+          </AlertDialogCancel>
           <AlertDialogAction onClick={() => mutate()}>
             {isPending ? <Loader2 className="animate-spin" /> : "Confirmar"}
           </AlertDialogAction>

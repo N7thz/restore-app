@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-export const InputCreateProductEntrySchema = z.object({
+export const inputCreateProductEntrySchema = z.object({
     price: z
         .string()
         .nonempty("O preço deve ser positivo"),
@@ -13,7 +13,7 @@ export const InputCreateProductEntrySchema = z.object({
 })
 
 export type InputCreateProductEntryProps =
-    z.infer<typeof InputCreateProductEntrySchema>
+    z.infer<typeof inputCreateProductEntrySchema>
 
 export const outputCreateProductEntrySchema = z.object({
     price: z

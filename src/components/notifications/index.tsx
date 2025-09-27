@@ -52,15 +52,6 @@ export const Notifications = () => {
 
   const count = notifications.filter(({ read }) => read === false).length
 
-  const buttonReadDisabled = notifications.some(
-    notification =>
-      notification.action !== "MIN_QUANTITY" && notification.read === false
-  )
-
-  const buttonDeleteDisabled = notifications.some(
-    notification => notification.action !== "MIN_QUANTITY"
-  )
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -79,8 +70,8 @@ export const Notifications = () => {
             Notificações
           </DropdownMenuLabel>
           <DropdownMenuLabel className="text-base grid grid-cols-2 gap-2 w-full">
-            <ButtonReadAllNotifications disabled={!buttonReadDisabled} />
-            <ButtonDeleteAllNotifications disabled={!buttonDeleteDisabled} />
+            <ButtonReadAllNotifications />
+            <ButtonDeleteAllNotifications />
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <ScrollArea className="h-104 w-full">
