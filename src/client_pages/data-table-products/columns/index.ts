@@ -7,7 +7,6 @@ import { createdAt } from "./created-at"
 import { description } from "./description"
 import { minQuantity } from "./min-quntity"
 import { name } from "./name"
-import { price } from "./price"
 import { quantity } from "./quantity"
 import { select } from "./select"
 
@@ -16,7 +15,6 @@ export const columns: ColumnDef<Product>[] = [
 	actions,
 	name,
 	description,
-	price,
 	quantity,
 	minQuantity,
 	createdAt,

@@ -83,7 +83,7 @@ export const FormExportProdctsExit = ({
 							{productExitKeyOfs.map(({ key, label }) => (
 								<div key={key} className="flex gap-2 items-center">
 									<Switch
-										defaultChecked={true}
+										defaultChecked={key !== "id"}
 										onCheckedChange={check => setValue(key, check)}
 									/>
 									<span className="text-sm capitalize">{label}</span>

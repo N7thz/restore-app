@@ -14,10 +14,6 @@ export const allColumns: readonly ColumnDefinition[] = [
 		key: "description",
 	},
 	{
-		header: "Preço",
-		key: "price",
-	},
-	{
 		header: "Data",
 		key: "createdAt",
 	},

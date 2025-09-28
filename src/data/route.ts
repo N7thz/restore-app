@@ -39,13 +39,13 @@ export const routes: RouteProps[] = [
 		Icon: FileInput,
 	},
 	{
-		href: "/products-exit",
-		text: "Tabela de saida de produtos",
+		href: "/products",
+		text: "Tabela de produtos",
 		Icon: FileSpreadsheet,
 	},
 	{
-		href: "/products",
-		text: "Tabela de produtos",
+		href: "/products-exit",
+		text: "Tabela de saida de produtos",
 		Icon: FileSpreadsheet,
 	},
 	{

@@ -26,13 +26,14 @@ export type FindManyProductsWithFilterProps = {
 export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
 	const { mutate, isPending, isSuccess } = useMutation({
 		mutationKey: queryKey.exportTableProductsExit(),
-		mutationFn: ({ products, takeString }: FindManyProductsWithFilterProps) =>
-			findManyProductsExitWithFilter({
-				products,
-				takeString,
-			}),
+		mutationFn: ({ 
+			products, takeString 
+		}: FindManyProductsWithFilterProps) => findManyProductsExitWithFilter({
+			products, takeString,
+		}),
 		onSuccess: async data => {
 			const tableData = data.map(item => {
+
 				const {
 					createdAt,
 					product: { name },
@@ -79,7 +80,7 @@ export function useFormExportExitProdcts(setOpen: (open: boolean) => void) {
 		resolver: zodResolver(inputExportProdctsExitSchema),
 		reValidateMode: "onChange",
 		defaultValues: {
-			id: true,
+			id: false,
 			region: true,
 			name: true,
 			description: true,

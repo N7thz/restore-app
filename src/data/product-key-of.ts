@@ -12,10 +12,6 @@ export const productKeyOfs = [
 		label: "descrição",
 	},
 	{
-		key: "price",
-		label: "preço",
-	},
-	{
 		key: "quantity",
 		label: "quantidade",
 	},

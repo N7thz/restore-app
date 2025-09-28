@@ -71,7 +71,7 @@ export function useFormExportProdcts(setOpen: (open: boolean) => void) {
 		resolver: zodResolver(inputExportProdctsSchema),
 		reValidateMode: "onChange",
 		defaultValues: {
-			id: true,
+			id: false,
 			name: true,
 			description: true,
 			price: true,
