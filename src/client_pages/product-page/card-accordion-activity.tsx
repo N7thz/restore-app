@@ -30,7 +30,7 @@ export const CardAccordionActivity = ({
                         <CardContent className="space-y-4 px-2">
                             {activityProducts.length === 0
                                 ? (
-                                    <p className="text-center italic text-muted-foreground">
+                                    <p className="text-center text-muted-foreground">
                                         Nenhuma atividade encontrada para este produto
                                     </p>
                                 ) : (

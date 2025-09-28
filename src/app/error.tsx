@@ -29,16 +29,6 @@ export default function Error({
 
 	return (
 		<div className="relative flex h-container w-full items-center justify-center overflow-hidden bg-background p-20">
-			<AnimatedGridPattern
-				numSquares={30}
-				maxOpacity={0.1}
-				duration={1}
-				repeatDelay={1}
-				className={cn(
-					"[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
-					"inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
-				)}
-			/>
 			<Card className={cn("z-50 w-1/2 bg-background", "max-sm:w-full")}>
 				<CardHeader>
 					<CardTitle>Error: {error.message}</CardTitle>

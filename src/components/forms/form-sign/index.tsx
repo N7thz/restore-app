@@ -100,14 +100,15 @@ export const FormSign = () => {
 						type="button"
 						variant={"link"}
 						className="p-0"
-						onClick={() => setVisible(visible => !visible)}>
+						onClick={() => setVisible(visible => !visible)}
+					>
 						{visible ? "esconder senha" : "mostrar senha"}
 					</Button>
 				</div>
 				<Button asChild type="button" variant={"link"} className="w-full">
 					<Link href="/sign-up">Criar uma conta</Link>
 				</Button>
-				<div className="w-full text-sm flex items-center justify-center gap-4 overflow-hidden">
+				{/* <div className="w-full text-sm flex items-center justify-center gap-4 overflow-hidden">
 					<Separator />
 					ou
 					<Separator />
@@ -127,7 +128,8 @@ export const FormSign = () => {
 						className="group-hover:scale-80 transition-all"
 					/>
 					Login com o google
-				</Button>
+				</Button> */}
+				<Separator />
 				<Button
 					type="submit"
 					className="w-1/2 self-end mt-4"

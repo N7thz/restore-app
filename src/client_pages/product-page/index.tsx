@@ -3,12 +3,6 @@
 import { findProductById } from "@/actions/products/find-product-by-id"
 import { CardProductStokMenu } from "@/components/card-product-stok/card-product-stok-menu"
 import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion"
-import {
 	Card,
 	CardAction,
 	CardContent,
@@ -24,11 +18,9 @@ import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { CheckCircle, XCircle } from "lucide-react"
 import Image from "next/image"
-import { ActivityProductEntry } from "./activity-product-entry"
-import { ActivityProductExit } from "./activity-product-exit"
+import { CardAccordionActivity } from "./card-accordion-activity"
 import { ProductPageError } from "./product-page-error"
 import { ProductPageLoading } from "./product-page-loading"
-import { CardAccordionActivity } from "./card-accordion-activity"
 
 export const ProductPage = ({ id }: { id: string }) => {
 	const {
@@ -84,13 +76,23 @@ export const ProductPage = ({ id }: { id: string }) => {
 				</CardAction>
 			</CardHeader>
 			<CardContent className="flex size-full gap-4">
-				<Image
-					src={imageUrl}
-					width={300}
-					height={300}
-					alt={`imagem ilustrativa do produto ${name}`}
-					className="rounded-xl size-100"
-				/>
+				<div className="size-100 overflow-hidden rounded-xl border relative">
+					<Image
+						src={imageUrl}
+						width={300}
+						height={300}
+						quality={0}
+						alt={`imagem ilustrativa do produto ${name}`}
+						className="size-full blur-xs absolute inset-0"
+					/>
+					<Image
+						src={imageUrl}
+						width={300}
+						height={300}
+						alt={`imagem ilustrativa do produto ${name}`}
+						className="size-full object-contain absolute"
+					/>
+				</div>
 				<Card className="h-full shadow-2xl">
 					<ScrollArea className="h-88">
 						<ScrollBar />

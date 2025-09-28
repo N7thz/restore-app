@@ -1,7 +1,6 @@
 "use client"
 
 import { SpanErrorMessage } from "@/components/span-error"
-import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import {
 	Card,
@@ -12,110 +11,33 @@ import {
 	CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { FormProvider, useForm } from "react-hook-form"
-import z from "zod"
+import { ComponentProps } from "react"
+import { FormProvider } from "react-hook-form"
+import { useformUpdateUser } from "./use-form-update-user"
 
-const formUpdateUserSchema = z
-	.object({
-		name: z.string().toLowerCase(),
-		newPassword: z
-			.string()
-			.min(1, "A nova senha deve ter no minimo 6 caracteres"),
-		currentPassword: z
-			.string()
-			.min(6, "A senha atual deve ter no minimo 6 caracteres"),
-	})
-	.refine(
-		({ currentPassword, newPassword }) => currentPassword !== newPassword,
-		{
-			error: "As senhas devem ser diferentes.",
-			path: ["newPassword"],
-		}
-	)
-
-type FormUpdateUserProps = z.infer<typeof formUpdateUserSchema>
-
-export const FormUpdateUser = () => {
-	const { replace } = useRouter()
-
-	const session = authClient.useSession()
-
-	const [visible, setVisible] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
-
-	const form = useForm<FormUpdateUserProps>({
-		resolver: zodResolver(formUpdateUserSchema),
-		defaultValues: {
-			name: session.data?.user.name,
-		},
-	})
+export const FormUpdateUser = (props: ComponentProps<"form">) => {
 
 	const {
-		register,
+		form,
 		handleSubmit,
-		formState: { errors, isDirty },
-	} = form
-
-	async function onSubmit({
-		name,
-		currentPassword,
-		newPassword,
-	}: FormUpdateUserProps) {
-		setIsLoading(true)
-
-		const { data, error } = await authClient.updateUser({ name })
-
-		if (data) {
-			await authClient.changePassword({
-				revokeOtherSessions: true,
-				currentPassword,
-				newPassword,
-				fetchOptions: {
-					onSuccess: () => {
-						setIsLoading(false)
-
-						toast({
-							title: "Os dados foram atualizados com sucesso.",
-							onAutoClose: async () => {
-								await authClient.signOut({
-									fetchOptions: {
-										onSuccess: () => replace("/sign-in"),
-									},
-								})
-							},
-						})
-					},
-					onError: ({ error }) => {
-						toast({
-							title: error.cause as string,
-							description: error.message,
-							onAutoClose: () => setIsLoading(false),
-							variant: "error",
-						})
-					},
-				},
-			})
-		}
-
-		if (error && error.code && error.message) {
-			toast({
-				title: error.message,
-				description: error.statusText,
-				onAutoClose: () => setIsLoading(false),
-				variant: "error",
-			})
-		}
-	}
+		onSubmit,
+		session,
+		register, 
+		errors,
+		visible,
+		isDirty,
+		isLoading,
+		setVisible
+	} = useformUpdateUser()
 
 	return (
 		<FormProvider {...form}>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				{...props}
+			>
 				<Card className="size-full">
 					<CardHeader>
 						<CardTitle className="text-lg">Editar informações</CardTitle>
