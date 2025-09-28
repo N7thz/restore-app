@@ -4,11 +4,11 @@ import { prisma } from "@/lib/prisma"
 import { Prisma } from "@prisma/client"
 
 export async function findProductsExit<T>(
-  props: Prisma.ProductExitFindManyArgs = {}
+	props: Prisma.ProductExitFindManyArgs = {}
 ) {
-  const products = (await prisma.productExit.findMany({
-    ...props,
-  })) as T[]
+	const products = (await prisma.productExit.findMany({
+		...props,
+	})) as T[]
 
-  return products
+	return products
 }

@@ -3,12 +3,11 @@
 import { prisma } from "@/lib/prisma"
 
 export async function findUserById(id: string) {
-  
-  const user = await prisma.user.findUnique({
-    where: { id },
-  })
+	const user = await prisma.user.findUnique({
+		where: { id },
+	})
 
-  if (!user) throw new Error("Não foi possivel encontrar o produto")
+	if (!user) throw new Error("Não foi possivel encontrar o produto")
 
-  return user
+	return user
 }

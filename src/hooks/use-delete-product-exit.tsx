@@ -6,51 +6,50 @@ import { Notification, ProductExit } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 
 export function useDeleteProductExit(
-  id: string,
-  setOpen: (open: boolean) => void
+	id: string,
+	setOpen: (open: boolean) => void
 ) {
-  return useMutation({
-    mutationKey: queryKey.deleteProduct(),
-    mutationFn: () => deleteProductExit(id),
-    onSuccess: ({ notification, productExit }) => {
-      setOpen(false)
+	return useMutation({
+		mutationKey: queryKey.deleteProduct(),
+		mutationFn: () => deleteProductExit(id),
+		onSuccess: ({ notification, productExit }) => {
+			setOpen(false)
 
-      queryClient.setQueryData<Notification[]>(
-        queryKey.findAllNotifications(),
-        oldData => {
-          if (!oldData) return [notification]
+			queryClient.setQueryData<Notification[]>(
+				queryKey.findAllNotifications(),
+				oldData => {
+					if (!oldData) return [notification]
 
-          return [...oldData, notification]
-        }
-      )
+					return [...oldData, notification]
+				}
+			)
 
-      queryClient.setQueryData<ProductExit[]>(
-        queryKey.findAllProductsExit(),
-        (oldData) => {
+			queryClient.setQueryData<ProductExit[]>(
+				queryKey.findAllProductsExit(),
+				oldData => {
+					if (!oldData) return [productExit]
 
-          if (!oldData) return [productExit]
+					const productsFilterd = oldData.filter(
+						({ id }) => id !== productExit.id
+					)
 
-          const productsFilterd = oldData.filter(
-            ({ id }) => id !== productExit.id
-          )
+					return productsFilterd
+				}
+			)
 
-          return productsFilterd
-        })
+			toast({
+				title: "A saida de produto foi excluida.",
+				description: `${notification.description}`,
+			})
+		},
+		onError: err => {
+			console.error(err)
 
-      toast({
-        title: "A saida de produto foi excluida.",
-        description: `${notification.description}`,
-      })
-    },
-    onError: (err) => {
-
-      console.error(err)
-
-      toast({
-        title: "Não foi possivel excluir o produto",
-        description: err.message,
-        variant: "error",
-      })
-    },
-  })
+			toast({
+				title: "Não foi possivel excluir o produto",
+				description: err.message,
+				variant: "error",
+			})
+		},
+	})
 }

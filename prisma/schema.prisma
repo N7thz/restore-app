@@ -2,7 +2,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-//PRODUÇÃO
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -17,45 +16,56 @@ datasource db {
 model User {
   id            String    @id @default(uuid())
   email         String    @unique
-  password      String?
   name          String    @unique
   emailVerified Boolean   @default(false)
-  image         String?
   createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @default(now()) @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  role          String?
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at")
+  password      String?
+  image         String?
   banned        Boolean?  @default(false)
   banReason     String?
   banExpires    DateTime?
+  role          String?
+  sessions      Session[]
+  accounts      Account[]
 
   @@map("users")
 }
 
+model ProductEntry {
+  id        String   @id @default(uuid())
+  price     Float
+  quantity  Int
+  createdAt DateTime @default(now()) @map("created_at")
+  productId String   @map("product_id")
+  product   Product? @relation(fields: [productId], references: [id])
+
+  @@map("products_entry")
+}
+
 model Product {
-  id          String        @id @default(uuid())
-  name        String
-  imageUrl    String?       @map("image_url")
-  description String?
-  price       Float
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-  quantity    Float
-  minQuantity Float         @default(0) @map("min_quantity")
-  ProductExit ProductExit[]
+  id           String         @id @default(uuid())
+  name         String
+  imageUrl     String         @map("image_url")
+  quantity     Int            @default(1)
+  minQuantity  Int            @default(1) @map("min_quantity")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
+  description  String?
+  productExit  ProductExit[]
+  productEntry ProductEntry[]
 
   @@map("products")
 }
 
 model ProductExit {
   id          String   @id @default(uuid())
-  description String?
   name        String
   region      String
-  quantity    Float
+  quantity    Int
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+  description String?
   productId   String   @map("product_id")
   product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
@@ -65,26 +75,25 @@ model ProductExit {
 model Notification {
   id          String   @id @default(uuid())
   name        String
-  description String?
   createdAt   DateTime @map("created_at")
   read        Boolean  @default(false)
+  description String?
   action      Action
 
   @@map("notifications")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  id             String   @id
+  expiresAt      DateTime
+  token          String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  ipAddress      String?
+  userAgent      String?
+  userId         String
   impersonatedBy String?
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
   @@map("session")
@@ -95,7 +104,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -105,6 +113,7 @@ model Account {
   password              String?
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("account")
 }
@@ -123,9 +132,9 @@ model Verification {
 model Update {
   id          String   @id @default(uuid())
   title       String
-  description String?
   content     String
   createdAt   DateTime @default(now()) @map("created_at")
+  description String?
 
   @@map("updates")
 }
@@ -135,4 +144,9 @@ enum Action {
   UPDATE
   DELETE
   MIN_QUANTITY
+}
+
+enum Role {
+  ADMIN
+  USER
 }
