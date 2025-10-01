@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { OutputProductProps } from "@/schemas/product-object"
+import { OutputProductProps } from "@/schemas/product-object-schema"
 import { useFormContext } from "react-hook-form"
 
 export const CardFormUpdateProduct = () => {

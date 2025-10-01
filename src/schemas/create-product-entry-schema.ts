@@ -1,11 +1,15 @@
 import { z } from "zod"
 
 export const inputCreateProductEntrySchema = z.object({
-	price: z.string().nonempty("O preço deve ser positivo"),
-	quantity: z.string().nonempty("A quantidade deve ser pelo menos 1"),
+	price: z
+		.string()
+		.nonempty("O preço deve ser positivo"),
+	quantity: z
+		.string()
+		.nonempty("A quantidade deve ser pelo menos 1"),
 	productId: z
-		.uuid("O produto é obrigatório")
-		.min(1, "O ID do produto é obrigatório"),
+		.string()
+		.nonempty("O ID do produto é obrigatório"),
 })
 
 export type InputCreateProductEntryProps = z.infer<
@@ -13,12 +17,16 @@ export type InputCreateProductEntryProps = z.infer<
 >
 
 export const outputCreateProductEntrySchema = z.object({
-	price: z.number().positive("O preço deve ser positivo"),
+	price: z
+		.number()
+		.positive("O preço deve ser positivo"),
 	quantity: z
 		.number()
 		.int("A quantidade deve ser um número inteiro")
 		.min(1, "A quantidade deve ser pelo menos 1"),
-	productId: z.uuid().min(1, "O ID do produto é obrigatório"),
+	productId: z
+		.string()
+		.nonempty("O ID do produto é obrigatório"),
 })
 
 export type OutputCreateProductEntryProps = z.infer<

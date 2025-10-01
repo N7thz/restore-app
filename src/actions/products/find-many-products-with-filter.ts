@@ -1,6 +1,6 @@
 "use server"
 
-import { OuputExportProdctsSchema } from "@/schemas/export-table-products"
+import { OuputExportProdctsSchema } from "@/schemas/export-table-products-schema"
 import { prisma } from "@/lib/prisma"
 import { ItemsLimitProps } from "@/types"
 import { Product } from "@prisma/client"

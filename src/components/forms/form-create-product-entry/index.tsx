@@ -2,9 +2,8 @@
 
 import { SelectProduct } from "@/components/select-product"
 import { SpanErrorMessage } from "@/components/span-error"
-import {
-	AlertDialogAction,
-	AlertDialogCancel,
+import { 
+	AlertDialogAction, AlertDialogCancel
 } from "@/components/ui/alert-dialog"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,7 +11,6 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { Loader2 } from "lucide-react"
-
 import { FormProvider } from "react-hook-form"
 import { useFormCreateProductEntry } from "./use-form-create-product-entry"
 

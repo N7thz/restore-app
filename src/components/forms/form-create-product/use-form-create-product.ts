@@ -1,4 +1,9 @@
-import { useCreateManyProducts } from "@/hooks/use-create-many-products"
+import {
+	createManyProducts,
+	CreateManyProductsProps
+} from "@/actions/products/create-many-products"
+import { queryClient } from "@/components/theme-provider"
+import { queryKey } from "@/lib/query-keys"
 import { validateErrors } from "@/lib/zod"
 import {
 	InputCreateProductProps,
@@ -7,16 +12,56 @@ import {
 	outputCreateProductSchema,
 } from "@/schemas/create-product-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { log, table } from "console"
+import { Notification } from "@prisma/client"
+import { useMutation } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
 import { useFieldArray, useForm } from "react-hook-form"
+import { toast } from "@/components/toast"
 
 export function useFormCreateProduct() {
-	const { isPending, isSuccess, mutate } = useCreateManyProducts()
+
+	const { push } = useRouter()
+
+	const { isPending, isSuccess, mutate } = useMutation({
+		mutationKey: queryKey.createManyProducts(),
+		mutationFn: ({ products }: OutputCreateProductProps) =>
+			createManyProducts({ products }),
+		onSuccess: async ({ notifications }) => {
+			queryClient.setQueryData<Notification[]>(
+				queryKey.findAllNotifications(),
+				oldData => {
+					if (!oldData) return notifications
+
+					return [...oldData, ...notifications]
+				}
+			)
+
+			toast({
+				title: "Produtos cadastrados",
+				description: "O cadastro foi feito com sucesso.",
+				onAutoClose: () => push("/home"),
+			})
+		},
+		onError: error => {
+			console.error(error)
+
+			toast({
+				title: error.message,
+				variant: "error",
+				description: "Não foi possivel cadastrar o produto.",
+				duration: 5000,
+			})
+		},
+	})
 
 	const form = useForm<InputCreateProductProps>({
 		resolver: zodResolver(inputCreateProductSchema),
 		defaultValues: {
-			products: [{}],
+			products: [{
+				productEntry: {
+					productId: "."
+				}
+			}],
 		},
 	})
 
@@ -40,6 +85,11 @@ export function useFormCreateProduct() {
 			name: "",
 			minQuantity: "1",
 			imageUrl: "",
+			productEntry: {
+				price: "",
+				quantity: "",
+				productId: "",
+			}
 		})
 	}
 
@@ -51,22 +101,47 @@ export function useFormCreateProduct() {
 
 	function validateFormData({ products }: InputCreateProductProps) {
 		const transformedData = {
-			products: products.map(({ name, minQuantity, imageUrl }) => ({
+			products: products.map(({
+				name,
+				minQuantity,
+				imageUrl,
+				productEntry: {
+					price, productId, quantity
+				}
+			}) => ({
 				name,
 				minQuantity: Number(minQuantity),
 				imageUrl: imageUrl !== "" ? imageUrl : null,
+				productEntry: {
+					price: Number(price),
+					quantity: Number(quantity),
+					productId,
+				}
 			})),
 		}
 
 		return outputCreateProductSchema.safeParse(transformedData)
 	}
 
-	async function onSubmit(data: InputCreateProductProps) {
-		const { data: products, error } = validateFormData(data)
+	async function onSubmit(formData: InputCreateProductProps) {
 
-		if (error) return validateErrors<OutputCreateProductProps>(error, setError)
+		const { data, error } = validateFormData(formData)
 
-		mutate(products)
+		if (error) {
+
+			toast({
+				title: error.message,
+				description: error.name,
+				variant: "error"
+			})
+
+			return validateErrors<OutputCreateProductProps>(error, setError)
+		}
+
+
+		const { products } = data
+
+		mutate({ products })
 	}
 
 	return {

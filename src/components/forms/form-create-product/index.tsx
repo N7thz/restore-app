@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button"
 import { CardContent, CardFooter } from "@/components/ui/card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import { FormProvider, useForm } from "react-hook-form"
+import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
+import { FormProvider } from "react-hook-form"
 import { CardFormCreateProduct } from "./card-form-create-product"
 import { useFormCreateProduct } from "./use-form-create-product"
-import { Loader2 } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 export const FormCreateProduct = () => {
 	const {
@@ -24,7 +24,9 @@ export const FormCreateProduct = () => {
 		remove,
 	} = useFormCreateProduct()
 
-	console.table(errors.products)
+	if (errors.products) {
+		console.log(errors.products[0])
+	}
 
 	return (
 		<>

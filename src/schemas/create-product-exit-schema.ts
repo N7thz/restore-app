@@ -2,7 +2,7 @@ import { z } from "zod"
 import {
 	inputProductExitObject,
 	outputProductExitObject,
-} from "./product-exit-object"
+} from "./product-exit-object-schema"
 
 export const inputCreateProductExitSchema = z.object({
 	products: z.array(inputProductExitObject),

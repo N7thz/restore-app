@@ -8,7 +8,7 @@ import {
 	OutputProductExitObjectProps,
 	inputProductExitObject,
 	outputProductExitObject,
-} from "@/schemas/product-exit-object"
+} from "@/schemas/product-exit-object-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification, Product } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"

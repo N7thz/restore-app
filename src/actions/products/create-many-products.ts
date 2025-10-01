@@ -1,17 +1,50 @@
 "use server"
 
 import { prisma } from "@/lib/prisma"
-import { Notification, Prisma } from "@prisma/client"
+import { Notification, Prisma, Product } from "@prisma/client"
 import { createNotification } from "../notifications/create-notification"
 
-export async function createManyProducts(data: Prisma.ProductCreateInput[]) {
-	const products = await prisma.product.createManyAndReturn({
-		data,
-	})
+export type CreateManyProductsProps = {
+	products: (
+		Prisma.ProductCreateInput & {
+			productEntry: Prisma.ProductEntryCreateManyInput
+		}
+	)[]
+}
+
+export async function createManyProducts({
+	products
+}: CreateManyProductsProps) {
+
+	const productsCreated: Product[] = []
+
+	for (const {
+		productEntry: {
+			price,
+			quantity
+		},
+		...rest
+	} of products) {
+
+		const productCreated = await prisma.product.create({
+			data: {
+				...rest,
+				productEntry: {
+					create: {
+						price,
+						quantity
+					}
+				}
+			}
+		})
+
+		productsCreated.push(productCreated)
+	}
 
 	const notifications: Notification[] = []
 
-	for (const product of products) {
+	for (const product of productsCreated) {
+
 		const { name, createdAt } = product
 
 		const notification = await createNotification({

@@ -9,7 +9,7 @@ import {
 	OuputExportProdctsExitSchema,
 	inputExportProdctsExitSchema,
 	ouputExportProdctsExitSchema,
-} from "@/schemas/export-table-products-exit"
+} from "@/schemas/export-table-products-exit-schema"
 import { ItemsLimitProps } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"

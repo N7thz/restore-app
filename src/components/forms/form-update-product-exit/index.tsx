@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { queryKey } from "@/lib/query-keys"
-import { OutputProductExitObjectProps } from "@/schemas/product-exit-object"
+import { OutputProductExitObjectProps } from "@/schemas/product-exit-object-schema"
 import { Product } from "@prisma/client"
 import { useQuery } from "@tanstack/react-query"
 import { ChevronDownIcon, Loader2, RotateCcw } from "lucide-react"

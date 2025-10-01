@@ -38,8 +38,6 @@ export const WhatsNewPage = () => {
 
 	const role = data.user.role
 
-	console.log(updates)
-
 	return (
 		<>
 			{updates.map(({ id, title, description, content, createdAt }) => (

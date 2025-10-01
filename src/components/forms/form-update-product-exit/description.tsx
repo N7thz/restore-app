@@ -2,7 +2,7 @@ import { SpanErrorMessage } from "@/components/span-error"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { InputProductExitObjectProps } from "@/schemas/product-exit-object"
+import { InputProductExitObjectProps } from "@/schemas/product-exit-object-schema"
 import { useFormContext } from "react-hook-form"
 
 export const DescriptionLabel = () => {

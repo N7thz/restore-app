@@ -16,7 +16,7 @@ import {
 	inputCreateProductEntrySchema,
 	OutputCreateProductEntryProps,
 	outputCreateProductEntrySchema,
-} from "@/schemas/create-product-entry"
+} from "@/schemas/create-product-entry-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification, Product, ProductEntry } from "@prisma/client"
 import { useMutation, useQueryClient } from "@tanstack/react-query"

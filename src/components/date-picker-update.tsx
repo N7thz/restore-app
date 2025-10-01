@@ -5,7 +5,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover"
-import { OutputProductExitObjectProps } from "@/schemas/product-exit-object"
+import { OutputProductExitObjectProps } from "@/schemas/product-exit-object-schema"
 import { format, isDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { ChevronDownIcon } from "lucide-react"

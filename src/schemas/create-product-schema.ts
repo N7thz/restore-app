@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { inputProductObject, outputProductObject } from "./product-object"
+import { inputProductObject, outputProductObject } from "./product-object-schema"
 
 export const inputCreateProductSchema = z.object({
 	products: z.array(inputProductObject),

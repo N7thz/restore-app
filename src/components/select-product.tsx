@@ -25,7 +25,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { queryKey } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"
-import { InputCreateProductEntryProps } from "@/schemas/create-product-entry"
+import { InputCreateProductEntryProps } from "@/schemas/create-product-entry-schema"
 import { useQuery } from "@tanstack/react-query"
 import { CheckIcon, ChevronDownIcon, RotateCcw } from "lucide-react"
 import { ComponentProps, useEffect, useState } from "react"
@@ -53,7 +53,6 @@ export const SelectProduct = (props: ComponentProps<typeof Popover>) => {
 
 	useEffect(() => {
 		if (errors.productId) {
-			console.log(errors.productId)
 			setOpen(true)
 		}
 	}, [errors])

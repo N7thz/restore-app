@@ -8,7 +8,7 @@ import {
 	inputProductObject,
 	OutputProductProps,
 	outputProductObject,
-} from "@/schemas/product-object"
+} from "@/schemas/product-object-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
@@ -17,18 +17,21 @@ import { useForm } from "react-hook-form"
 
 export function useFormUpdateProduct(
 	id: string,
-	{ name, imageUrl, quantity, minQuantity }: OutputProductProps
+	{ name, imageUrl, minQuantity }: OutputProductProps
 ) {
 	const { push } = useRouter()
 
 	const { mutate, isPending, isSuccess } = useMutation({
 		mutationKey: queryKey.updateProduct(id),
-		mutationFn: (formData: OutputProductProps) => updateProduct(id, formData),
+		mutationFn: (formData: OutputProductProps) => updateProduct(
+			id, formData
+		),
 		onSuccess: ({ notification }) => {
 			if (notification) {
 				queryClient.setQueryData<Notification[]>(
 					queryKey.findAllNotifications(),
 					oldData => {
+
 						if (!oldData) return [notification]
 
 						return [...oldData, notification]
@@ -49,7 +52,6 @@ export function useFormUpdateProduct(
 		defaultValues: {
 			name,
 			imageUrl,
-			quantity: quantity.toString(),
 			minQuantity: minQuantity.toString(),
 		},
 	})
@@ -65,12 +67,10 @@ export function useFormUpdateProduct(
 	function onSubmit({
 		name,
 		imageUrl,
-		quantity,
 		minQuantity,
 	}: InputProductProps) {
 		const { data, error } = outputProductObject.safeParse({
 			name,
-			quantity: Number(quantity),
 			minQuantity: Number(minQuantity),
 			imageUrl: imageUrl !== "" ? imageUrl : null,
 		})

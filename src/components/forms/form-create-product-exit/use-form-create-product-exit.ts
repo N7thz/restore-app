@@ -10,7 +10,7 @@ import {
 	inputCreateProductExitSchema,
 	outputCreateProductExitSchema,
 } from "@/schemas/create-product-exit-schema"
-import { OutputProductExitObjectProps } from "@/schemas/product-exit-object"
+import { OutputProductExitObjectProps } from "@/schemas/product-exit-object-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Notification } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"

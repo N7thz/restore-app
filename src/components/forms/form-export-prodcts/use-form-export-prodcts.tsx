@@ -12,7 +12,7 @@ import {
 	InputExportProdctsSchema,
 	ouputExportProdctsSchema,
 	OuputExportProdctsSchema,
-} from "@/schemas/export-table-products"
+} from "@/schemas/export-table-products-schema"
 import { ItemsLimitProps } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
