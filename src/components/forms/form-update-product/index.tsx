@@ -22,6 +22,7 @@ import { FormProvider } from "react-hook-form"
 import { useFormUpdateProduct } from "./use-form-update-product"
 
 export const FormUpdateProduct = ({ id }: { id: string }) => {
+
 	const {
 		data: product,
 		isLoading,
@@ -93,7 +94,17 @@ export const FormUpdateProduct = ({ id }: { id: string }) => {
 		)
 	}
 
-	return <UpdateProduct id={id} product={product} />
+	return <UpdateProduct
+		id={id}
+		product={{
+			...product,
+			productEntry: {
+				price: 0,
+				quantity: 0,
+				productId: ""
+			}
+		}}
+	/>
 }
 
 export const UpdateProduct = ({

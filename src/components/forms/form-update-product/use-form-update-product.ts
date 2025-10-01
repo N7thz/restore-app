@@ -23,8 +23,8 @@ export function useFormUpdateProduct(
 
 	const { mutate, isPending, isSuccess } = useMutation({
 		mutationKey: queryKey.updateProduct(id),
-		mutationFn: (formData: OutputProductProps) => updateProduct(
-			id, formData
+		mutationFn: ({ imageUrl, minQuantity, name }: OutputProductProps) => updateProduct(
+			id, { imageUrl, minQuantity, name }
 		),
 		onSuccess: ({ notification }) => {
 			if (notification) {
