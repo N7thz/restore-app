@@ -26,9 +26,19 @@ export async function createManyProducts({
 		...rest
 	} of products) {
 
+		const product = await prisma.product.findUnique({
+			where: {
+				name: rest.name
+			},
+		})
+
+		if (product)
+			throw new Error(`O produto ${product.name} já foi cadastrado`)
+
 		const productCreated = await prisma.product.create({
 			data: {
 				...rest,
+				quantity,
 				productEntry: {
 					create: {
 						price,

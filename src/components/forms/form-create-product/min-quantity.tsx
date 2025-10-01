@@ -18,7 +18,6 @@ export const MinQuantityLabel = ({ index }: { index: number }) => {
 				<Input
 					id="minQuantity"
 					type="number"
-					step={0.1}
 					defaultValue={1}
 					className={cn(
 						errors.products?.[index]?.minQuantity && [
