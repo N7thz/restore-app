@@ -19,13 +19,14 @@ import { cn } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query"
 import { Ellipsis, RotateCcw, XCircle } from "lucide-react"
 import Link from "next/link"
+import { Animation } from "./animation"
 import { Skeleton } from "./ui/skeleton"
 
 export const ProductsCard = () => {
 	const {
 		data: products,
 		isLoading,
-		status,
+		error,
 		refetch,
 	} = useQuery({
 		queryKey: queryKey.findAllProducts(),
@@ -45,13 +46,20 @@ export const ProductsCard = () => {
 					"max-sm:grid-cols-1"
 				)}>
 				{Array.from({ length: 12 }).map((_, index) => (
-					<Skeleton key={index} className="w-full h-[200px]" />
+					<Skeleton
+						key={index}
+						className={cn(
+							"w-full h-[200px]",
+							index > 2 && index < 6 && "opacity-60",
+							index >= 6 && "opacity-20"
+						)}
+					/>
 				))}
 			</CardContent>
 		)
 	}
 
-	if (status === "error" || !products) {
+	if (error || !products) {
 		return (
 			<Card className="flex h-full flex-col justify-between mx-12 overflow-hidden">
 				<CardHeader>
@@ -59,6 +67,9 @@ export const ProductsCard = () => {
 						<XCircle className="text-destructive" />
 						Error buscando produtos
 					</CardTitle>
+					<CardDescription>
+						{error?.message}
+					</CardDescription>
 					<CardAction>
 						<Button
 							variant={"secondary"}
@@ -94,8 +105,16 @@ export const ProductsCard = () => {
 						</CardDescription>
 					</CardFooter>
 				)}
-				{products.map(product => (
-					<CardProductStok key={product.id} product={product} />
+				{products.map((product, i) => (
+					<Animation
+						key={product.id}
+						initial={{ opacity: 0, scale: 0, }}
+						animate={{ opacity: 1, scale: 1, }}
+						exit={{ opacity: 0, scale: 0, }}
+						transition={{ duration: 0.5, delay: i * 0.1, }}
+					>
+						<CardProductStok key={product.id} product={product} />
+					</Animation>
 				))}
 			</CardContent>
 			{typeof count === "number" && count > 12 && (

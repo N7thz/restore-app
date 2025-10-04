@@ -21,20 +21,28 @@ import {
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { DialogDeleteProductExit } from "../data-table-products-exit/columns/dialog-delete-product-exit"
-import { useState } from "react"
+import { ComponentProps, useState } from "react"
+
+type ActivityProductExitProps = ComponentProps<typeof Card> & {
+	activityProduct: ProductExit
+}
 
 export const ActivityProductExit = ({
-	activityProduct: { id, createdAt, quantity, region, name },
-}: {
-	activityProduct: ProductExit
-}) => {
+	activityProduct: {
+		id, createdAt, quantity, region, name
+	},
+	...props
+}: ActivityProductExitProps) => {
 
 	const [open, setOpen] = useState(false)
 
 	const date = formatDate(createdAt, "PPP", { locale: ptBR })
 
 	return (
-		<Card key={id}>
+		<Card
+			key={id}
+			{...props}
+		>
 			<CardHeader>
 				<CardTitle className="text-lg flex gap-2 text-destructive">
 					<ChevronDown />

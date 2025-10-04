@@ -16,8 +16,10 @@ import { authClient } from "@/lib/auth-client"
 import { ShieldUser } from "lucide-react"
 import { redirect, RedirectType } from "next/navigation"
 import { useEffect, useState } from "react"
+import { Animation } from "./animation"
 
 export const Command = () => {
+
 	const [open, setOpen] = useState(false)
 
 	useEffect(() => {
@@ -47,16 +49,23 @@ export const Command = () => {
 				{role === "ADMIN" && (
 					<>
 						<CommandGroup heading="Administrador">
-							<CommandItem
-								onSelect={() => {
-									setTimeout(() => setOpen(false), 800)
-									redirect("/create-update", RedirectType.push)
-								}}>
-								Criar novidades
-								<CommandShortcut>
-									<ShieldUser />
-								</CommandShortcut>
-							</CommandItem>
+							<Animation
+								initial={{ x: -100, opacity: 0 }}
+								animate={{ x: 0, opacity: 1 }}
+								exit={{ x: -100, opacity: 0 }}
+								transition={{ duration: 0.5 }}
+							>
+								<CommandItem
+									onSelect={() => {
+										setTimeout(() => setOpen(false), 800)
+										redirect("/create-update", RedirectType.push)
+									}}>
+									Criar novidades
+									<CommandShortcut>
+										<ShieldUser />
+									</CommandShortcut>
+								</CommandItem>
+							</Animation>
 						</CommandGroup>
 						<CommandSeparator />
 					</>
@@ -68,18 +77,29 @@ export const Command = () => {
 					<ScrollArea className="h-[320px] p-1.5">
 						<ScrollBar />
 						<CommandGroup heading="Opções">
-							{routes.map(({ href, text, Icon }) => (
-								<CommandItem
+							{routes.map(({ href, text, Icon }, i) => (
+								<Animation
 									key={href}
-									onSelect={() => {
-										setTimeout(() => setOpen(false), 800)
-										redirect(href, RedirectType.push)
-									}}>
-									{text}
-									<CommandShortcut>
-										<Icon />
-									</CommandShortcut>
-								</CommandItem>
+									initial={{ x: -100, opacity: 0 }}
+									animate={{ x: 0, opacity: 1 }}
+									exit={{ x: -100, opacity: 0 }}
+									transition={{
+										duration: 0.5,
+										delay: i * 0.3
+									}}
+								>
+									<CommandItem
+										key={href}
+										onSelect={() => {
+											setTimeout(() => setOpen(false), 800)
+											redirect(href, RedirectType.push)
+										}}>
+										{text}
+										<CommandShortcut>
+											<Icon />
+										</CommandShortcut>
+									</CommandItem>
+								</Animation>
 							))}
 						</CommandGroup>
 					</ScrollArea>

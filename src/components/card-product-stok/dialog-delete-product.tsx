@@ -12,12 +12,14 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Card, CardDescription, CardHeader } from "@/components/ui/card"
 import { queryKey } from "@/lib/query-keys"
 import { cn } from "@/lib/utils"
 import { Notification, Product } from "@prisma/client"
 import { useMutation } from "@tanstack/react-query"
 import { Loader2, Trash } from "lucide-react"
 import { usePathname, useRouter } from "next/navigation"
+import { ProductsDataDeleted } from "./products-data-deleted"
 
 export const DialogDeleteProduct = ({ id }: { id: string }) => {
 	const pathname = usePathname()
@@ -86,10 +88,10 @@ export const DialogDeleteProduct = ({ id }: { id: string }) => {
 				<AlertDialogHeader>
 					<AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
 					<AlertDialogDescription>
-						A exclusão de um produto também ira acarretar na exclusão de suas
-						saidas.Essa ação não pode ser desfeita.
+						A exclusão de um produto também ira acarretar na exclusão de suas entradas e saidas.Essa ação não pode ser desfeita.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
+				<ProductsDataDeleted id={id} />
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
 					<AlertDialogAction onClick={() => mutate()}>

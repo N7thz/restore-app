@@ -11,20 +11,26 @@ import { formatDate } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { ChevronUp } from "lucide-react"
 import { CardProductEntryMenu } from "./card-product-stok-menu"
+import { ComponentProps } from "react"
 
-export const ActivityProductEntry = ({
-	activityProduct,
-	name,
-}: {
+type ActivityProductEntryProps = ComponentProps<typeof Card> & {
 	activityProduct: ProductEntry
 	name: string
-}) => {
+}
+
+export const ActivityProductEntry = ({
+	activityProduct, name, ...props
+}: ActivityProductEntryProps) => {
+
 	const { id, createdAt, quantity, price } = activityProduct
 
 	const date = formatDate(createdAt, "PPP", { locale: ptBR })
 
 	return (
-		<Card key={id}>
+		<Card
+			key={id}
+			{...props}
+		>
 			<CardHeader>
 				<CardTitle className="text-lg flex gap-2 text-emerald-600">
 					<ChevronUp />

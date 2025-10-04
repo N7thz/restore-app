@@ -1,22 +1,23 @@
 "use client"
 
+import { SpanErrorMessage } from "@/components/span-error"
 import { toast } from "@/components/toast"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { authClient } from "@/lib/auth-client"
 import { cn } from "@/lib/utils"
 import { signInSchema, type FormSignProps } from "@/schemas/sign-in-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Info, Loader2 } from "lucide-react"
-import Link from "next/link"
+import { createAuthClient } from "better-auth/client"
+import { Loader2 } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { SpanErrorMessage } from "@/components/span-error"
 
 export const FormSign = () => {
+
 	const [visible, setVisible] = useState(false)
 	const [isLoading, setIsLoading] = useState(false)
 
@@ -31,6 +32,8 @@ export const FormSign = () => {
 		register,
 		formState: { errors },
 	} = form
+
+	const authClient = createAuthClient()
 
 	async function onSignInSubmit({ email, password }: FormSignProps) {
 		await authClient.signIn.email(
@@ -108,7 +111,7 @@ export const FormSign = () => {
 				<Button asChild type="button" variant={"link"} className="w-full">
 					<Link href="/sign-up">Criar uma conta</Link>
 				</Button>
-				{/* <div className="w-full text-sm flex items-center justify-center gap-4 overflow-hidden">
+				<div className="w-full text-sm flex items-center justify-center gap-4 overflow-hidden">
 					<Separator />
 					ou
 					<Separator />
@@ -128,8 +131,7 @@ export const FormSign = () => {
 						className="group-hover:scale-80 transition-all"
 					/>
 					Login com o google
-				</Button> */}
-				<Separator />
+				</Button>
 				<Button
 					type="submit"
 					className="w-1/2 self-end mt-4"

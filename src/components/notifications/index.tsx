@@ -21,12 +21,13 @@ import { ButtonDeleteAllNotifications } from "./button-delete-all-notifications"
 import { ButtonReadAllNotifications } from "./button-read-all-notifications"
 import { NotificationCard } from "./notification-card"
 import { NotificationCardError } from "./notification-card-error"
+import { Animation } from "../animation"
 
 export const Notifications = () => {
 	const {
 		data: notifications,
 		isLoading,
-		status,
+		error,
 		refetch,
 	} = useQuery({
 		queryKey: queryKey.findAllNotifications(),
@@ -75,8 +76,11 @@ export const Notifications = () => {
 					<ScrollArea className="h-104 w-full">
 						<ScrollBar />
 						<DropdownMenuGroup>
-							{status === "error" || !notifications ? (
-								<NotificationCardError refetch={refetch} />
+							{error || !notifications ? (
+								<NotificationCardError
+									error={error}
+									refetch={refetch}
+								/>
 							) : notifications.length === 0 ? (
 								<Card className="border-none rounded-none">
 									<CardHeader>
@@ -87,11 +91,20 @@ export const Notifications = () => {
 								</Card>
 							) : (
 								<div>
-									{notifications.map(notification => (
-										<div key={notification.id}>
+									{notifications.map((notification, i) => (
+										<Animation
+											key={notification.id}
+											initial={{ x: -100, opacity: 0 }}
+											animate={{ x: 0, opacity: 1 }}
+											exit={{ x: -100, opacity: 0 }}
+											transition={{
+												duration: 0.5,
+												delay: i * 0.3
+											}}
+										>
 											<NotificationCard notification={notification} />
 											<Separator />
-										</div>
+										</Animation>
 									))}
 								</div>
 							)}
